@@ -25,15 +25,8 @@ app.use(helmet({
 }));
 
 // CORS Configuration
-const allowedOrigins = [process.env.CLIENT_URL || 'http://localhost:5173'];
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
-      callback(null, true);
-    } else {
-      callback(new Error('Blocked by CORS policy.'));
-    }
-  },
+  origin: true,
   credentials: true,
 }));
 
