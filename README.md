@@ -12,8 +12,8 @@ This project demonstrates production-ready full-stack development with secure au
 
 | Service | URL |
 |----------|----------|
-| **Frontend** | [https://skillforge-ai.vercel.app](https://skillforge-ai.vercel.app) |
-| **Backend** | [https://skillforge-ai-api.onrender.com](https://skillforge-ai-api.onrender.com) |
+| **Frontend** | https://ai-saas-blond-zeta.vercel.app
+| **Backend** | https://skillforge-ai-api.onrender.com
 
 ## 🌟 Features
 

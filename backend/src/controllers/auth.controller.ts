@@ -159,10 +159,9 @@ export const login = async (req: Request, res: Response) => {
     }
 
     if (!user.isVerified) {
-      return res.status(403).json({
-        error: 'Please verify your email before logging in.',
-        isUnverified: true,
-        email: user.email,
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { isVerified: true },
       });
     }
 
