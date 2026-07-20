@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { Sparkles, Lock, ShieldAlert, CheckCircle, AlertCircle, Loader } from 'lucide-react';
 

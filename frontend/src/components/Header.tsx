@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../store/authStore';
-import { useWorkspaceStore } from '../store/workspaceStore';
 import axios from 'axios';
 import {
   Bell,
   Search,
   Command,
-  Sun,
-  Moon,
   Sparkles,
   Inbox,
   User,
@@ -26,7 +23,7 @@ interface Notification {
 }
 
 export const Header: React.FC = () => {
-  const { user, theme, toggleTheme } = useAuthStore();
+  const { user } = useAuthStore();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -179,11 +176,13 @@ export const Header: React.FC = () => {
                       }`}
                     >
                       {!notif.read && (
-                        <CircleDot
+                        <button
                           onClick={() => markAsRead(notif.id)}
-                          className="w-3 h-3 text-indigo-400 cursor-pointer absolute right-4 top-4"
                           title="Mark read"
-                        />
+                          className="absolute right-4 top-4 text-indigo-400 hover:text-indigo-300 cursor-pointer"
+                        >
+                          <CircleDot className="w-3 h-3" />
+                        </button>
                       )}
                       <h4 className="text-xs font-semibold text-slate-200 pr-4">{notif.title}</h4>
                       <p className="text-[11px] text-slate-400 mt-0.5">{notif.message}</p>

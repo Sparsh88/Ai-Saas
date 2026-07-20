@@ -5,12 +5,8 @@ import {
   Sparkles,
   CreditCard,
   CheckCircle,
-  Clock,
   AlertCircle,
-  HelpCircle,
-  Coins,
   History,
-  TrendingUp,
   Loader
 } from 'lucide-react';
 import confetti from 'canvas-confetti';

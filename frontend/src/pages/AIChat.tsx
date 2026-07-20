@@ -3,14 +3,11 @@ import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
 import {
   Send,
-  Sparkles,
   Bot,
   User,
   BookMarked,
-  ArrowRight,
   FileText,
   AlertCircle,
-  HelpCircle,
   BrainCircuit,
   Loader
 } from 'lucide-react';
@@ -29,7 +26,7 @@ interface Document {
 }
 
 export const AIChat: React.FC = () => {
-  const { user, updateUserCredits } = useAuthStore();
+  const { updateUserCredits } = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: "Hello! I'm your SkillForge AI Assistant. Ask me any coding questions, request resume improvements, brainstorm strategies, or upload a document in the Documents Hub and toggle it below to chat directly with its content." }
   ]);

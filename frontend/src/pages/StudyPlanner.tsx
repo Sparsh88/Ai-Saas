@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
 import {
-  Sparkles,
   Map,
   BookOpen,
   Mic,
@@ -11,12 +10,8 @@ import {
   Send,
   Loader,
   AlertCircle,
-  TrendingUp,
-  Brain,
-  Download,
   Award,
-  ChevronRight,
-  CirclePlay
+  ChevronRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
