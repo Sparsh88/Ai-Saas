@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import prisma from '../config/db';
-import { sendVerificationEmail, sendPasswordResetEmail } from '../services/email.service';
+import { sendPasswordResetEmail } from '../services/email.service';
 import { Role } from '@prisma/client';
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'skillforge_super_secret_access_token_12345!';
@@ -27,15 +27,14 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Create user with FREE plan subscription and 10 credits
+    // Create user pre-verified with FREE plan subscription and 10 credits
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
-        verificationCode,
+        isVerified: true,
         credits: 10,
         subscriptions: {
           create: {
@@ -47,13 +46,31 @@ export const register = async (req: Request, res: Response) => {
       },
     });
 
-    // Send verification email
-    await sendVerificationEmail(email, name, verificationCode);
+    // Generate access & refresh tokens for instant direct login
+    const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
+
+    // Save refresh token to DB
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: user.id,
+        expiresAt,
+      },
+    });
 
     return res.status(201).json({
-      message: 'Registration successful. Please verify your email with the 6-digit code sent to you.',
-      userId: user.id,
-      email: user.email,
+      message: 'Account created successfully. Welcome to SkillForge AI!',
+      accessToken,
+      refreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+        credits: user.credits,
+      },
     });
   } catch (error: any) {
     console.error('Registration error:', error);
