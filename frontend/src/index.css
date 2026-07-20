@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@theme {
+  --color-slate-950: var(--bg-main);
+  --color-slate-900: var(--bg-panel);
+  --color-slate-850: var(--bg-input);
+  --color-slate-800: var(--bg-input);
+  --color-slate-100: var(--text-main);
+  --color-slate-200: var(--text-title);
+  --color-slate-250: var(--text-title);
+  --color-slate-300: var(--text-title-secondary);
+  --color-slate-350: var(--text-subtitle);
+  --color-slate-400: var(--text-subtitle-secondary);
+  --color-slate-450: var(--text-subtitle-secondary);
+  --color-slate-500: var(--text-muted);
+  --color-slate-550: var(--text-muted);
+  --color-slate-650: var(--text-placeholder);
+}
+
+:root {
+  /* Ultra-High Contrast Crisp Light Mode */
+  --bg-main: #f8fafc; /* slate-50 background */
+  --bg-panel: #ffffff; /* pure white sidebar & panels */
+  --bg-input: #f1f5f9; /* slate-100 inputs */
+  --text-main: #0f172a; /* slate-900 absolute dark body text */
+  --text-title: #020617; /* slate-950 absolute black titles */
+  --text-title-secondary: #0f172a; /* slate-900 section headers */
+  --text-subtitle: #1e293b; /* slate-800 clear secondary texts */
+  --text-subtitle-secondary: #334155; /* slate-700 tertiary texts */
+  --text-muted: #475569; /* slate-600 helper texts */
+  --text-placeholder: #64748b; /* slate-500 placeholder text */
+  
+  --border-color: rgba(15, 23, 42, 0.16); /* high visibility crisp dividers */
+  --card-bg-opacity: #ffffff; /* solid clean cards */
+  --card-bg-opacity-hover: #ffffff;
+  --card-bg-opacity-subtle: #f1f5f9;
+  --bg-panel-subtle: #f8fafc;
+  --glass-bg: #ffffff;
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+}
+
+.dark {
+  /* Premium Slate-Free True Dark Mode (Deep Zinc) */
+  --bg-main: #09090b; /* zinc-950 */
+  --bg-panel: #111113; /* zinc-900 */
+  --bg-input: #1c1c20; /* zinc-800 */
+  --text-main: #d4d4d8; /* zinc-300 */
+  --text-title: #fafafa; /* zinc-50 */
+  --text-title-secondary: #f4f4f5; /* zinc-100 */
+  --text-subtitle: #a1a1aa; /* zinc-400 */
+  --text-subtitle-secondary: #71717a; /* zinc-500 */
+  --text-muted: #52525b; /* zinc-600 */
+  --text-placeholder: #3f3f46; /* zinc-700 */
+  
+  --border-color: rgba(255, 255, 255, 0.07);
+  --card-bg-opacity: rgba(255, 255, 255, 0.02);
+  --card-bg-opacity-hover: rgba(255, 255, 255, 0.04);
+  --card-bg-opacity-subtle: rgba(255, 255, 255, 0.015);
+  --bg-panel-subtle: rgba(0, 0, 0, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --card-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+}
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--text-title);
+  }
+}
+
+/* Global utility overrides for absolute compatibility with hardcoded classes */
+.border-white\/2 {
+  border-color: var(--border-color) !important;
+}
+.border-white\/5 {
+  border-color: var(--border-color) !important;
+}
+.border-white\/10 {
+  border-color: var(--border-color) !important;
+}
+.border-indigo-500\/10 {
+  border-color: color-mix(in srgb, var(--text-title) 10%, transparent) !important;
+}
+.border-indigo-500\/20 {
+  border-color: color-mix(in srgb, var(--text-title) 20%, transparent) !important;
+}
+.border-indigo-500\/25 {
+  border-color: color-mix(in srgb, var(--text-title) 25%, transparent) !important;
+}
+
+.bg-white\/2 {
+  background-color: var(--card-bg-opacity-subtle) !important;
+}
+.bg-white\/5 {
+  background-color: var(--card-bg-opacity) !important;
+}
+.bg-slate-950\/40 {
+  background-color: var(--bg-main) !important;
+}
+.bg-slate-950\/45 {
+  background-color: var(--bg-main) !important;
+}
+.bg-slate-900\/40 {
+  background-color: var(--bg-panel-subtle) !important;
+}
+.bg-slate-900\/50 {
+  background-color: var(--bg-panel-subtle) !important;
+}
+.bg-slate-900\/60 {
+  background-color: var(--bg-panel-subtle) !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Premium Gradient Backgrounds & Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+}
+
+.glass-card {
+  background: var(--card-bg-opacity);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: var(--card-bg-opacity-hover);
+  border-color: rgba(99, 102, 241, 0.35); /* Indigo border glow */
+  box-shadow: var(--card-shadow, 0 10px 30px -10px rgba(99, 102, 241, 0.15));
+  transform: translateY(-2px);
+}
+
+/* Shimmer Loader Skeletons */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+  content: '';
+}
+
+.light .shimmer-effect::after {
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.03) 20%,
+    rgba(0, 0, 0, 0.06) 60%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* Workspace Grid/Timeline Line style */
+.timeline-line {
+  background: linear-gradient(to bottom, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+}
