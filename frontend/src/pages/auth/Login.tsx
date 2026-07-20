@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useAuthStore } from '../../store/authStore';
-import { Sparkles, Mail, Lock, LogIn, AlertCircle, Loader, ShieldCheck } from 'lucide-react';
+import { Sparkles, Mail, Lock, LogIn, AlertCircle, Loader } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const { setAuth } = useAuthStore();
@@ -59,10 +59,7 @@ export const Login: React.FC = () => {
     }
   };
 
-  const handleAdminLogin = () => {
-    setEmail('admin@skillforge.ai');
-    setPassword('admin123');
-  };
+
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden">
@@ -185,20 +182,7 @@ export const Login: React.FC = () => {
           <span>Continue with Google</span>
         </motion.button>
 
-        {/* Admin Login Gateway */}
-        <div className="mt-6 border-t border-white/5 pt-4">
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            type="button"
-            onClick={handleAdminLogin}
-            disabled={loading}
-            className="w-full flex items-center justify-center gap-2 bg-indigo-500/5 hover:bg-indigo-500/10 text-indigo-400 border border-indigo-500/10 hover:border-indigo-500/20 rounded-lg py-2.5 font-bold text-xs transition-all disabled:opacity-50 cursor-pointer"
-          >
-            <ShieldCheck className="w-4 h-4 shrink-0 animate-pulse" />
-            <span>Access Administrator Console</span>
-          </motion.button>
-        </div>
+
 
         <p className="text-slate-400 text-center text-xs mt-6">
           Don't have an account?{' '}

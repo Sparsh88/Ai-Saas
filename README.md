@@ -184,7 +184,7 @@ SkillForge-AI
 ## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/skillforge-ai.git
+git clone https://github.com/Sparsh88/Ai-Saas
 
 cd skillforge-ai
 ```
@@ -376,8 +376,8 @@ This project is licensed under the **MIT License**.
 **Full Stack Developer | AI Enthusiast | Computer Science Student**
 
 - 🌐 Portfolio: https://your-portfolio.com
-- 💼 LinkedIn: https://linkedin.com/in/your-profile
-- 📧 Email: your@email.com
+- 💼 LinkedIn: https://linkedin.com/in/sparshchauhan08
+- 📧 Email: sparshchauhan050@email.com
 
 ---
 
