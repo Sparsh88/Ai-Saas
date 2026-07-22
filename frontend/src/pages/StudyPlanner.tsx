@@ -192,7 +192,7 @@ export const StudyPlanner: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Selector Tabs */}
-      <div className="flex gap-2 border-b border-white/5 pb-2">
+      <div className="flex gap-2 border-b border-white/5 pb-2 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
         {[
           { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map },
           { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen },
@@ -204,7 +204,7 @@ export const StudyPlanner: React.FC = () => {
               setActiveTab(tab.id as any);
               setError(null);
             }}
-            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all shrink-0 ${
               activeTab === tab.id
                 ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
                 : 'text-slate-400 hover:text-slate-200'

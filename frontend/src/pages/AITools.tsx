@@ -189,7 +189,31 @@ export const AITools: React.FC = () => {
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
       {/* Sidebar Tool Selector */}
       <div className="lg:col-span-1 space-y-4">
-        <div className="p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
+        {/* Mobile Selector Dropdown */}
+        <div className="lg:hidden p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
+          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+            Select AI Tool
+          </label>
+          <select
+            value={selectedToolId}
+            onChange={(e) => {
+              setSelectedToolId(e.target.value);
+              setResult('');
+              setFormData({});
+              setError(null);
+            }}
+            className="w-full bg-slate-950 border border-white/10 text-slate-200 text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-indigo-500/50"
+          >
+            {tools.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.name} ({t.cost} credits)
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Desktop Selector Panel */}
+        <div className="hidden lg:block p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
           <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
             <Grid className="w-4 h-4 text-indigo-400" />
             <span>AI Tool Sets</span>

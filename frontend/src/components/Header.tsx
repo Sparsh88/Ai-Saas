@@ -10,7 +10,8 @@ import {
   Inbox,
   User,
   Shield,
-  CircleDot
+  CircleDot,
+  Menu
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +23,11 @@ interface Notification {
   createdAt: string;
 }
 
-export const Header: React.FC = () => {
+interface HeaderProps {
+  onMenuToggle?: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -94,9 +99,23 @@ export const Header: React.FC = () => {
   );
 
   return (
-    <header className="h-16 border-b border-white/5 dark:border-white/5 border-black/5 px-6 flex items-center justify-between shrink-0 glass-panel relative z-20">
-      {/* Search Input Bar */}
-      <div className="relative w-72 max-w-lg hidden sm:block">
+    <header className="h-16 border-b border-white/5 dark:border-white/5 border-black/5 px-4 md:px-6 flex items-center justify-between shrink-0 glass-panel relative z-20">
+      {/* Toggle Sidebar & Mobile Brand */}
+      <div className="flex items-center gap-2">
+        <button
+          onClick={onMenuToggle}
+          className="p-2 -ml-1 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors md:hidden active:scale-95 cursor-pointer"
+          aria-label="Toggle Menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div className="md:hidden flex items-center gap-2 cursor-pointer font-bold" onClick={() => navigate('/dashboard')}>
+          <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent font-heading text-sm">SkillForge AI</span>
+        </div>
+      </div>
+
+      {/* Search Input Bar (desktop only) */}
+      <div className="relative w-72 max-w-lg hidden md:block">
         <button
           onClick={() => setShowSearch(true)}
           className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 hover:border-white/10 text-left text-sm text-slate-400 hover:text-slate-300 transition-all active:scale-[0.99]"
@@ -112,9 +131,6 @@ export const Header: React.FC = () => {
         </button>
       </div>
 
-      <div className="sm:hidden flex items-center gap-2 cursor-pointer font-bold" onClick={() => navigate('/dashboard')}>
-        <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent font-heading">SkillForge AI</span>
-      </div>
 
       {/* Header Actions */}
       <div className="flex items-center gap-4">

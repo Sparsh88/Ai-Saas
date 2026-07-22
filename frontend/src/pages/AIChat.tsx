@@ -109,10 +109,10 @@ export const AIChat: React.FC = () => {
   ];
 
   return (
-    <div className="h-[calc(100vh-8.5rem)] flex flex-col justify-between max-w-4xl mx-auto rounded-2xl glass-panel border border-white/5 overflow-hidden shadow-2xl relative">
+    <div className="h-[calc(100vh-10rem)] md:h-[calc(100vh-8.5rem)] flex flex-col justify-between max-w-4xl mx-auto rounded-2xl glass-panel border border-white/5 overflow-hidden shadow-2xl relative">
       
       {/* Header Panel */}
-      <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-slate-900/50">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-white/5 flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-slate-900/50">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
             <BrainCircuit className="w-5 h-5 animate-pulse" />
@@ -145,7 +145,7 @@ export const AIChat: React.FC = () => {
       </div>
 
       {/* Messages Window */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
         {messages.map((msg, index) => (
           <motion.div
             initial={{ opacity: 0, scale: 0.96, y: 12 }}
@@ -222,7 +222,7 @@ export const AIChat: React.FC = () => {
       )}
 
       {/* Input Form Bar */}
-      <form onSubmit={handleSend} className="px-6 py-4 border-t border-white/5 bg-slate-900/50 flex items-center gap-3">
+      <form onSubmit={handleSend} className="px-4 py-3 md:px-6 md:py-4 border-t border-white/5 bg-slate-900/50 flex items-center gap-3">
         <input
           type="text"
           value={input}
