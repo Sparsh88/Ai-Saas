@@ -375,7 +375,7 @@ This project is licensed under the **MIT License**.
 
 **Full Stack Developer | AI Enthusiast | Computer Science Student**
 
-- 🌐 Portfolio: https://your-portfolio.com
+- 🌐 Portfolio: https://portfolio-flame-rho-29.vercel.app/
 - 💼 LinkedIn: https://linkedin.com/in/sparshchauhan08
 - 📧 Email: sparshchauhan050@email.com
 
