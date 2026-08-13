@@ -104,14 +104,53 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (loading && !stats) {
     return (
-      <div className="h-64 flex items-center justify-center text-slate-500">
-        <Loader className="w-6 h-6 animate-spin text-indigo-400 mr-2" />
-        <span>Loading admin metrics...</span>
+      <div className="space-y-6 animate-fade-in">
+        {/* Metric Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className="p-5 rounded-xl border border-white/5 bg-white/2 shimmer-effect h-28 flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-24 h-3 bg-white/10 rounded" />
+                <div className="w-6 h-6 rounded-lg bg-white/10" />
+              </div>
+              <div className="w-16 h-7 bg-white/15 rounded" />
+            </div>
+          ))}
+        </div>
+
+        {/* Chart & Top Tools Skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 p-6 rounded-xl border border-white/5 bg-white/2 shimmer-effect h-80 flex flex-col justify-between">
+            <div className="w-32 h-4 bg-white/10 rounded" />
+            <div className="flex items-end gap-6 h-48 pt-4 px-4">
+              {[30, 60, 45, 90, 70, 50, 80].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 bg-white/10 rounded-t"
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="p-6 rounded-xl border border-white/5 bg-white/2 shimmer-effect h-80 space-y-4">
+            <div className="w-32 h-4 bg-white/10 rounded" />
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex justify-between items-center py-2 border-b border-white/5">
+                <div className="w-32 h-3.5 bg-white/10 rounded" />
+                <div className="w-12 h-3.5 bg-white/10 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
+
 
   if (error) {
     return (

@@ -45,19 +45,27 @@ interface DashboardData {
   }>;
 }
 
-let cachedDashboardData: DashboardData | null = null;
+const getStoredCache = (): DashboardData | null => {
+  try {
+    const raw = sessionStorage.getItem('SF_DASHBOARD_CACHE');
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+};
 
 export const Dashboard: React.FC = () => {
   const { user, updateUserCredits } = useAuthStore();
   const navigate = useNavigate();
-  const [data, setData] = useState<DashboardData | null>(cachedDashboardData);
-  const [loading, setLoading] = useState(!cachedDashboardData);
+  const initialCache = getStoredCache();
+  const [data, setData] = useState<DashboardData | null>(initialCache);
+  const [loading, setLoading] = useState(!initialCache);
 
   const fetchDashboardStats = async () => {
     try {
       const response = await axios.get('/api/workspace/dashboard-stats');
-      cachedDashboardData = response.data;
       setData(response.data);
+      sessionStorage.setItem('SF_DASHBOARD_CACHE', JSON.stringify(response.data));
       updateUserCredits(response.data.credits);
     } catch (error) {
       console.warn('Error fetching dashboard stats:', error);
@@ -70,33 +78,79 @@ export const Dashboard: React.FC = () => {
     fetchDashboardStats();
   }, []);
 
-  if (loading) {
+  if (loading && !data) {
     return (
-      <div className="space-y-6 animate-pulse">
-        <div className="h-28 bg-white/5 rounded-2xl shimmer-effect" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="h-24 bg-white/5 rounded-xl shimmer-effect" />
-          <div className="h-24 bg-white/5 rounded-xl shimmer-effect" />
-          <div className="h-24 bg-white/5 rounded-xl shimmer-effect" />
+      <div className="space-y-6 animate-fade-in">
+        {/* Welcome Skeleton */}
+        <div className="p-6 rounded-2xl border border-white/5 bg-white/2 relative overflow-hidden shimmer-effect h-36 flex flex-col justify-center">
+          <div className="w-28 h-5 bg-white/10 rounded-full mb-3" />
+          <div className="w-64 md:w-80 h-7 bg-white/10 rounded-lg mb-2" />
+          <div className="w-48 md:w-96 h-4 bg-white/5 rounded" />
         </div>
+
+        {/* 3 Metric Cards Skeletons */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[1, 2, 3].map((idx) => (
+            <div
+              key={idx}
+              className="p-5 rounded-xl border border-white/5 bg-white/2 relative overflow-hidden shimmer-effect h-36 flex flex-col justify-between"
+            >
+              <div className="flex items-center justify-between">
+                <div className="w-28 h-3.5 bg-white/10 rounded" />
+                <div className="w-8 h-8 rounded-lg bg-white/10" />
+              </div>
+              <div className="w-20 h-8 bg-white/15 rounded" />
+              <div className="flex items-center justify-between">
+                <div className="w-20 h-3 bg-white/5 rounded" />
+                <div className="w-16 h-3 bg-white/10 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Analytics Chart & Activity List Skeletons */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 h-80 bg-white/5 rounded-xl shimmer-effect" />
-          <div className="h-80 bg-white/5 rounded-xl shimmer-effect" />
+          <div className="lg:col-span-2 p-6 rounded-xl border border-white/5 bg-white/2 relative overflow-hidden shimmer-effect h-80 flex flex-col justify-between">
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-32 h-4 bg-white/10 rounded" />
+              <div className="w-5 h-5 bg-white/10 rounded" />
+            </div>
+            <div className="flex items-end gap-6 h-48 pt-4 px-4">
+              {[35, 60, 45, 80, 50, 75].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 bg-white/10 rounded-t"
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="p-6 rounded-xl border border-white/5 bg-white/2 relative overflow-hidden shimmer-effect h-80 flex flex-col justify-between">
+            <div className="w-32 h-4 bg-white/10 rounded mb-4" />
+            <div className="space-y-4 flex-1">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="flex gap-3">
+                  <div className="w-2 h-2 rounded-full bg-white/10 mt-1" />
+                  <div className="flex-1 space-y-1.5">
+                    <div className="w-3/4 h-3 bg-white/10 rounded" />
+                    <div className="w-1/2 h-2 bg-white/5 rounded" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
-  // Format chart data
-  const chartData = data?.usageSummary.reduce((acc: any[], item) => {
-    const existing = acc.find((x) => x.name === item.toolUsed);
-    if (existing) {
-      existing.credits += item.creditsUsed;
-    } else {
-      acc.push({ name: item.toolUsed, credits: item.creditsUsed });
-    }
-    return acc;
-  }, []) || [];
+  // Format chart data directly from grouped data
+  const chartData =
+    data?.usageSummary.map((item) => ({
+      name: item.toolUsed,
+      credits: item.creditsUsed,
+    })) || [];
+
 
   const COLORS = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6', '#10b981'];
 

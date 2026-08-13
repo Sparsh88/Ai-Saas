@@ -3,6 +3,7 @@ import { AuthenticatedRequest } from '../middleware/auth';
 import prisma from '../config/db';
 import { extractTextFromFile } from '../services/parser.service';
 import { uploadToCloudinary } from '../middleware/upload';
+import { invalidateDashboardCache } from './workspace.controller';
 
 export const uploadDocument = async (req: AuthenticatedRequest, res: Response) => {
   const file = req.file;
@@ -33,6 +34,8 @@ export const uploadDocument = async (req: AuthenticatedRequest, res: Response) =
       },
     });
 
+    invalidateDashboardCache(userId);
+
     return res.status(201).json({
       message: 'Document uploaded and parsed successfully.',
       document: {
@@ -56,18 +59,31 @@ export const getDocuments = async (req: AuthenticatedRequest, res: Response) => 
     return res.status(401).json({ error: 'Unauthorized.' });
   }
 
+  const page = Math.max(1, parseInt(req.query.page as string, 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string, 10) || 50));
+  const skip = (page - 1) * limit;
+
   try {
-    const docs = await prisma.document.findMany({
-      where: { userId },
-      select: {
-        id: true,
-        name: true,
-        url: true,
-        fileType: true,
-        createdAt: true,
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    const [docs, total] = await Promise.all([
+      prisma.document.findMany({
+        where: { userId },
+        select: {
+          id: true,
+          name: true,
+          url: true,
+          fileType: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      prisma.document.count({ where: { userId } }),
+    ]);
+
+    res.setHeader('X-Total-Count', total.toString());
+    res.setHeader('X-Page', page.toString());
+    res.setHeader('X-Limit', limit.toString());
 
     return res.status(200).json(docs);
   } catch (error) {
@@ -97,9 +113,12 @@ export const deleteDocument = async (req: AuthenticatedRequest, res: Response) =
       where: { id },
     });
 
+    invalidateDashboardCache(userId);
+
     return res.status(200).json({ message: 'Document deleted successfully.' });
   } catch (error) {
     console.error('Delete document error:', error);
     return res.status(500).json({ error: 'Server error deleting document.' });
   }
 };
+

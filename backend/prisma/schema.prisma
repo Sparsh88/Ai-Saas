@@ -68,6 +68,9 @@ model User {
   logs               AIRequestLog[]
   notifications      Notification[]
   projects           Project[]
+
+  @@index([role])
+  @@index([createdAt])
 }
 
 model RefreshToken {
@@ -77,6 +80,9 @@ model RefreshToken {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Subscription {
@@ -90,6 +96,9 @@ model Subscription {
   razorpaySubscriptionId String?
   createdAt              DateTime           @default(now())
   updatedAt              DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([status, plan])
 }
 
 model Payment {
@@ -104,6 +113,9 @@ model Payment {
   razorpaySignature  String?
   plan               Plan          @default(PREMIUM)
   createdAt          DateTime      @default(now())
+
+  @@index([userId])
+  @@index([status, createdAt])
 }
 
 model Project {
@@ -115,6 +127,9 @@ model Project {
   tasks       Task[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([userId, createdAt])
 }
 
 model Task {
@@ -128,6 +143,9 @@ model Task {
   project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+
+  @@index([projectId])
+  @@index([status, priority])
 }
 
 model Document {
@@ -139,6 +157,9 @@ model Document {
   userId        String
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, createdAt])
 }
 
 model Chat {
@@ -149,6 +170,9 @@ model Chat {
   messages  Message[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([userId, createdAt])
 }
 
 model Message {
@@ -158,6 +182,9 @@ model Message {
   role      MessageRole
   content   String
   createdAt DateTime    @default(now())
+
+  @@index([chatId])
+  @@index([chatId, createdAt])
 }
 
 model AIRequestLog {
@@ -168,6 +195,10 @@ model AIRequestLog {
   creditsUsed Int      @default(1)
   status      String
   createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([toolUsed])
 }
 
 model Notification {
@@ -178,4 +209,8 @@ model Notification {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, read])
+  @@index([userId, createdAt])
 }

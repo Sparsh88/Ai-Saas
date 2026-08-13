@@ -35,8 +35,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fetch notifications
-  const fetchNotifications = async () => {
+  // Fetch notifications with request deduplication
+  const lastFetchRef = React.useRef<number>(0);
+  const fetchNotifications = async (force = false) => {
+    const now = Date.now();
+    if (!force && now - lastFetchRef.current < 15000) {
+      return;
+    }
+    lastFetchRef.current = now;
     try {
       const res = await axios.get('/api/workspace/notifications');
       setNotifications(res.data);
@@ -48,13 +54,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user?.id) {
       fetchNotifications();
-      // Poll notifications every 45s
-      const interval = setInterval(fetchNotifications, 45000);
+      // Poll notifications every 60s
+      const interval = setInterval(() => fetchNotifications(true), 60000);
       return () => clearInterval(interval);
     }
-  }, [user]);
+  }, [user?.id]);
+
 
   // Keyboard shortcut listener (Ctrl+K or Cmd+K)
   useEffect(() => {

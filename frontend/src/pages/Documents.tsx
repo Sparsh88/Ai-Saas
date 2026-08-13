@@ -167,8 +167,22 @@ export const Documents: React.FC = () => {
 
           <div className="flex-1 overflow-y-auto space-y-3 max-h-[350px] pr-1">
             {loading && documents.length === 0 ? (
-              <div className="py-12 text-center text-slate-500 text-xs">
-                Syncing database records...
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-white/5 bg-slate-950/40 flex items-center justify-between shimmer-effect"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded bg-white/10" />
+                      <div className="space-y-1.5">
+                        <div className="w-48 h-3.5 bg-white/10 rounded" />
+                        <div className="w-24 h-2.5 bg-white/5 rounded" />
+                      </div>
+                    </div>
+                    <div className="w-16 h-7 bg-white/5 rounded-lg" />
+                  </div>
+                ))}
               </div>
             ) : filteredDocs.length === 0 ? (
               <div className="py-16 text-center text-slate-500 text-xs flex flex-col items-center gap-2">

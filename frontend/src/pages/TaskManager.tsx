@@ -70,12 +70,41 @@ export const TaskManager: React.FC = () => {
 
   if (loading && projects.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-slate-500">
-        <Loader className="w-6 h-6 animate-spin text-indigo-400 mr-2" />
-        <span>Loading workspace modules...</span>
+      <div className="space-y-6 animate-fade-in">
+        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+          <div className="w-48 h-9 bg-white/5 rounded-xl shimmer-effect" />
+          <div className="w-32 h-9 bg-white/5 rounded-xl shimmer-effect" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {['To Do', 'In Progress', 'Done'].map((colName, idx) => (
+            <div
+              key={idx}
+              className="rounded-2xl p-4 border border-white/5 bg-white/2 min-h-[480px] space-y-4"
+            >
+              <div className="flex items-center justify-between pb-2 border-b border-white/5">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  {colName}
+                </span>
+                <div className="w-5 h-5 rounded-full bg-white/10" />
+              </div>
+              {[1, 2, 3].map((cardIdx) => (
+                <div
+                  key={cardIdx}
+                  className="p-4 rounded-xl border border-white/5 bg-white/5 shimmer-effect space-y-2.5"
+                >
+                  <div className="w-20 h-4 bg-white/15 rounded-full" />
+                  <div className="w-3/4 h-4 bg-white/10 rounded" />
+                  <div className="w-1/2 h-3 bg-white/5 rounded" />
+                  <div className="w-1/3 h-3 bg-white/5 rounded mt-3" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
+
 
   // Filter tasks into columns
   const todoTasks = activeProject?.tasks.filter((t) => t.status === 'TODO') || [];

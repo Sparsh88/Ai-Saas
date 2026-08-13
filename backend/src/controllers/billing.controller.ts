@@ -1,8 +1,10 @@
 import { Response } from 'express';
-import { AuthenticatedRequest } from '../middleware/auth';
+import { AuthenticatedRequest, invalidateUserAuthCache } from '../middleware/auth';
 import prisma from '../config/db';
 import crypto from 'crypto';
 import Razorpay from 'razorpay';
+import { invalidateDashboardCache } from './workspace.controller';
+import { invalidateAdminStatsCache } from './admin.controller';
 
 const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
 const razorpayKeySecret = process.env.RAZORPAY_KEY_SECRET;
@@ -169,6 +171,11 @@ export const verifyPayment = async (req: AuthenticatedRequest, res: Response) =>
       }),
     ]);
 
+    // Invalidate cached auth & dashboard states
+    invalidateUserAuthCache(userId);
+    invalidateDashboardCache(userId);
+    invalidateAdminStatsCache();
+
     // Retrieve user credits
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -190,13 +197,38 @@ export const getTransactions = async (req: AuthenticatedRequest, res: Response) 
   const userId = req.user?.id;
   if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
+  const page = Math.max(1, parseInt(req.query.page as string, 10) || 1);
+  const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string, 10) || 50));
+  const skip = (page - 1) * limit;
+
   try {
-    const payments = await prisma.payment.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-    });
+    const [payments, total] = await Promise.all([
+      prisma.payment.findMany({
+        where: { userId },
+        select: {
+          id: true,
+          amount: true,
+          currency: true,
+          status: true,
+          razorpayOrderId: true,
+          razorpayPaymentId: true,
+          plan: true,
+          createdAt: true,
+        },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      prisma.payment.count({ where: { userId } }),
+    ]);
+
+    res.setHeader('X-Total-Count', total.toString());
+    res.setHeader('X-Page', page.toString());
+    res.setHeader('X-Limit', limit.toString());
+
     return res.status(200).json(payments);
   } catch (error) {
     return res.status(500).json({ error: 'Failed to retrieve transactions.' });
   }
 };
+

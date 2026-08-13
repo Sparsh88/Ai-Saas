@@ -1,7 +1,8 @@
 import { Response } from 'express';
-import { AuthenticatedRequest } from '../middleware/auth';
+import { AuthenticatedRequest, invalidateUserAuthCache } from '../middleware/auth';
 import prisma from '../config/db';
 import { getAIChatResponse, getAIChatWithDocResponse, runAIServiceTool } from '../services/ai.service';
+import { invalidateDashboardCache } from './workspace.controller';
 
 // Credit Cost map per tool
 const creditCosts: Record<string, number> = {
@@ -69,6 +70,9 @@ export const chatAssistant = async (req: AuthenticatedRequest, res: Response) =>
       }),
     ]);
 
+    invalidateUserAuthCache(userId);
+    invalidateDashboardCache(userId);
+
     return res.status(200).json({ reply, creditsRemaining: user.credits - cost });
   } catch (error: any) {
     console.error('Chat Assistant error:', error);
@@ -117,6 +121,9 @@ export const chatWithDocument = async (req: AuthenticatedRequest, res: Response)
       }),
     ]);
 
+    invalidateUserAuthCache(userId);
+    invalidateDashboardCache(userId);
+
     return res.status(200).json({ reply, creditsRemaining: user.credits - cost });
   } catch (error) {
     console.error('Doc Chat error:', error);
@@ -156,6 +163,9 @@ export const runAITool = async (req: AuthenticatedRequest, res: Response) => {
         },
       }),
     ]);
+
+    invalidateUserAuthCache(userId);
+    invalidateDashboardCache(userId);
 
     return res.status(200).json({ result, creditsRemaining: user.credits - cost });
   } catch (error) {

@@ -38,6 +38,8 @@ interface WorkspaceState {
   deleteTask: (taskId: string) => Promise<void>;
 }
 
+let fetchProjectsPromise: Promise<void> | null = null;
+
 export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
   projects: [],
   activeProject: null,
@@ -45,28 +47,40 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
   error: null,
 
   fetchProjects: async () => {
+    if (fetchProjectsPromise) {
+      return fetchProjectsPromise;
+    }
+
     const { projects: existing } = get();
     if (existing.length === 0) {
       set({ loading: true, error: null });
     }
-    try {
-      const response = await axios.get('/api/workspace/projects');
-      const projects = response.data;
-      
-      const { activeProject } = get();
-      let updatedActiveProject = null;
-      
-      if (activeProject) {
-        updatedActiveProject = projects.find((p: Project) => p.id === activeProject.id) || null;
-      } else if (projects.length > 0) {
-        updatedActiveProject = projects[0];
-      }
 
-      set({ projects, activeProject: updatedActiveProject, loading: false });
-    } catch (err: any) {
-      set({ error: 'Failed to load projects.', loading: false });
-    }
+    fetchProjectsPromise = (async () => {
+      try {
+        const response = await axios.get('/api/workspace/projects');
+        const projects = response.data;
+
+        const { activeProject } = get();
+        let updatedActiveProject = null;
+
+        if (activeProject) {
+          updatedActiveProject = projects.find((p: Project) => p.id === activeProject.id) || null;
+        } else if (projects.length > 0) {
+          updatedActiveProject = projects[0];
+        }
+
+        set({ projects, activeProject: updatedActiveProject, loading: false });
+      } catch (err: any) {
+        set({ error: 'Failed to load projects.', loading: false });
+      } finally {
+        fetchProjectsPromise = null;
+      }
+    })();
+
+    return fetchProjectsPromise;
   },
+
 
   selectProject: (projectId) => {
     const { projects } = get();
