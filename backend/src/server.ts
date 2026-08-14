@@ -122,14 +122,18 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
-// Health check endpoints
+// Health check endpoints (Unauthenticated & excluded from strict rate limits)
 app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.status(200).json({ status: 'ok', message: 'API is running', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'ok', message: 'API is running', timestamp: new Date().toISOString() });
 });
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
-    status: 'OK',
+    status: 'ok',
     message: 'SkillForge AI API server is running.',
     timestamp: new Date().toISOString(),
   });
@@ -151,11 +155,36 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(status).json({ error: message });
 });
 
-// Start Server and Pre-warm Database Connection
-app.listen(PORT, async () => {
-  console.log(`🚀 SkillForge AI Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+// Start Server with 0.0.0.0 host binding for cloud container environments (Render/Docker)
+const HOST = '0.0.0.0';
+const server = app.listen(Number(PORT), HOST, () => {
+  console.log(`🚀 SkillForge AI Server is running in ${process.env.NODE_ENV || 'development'} mode on http://${HOST}:${PORT}`);
   connectDB().catch((err) => {
     console.error('Database connection pre-warm encountered an error:', err);
   });
 });
+
+// Process-level crash prevention and graceful shutdown
+process.on('unhandledRejection', (reason: any) => {
+  console.error('⚠️ Unhandled Rejection at:', reason);
+});
+
+process.on('uncaughtException', (error: Error) => {
+  console.error('💥 Uncaught Exception thrown:', error);
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received: closing HTTP server gracefully');
+  server.close(() => {
+    console.log('HTTP server closed');
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received: closing HTTP server gracefully');
+  server.close(() => {
+    console.log('HTTP server closed');
+  });
+});
+
 
