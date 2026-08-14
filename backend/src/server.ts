@@ -50,20 +50,34 @@ app.use((req: Request, res: Response, next: NextFunction) => {
       contentType.includes('text/');
 
     if (isCompressible && body) {
-      const buffer = Buffer.isBuffer(body)
-        ? body
-        : Buffer.from(typeof body === 'string' ? body : JSON.stringify(body));
+      try {
+        const payloadString =
+          typeof body === 'string'
+            ? body
+            : Buffer.isBuffer(body)
+            ? body.toString('utf-8')
+            : JSON.stringify(body);
 
-      if (buffer.length >= 1024) {
-        zlib.gzip(buffer, (err, compressed) => {
-          if (err) {
-            return originalSend(body);
+        const buffer = Buffer.from(payloadString, 'utf-8');
+
+        if (buffer.length >= 1024) {
+          const compressed = zlib.gzipSync(buffer);
+          if (!res.headersSent) {
+            if (!res.getHeader('Content-Type')) {
+              res.setHeader(
+                'Content-Type',
+                typeof body === 'object' && !Buffer.isBuffer(body)
+                  ? 'application/json; charset=utf-8'
+                  : 'text/html; charset=utf-8'
+              );
+            }
+            res.setHeader('Content-Encoding', 'gzip');
+            res.setHeader('Content-Length', compressed.length);
           }
-          res.setHeader('Content-Encoding', 'gzip');
-          res.setHeader('Content-Length', compressed.length);
-          return originalSend(compressed);
-        });
-        return res;
+          return res.end(compressed);
+        }
+      } catch {
+        return originalSend(body);
       }
     }
     return originalSend(body);
@@ -73,12 +87,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Response Time Tracking Header for Performance Audits
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const start = process.hrtime();
-  res.on('finish', () => {
-    const diff = process.hrtime(start);
-    const timeInMs = (diff[0] * 1e3 + diff[1] * 1e-6).toFixed(2);
-    res.setHeader('X-Response-Time', `${timeInMs}ms`);
-  });
+  const startTime = Date.now();
+  const originalSend = res.send.bind(res);
+  res.send = function (body: any) {
+    if (!res.headersSent) {
+      const duration = Date.now() - startTime;
+      res.setHeader('X-Response-Time', `${duration}ms`);
+    }
+    return originalSend(body);
+  };
   next();
 });
 
@@ -105,9 +122,17 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
-// Health check endpoint
+// Health check endpoints
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 'OK',
+    message: 'SkillForge AI API server is running.',
+    timestamp: new Date().toISOString(),
+  });
 });
 
 // API Routes
@@ -129,6 +154,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 // Start Server and Pre-warm Database Connection
 app.listen(PORT, async () => {
   console.log(`🚀 SkillForge AI Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-  await connectDB();
+  connectDB().catch((err) => {
+    console.error('Database connection pre-warm encountered an error:', err);
+  });
 });
 

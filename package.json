@@ -1,0 +1,11 @@
+{
+  "name": "skillforge-ai-saas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SkillForge AI - Full Stack SaaS Platform",
+  "scripts": {
+    "build": "npm --prefix backend run build",
+    "start": "npm --prefix backend start",
+    "postinstall": "npm --prefix backend install"
+  }
+}
