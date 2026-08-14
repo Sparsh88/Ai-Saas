@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useAuthStore } from '../../store/authStore';
 import { Sparkles, User, Mail, Lock, UserPlus, AlertCircle, Loader } from 'lucide-react';
+import { GoogleAuthModal } from '../../components/GoogleAuthModal';
 
 export const Register: React.FC = () => {
   const { setAuth } = useAuthStore();
@@ -14,6 +15,7 @@ export const Register: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,23 +48,9 @@ export const Register: React.FC = () => {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    setLoading(true);
+  const handleGoogleSignIn = () => {
     setError(null);
-    try {
-      const response = await axios.post('/api/auth/google-login', {
-        idToken: 'mock-google-id-token-dev-sandbox',
-        email: 'developer.google@skillforge.ai',
-        name: 'Google Developer',
-      });
-      const { user, accessToken, refreshToken } = response.data;
-      setAuth(user, accessToken, refreshToken);
-      navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Google Sign-In failed.');
-    } finally {
-      setLoading(false);
-    }
+    setShowGoogleModal(true);
   };
 
   return (
@@ -204,6 +192,13 @@ export const Register: React.FC = () => {
           </Link>
         </p>
       </motion.div>
+
+      {/* Google Sign-In Interactive Modal */}
+      <GoogleAuthModal
+        isOpen={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+        prefilledEmail={email}
+      />
     </div>
   );
 };

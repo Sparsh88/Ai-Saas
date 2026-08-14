@@ -312,19 +312,20 @@ export const resetPassword = async (req: Request, res: Response) => {
 };
 
 export const googleLogin = async (req: Request, res: Response) => {
-  const { token, email: mockEmail, name: mockName } = req.body;
+  const { credential, token, idToken, email: bodyEmail, name: bodyName } = req.body;
 
   try {
-    let email = mockEmail;
-    let name = mockName || 'Google User';
+    const rawToken = credential || token || idToken;
+    let email = bodyEmail?.trim().toLowerCase();
+    let name = bodyName?.trim() || 'Google User';
 
-    // If a real token is provided, attempt to decode it (Google ID tokens are JWTs)
-    if (token) {
+    // If a real Google token/credential is provided, decode it
+    if (rawToken && typeof rawToken === 'string') {
       try {
-        const decoded: any = jwt.decode(token);
+        const decoded: any = jwt.decode(rawToken);
         if (decoded && decoded.email) {
-          email = decoded.email;
-          name = decoded.name || decoded.given_name || 'Google User';
+          email = decoded.email.toLowerCase();
+          name = decoded.name || decoded.given_name || bodyName || 'Google User';
         }
       } catch (e) {
         console.warn('Could not decode Google ID token, falling back to body params:', e);
@@ -332,7 +333,7 @@ export const googleLogin = async (req: Request, res: Response) => {
     }
 
     if (!email) {
-      return res.status(400).json({ error: 'Google login requires a valid token or email payload.' });
+      return res.status(400).json({ error: 'Google login requires a valid Google account or email address.' });
     }
 
     // Check if user already exists
@@ -342,14 +343,14 @@ export const googleLogin = async (req: Request, res: Response) => {
         subscriptions: {
           where: { status: 'ACTIVE' },
           take: 1,
-        }
-      }
+        },
+      },
     });
 
     if (!user) {
-      // Create a random password for OAuth users since they log in via Google
+      // Create a random hashed password for Google OAuth users
       const randomPassword = await bcrypt.hash(Math.random().toString(36).substring(2, 15), 10);
-      
+
       user = await prisma.user.create({
         data: {
           email,
@@ -362,15 +363,15 @@ export const googleLogin = async (req: Request, res: Response) => {
               plan: 'FREE',
               status: 'ACTIVE',
               startDate: new Date(),
-            }
-          }
+            },
+          },
         },
         include: {
           subscriptions: {
             where: { status: 'ACTIVE' },
             take: 1,
-          }
-        }
+          },
+        },
       });
 
       // Create welcome notification
@@ -378,8 +379,20 @@ export const googleLogin = async (req: Request, res: Response) => {
         data: {
           userId: user.id,
           title: 'Welcome via Google! 🎉',
-          message: 'Thank you for signing in with Google. Explore your initial 15 credits.',
-        }
+          message: 'Thank you for signing in with Google. You received 15 bonus credits!',
+        },
+      });
+    } else if (!user.isVerified) {
+      // Ensure existing user is marked verified upon successful Google authentication
+      user = await prisma.user.update({
+        where: { id: user.id },
+        data: { isVerified: true },
+        include: {
+          subscriptions: {
+            where: { status: 'ACTIVE' },
+            take: 1,
+          },
+        },
       });
     }
 
