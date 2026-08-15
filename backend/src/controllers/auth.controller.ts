@@ -18,7 +18,8 @@ const generateTokens = (userId: string, email: string, role: Role) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body;
+  const { password, name } = req.body;
+  const email = (req.body.email || '').trim().toLowerCase();
 
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -27,7 +28,7 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const isAdminEmail = email.toLowerCase() === 'sparshchauhan050@gmail.com';
+    const isAdminEmail = email === 'sparshchauhan050@gmail.com';
 
     // Create user pre-verified with appropriate plan subscription and credits
     const user = await prisma.user.create({
@@ -81,7 +82,8 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const verifyEmail = async (req: Request, res: Response) => {
-  const { email, code } = req.body;
+  const { code } = req.body;
+  const email = (req.body.email || '').trim().toLowerCase();
 
   try {
     const user = await prisma.user.findUnique({ where: { email } });
@@ -138,7 +140,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { password } = req.body;
+  const email = (req.body.email || '').trim().toLowerCase();
 
   try {
     const user = await prisma.user.findUnique({
@@ -252,7 +255,7 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const forgotPassword = async (req: Request, res: Response) => {
-  const { email } = req.body;
+  const email = (req.body.email || '').trim().toLowerCase();
 
   try {
     const user = await prisma.user.findUnique({ where: { email } });
