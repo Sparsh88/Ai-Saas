@@ -27,18 +27,20 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const isAdminEmail = email.toLowerCase() === 'sparshchauhan050@gmail.com';
 
-    // Create user pre-verified with FREE plan subscription and 10 credits
+    // Create user pre-verified with appropriate plan subscription and credits
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
-        name,
+        name: name || (isAdminEmail ? 'Sparsh Chauhan' : undefined),
+        role: isAdminEmail ? Role.ADMIN : Role.USER,
         isVerified: true,
-        credits: 10,
+        credits: isAdminEmail ? 99999 : 10,
         subscriptions: {
           create: {
-            plan: 'FREE',
+            plan: isAdminEmail ? 'PREMIUM' : 'FREE',
             status: 'ACTIVE',
             startDate: new Date(),
           }

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuthStore } from '../store/authStore';
+import { useNavigate } from 'react-router-dom';
 import {
   ShieldCheck,
+  ShieldAlert,
   Users,
   Coins,
   TrendingUp,
@@ -10,7 +13,8 @@ import {
   Edit3,
   Loader,
   AlertCircle,
-  Activity
+  Activity,
+  ArrowLeft
 } from 'lucide-react';
 import {
   AreaChart,
@@ -45,6 +49,8 @@ interface UserAccount {
 }
 
 export const AdminDashboard: React.FC = () => {
+  const { user } = useAuthStore();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [users, setUsers] = useState<UserAccount[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +60,15 @@ export const AdminDashboard: React.FC = () => {
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [editCreditsVal, setEditCreditsVal] = useState<number>(0);
 
+  const isSoleAdmin = user?.role === 'ADMIN' && user?.email?.toLowerCase() === 'sparshchauhan050@gmail.com';
+
   const fetchAdminStats = async () => {
+    if (!isSoleAdmin) {
+      setError('Access forbidden. Insufficient administrator permissions.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const statsRes = await axios.get('/api/admin/stats');
       const usersRes = await axios.get('/api/admin/users');
@@ -62,7 +76,7 @@ export const AdminDashboard: React.FC = () => {
       setUsers(usersRes.data);
     } catch (err) {
       console.warn('Failed to load admin stats:', err);
-      setError('Access denied. Admin authorization is required.');
+      setError('Access denied. Administrator authorization is required.');
     } finally {
       setLoading(false);
     }
@@ -70,7 +84,7 @@ export const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchAdminStats();
-  }, []);
+  }, [user]);
 
   const handleDeleteUser = async (id: string) => {
     if (!confirm('Are you sure you want to delete this user account?')) return;
@@ -152,25 +166,22 @@ export const AdminDashboard: React.FC = () => {
   }
 
 
-  if (error) {
+  if (error || !isSoleAdmin) {
     return (
-      <div className="p-6 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs max-w-md mx-auto mt-16 text-center space-y-4 shadow-xl">
+      <div className="p-8 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs max-w-md mx-auto mt-16 text-center space-y-4 shadow-xl">
         <div className="flex items-center justify-center gap-2 font-semibold text-sm">
-          <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
-          <span>{error}</span>
+          <ShieldAlert className="w-6 h-6 text-rose-400 shrink-0" />
+          <span>Access Restricted</span>
         </div>
         <p className="text-slate-400 text-xs leading-relaxed">
-          Your current session token lacks administrator permissions. Please log in with the admin credentials (<code className="text-indigo-300 bg-slate-900 px-1.5 py-0.5 rounded">admin@skillforge.ai</code>) to access the system metrics.
+          {error || 'Administrator privileges are required to access this console. Only designated administrators may view system telemetry and user records.'}
         </p>
         <button
-          onClick={() => {
-            localStorage.clear();
-            window.location.href = '/login';
-          }}
+          onClick={() => navigate('/dashboard')}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold text-xs transition-all shadow-md active:scale-95 cursor-pointer"
         >
-          <ShieldCheck className="w-4 h-4" />
-          <span>Log In as Administrator</span>
+          <ArrowLeft className="w-4 h-4" />
+          <span>Return to Dashboard</span>
         </button>
       </div>
     );

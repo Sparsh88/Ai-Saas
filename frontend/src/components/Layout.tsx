@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
+import { Footer } from './Footer';
 import { useAuthStore } from '../store/authStore';
 
 export const Layout: React.FC = () => {
@@ -39,10 +40,13 @@ export const Layout: React.FC = () => {
         <Header onMenuToggle={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)} />
         
         {/* Child Router View */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 relative">
+        <main className="flex-1 overflow-y-auto flex flex-col justify-between p-4 md:p-6 relative">
           {/* Subtle light leak for modern styling */}
           <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
-          <Outlet />
+          <div className="flex-1">
+            <Outlet />
+          </div>
+          <Footer />
         </main>
       </div>
     </div>

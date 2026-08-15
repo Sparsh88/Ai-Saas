@@ -1,123 +1,98 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { PrismaClient, Role, Plan, SubscriptionStatus } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('Seeding database...');
+  console.log('Seeding database with sole Admin account...');
 
-  // Clean existing data
-  await prisma.notification.deleteMany();
-  await prisma.aIRequestLog.deleteMany();
-  await prisma.message.deleteMany();
-  await prisma.chat.deleteMany();
-  await prisma.document.deleteMany();
-  await prisma.task.deleteMany();
-  await prisma.project.deleteMany();
-  await prisma.payment.deleteMany();
-  await prisma.subscription.deleteMany();
-  await prisma.refreshToken.deleteMany();
-  await prisma.user.deleteMany();
+  // Clean existing demo users and records if present
+  const demoEmails = ['admin@skillforge.ai', 'user@skillforge.ai'];
+  for (const demoEmail of demoEmails) {
+    const demoUser = await prisma.user.findUnique({ where: { email: demoEmail } });
+    if (demoUser) {
+      await prisma.notification.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.aIRequestLog.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.message.deleteMany({ where: { chat: { userId: demoUser.id } } });
+      await prisma.chat.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.document.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.task.deleteMany({ where: { project: { userId: demoUser.id } } });
+      await prisma.project.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.payment.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.subscription.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.refreshToken.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.user.delete({ where: { id: demoUser.id } });
+    }
+  }
 
-  // Create Users
-  const adminPassword = await bcrypt.hash('admin123', 10);
-  const userPassword = await bcrypt.hash('user123', 10);
+  // Create or Update Admin: sparshchauhan050@gmail.com
+  const adminEmail = 'sparshchauhan050@gmail.com'.toLowerCase();
+  const adminPassword = await bcrypt.hash('Sp@080806', 10);
 
-  const admin = await prisma.user.create({
-    data: {
-      email: 'admin@skillforge.ai',
-      password: adminPassword,
-      name: 'Admin Forge',
-      role: Role.ADMIN,
-      isVerified: true,
-      credits: 9999,
-      subscriptions: {
-        create: {
+  const existingAdmin = await prisma.user.findUnique({
+    where: { email: adminEmail },
+    include: { subscriptions: true }
+  });
+
+  let admin;
+  if (existingAdmin) {
+    admin = await prisma.user.update({
+      where: { id: existingAdmin.id },
+      data: {
+        password: adminPassword,
+        name: 'Sparsh Chauhan',
+        role: Role.ADMIN,
+        isVerified: true,
+        credits: 99999,
+      }
+    });
+
+    const activeSub = existingAdmin.subscriptions.find((s) => s.status === SubscriptionStatus.ACTIVE);
+    if (!activeSub) {
+      await prisma.subscription.create({
+        data: {
+          userId: admin.id,
           plan: Plan.PREMIUM,
           status: SubscriptionStatus.ACTIVE,
           startDate: new Date(),
         }
-      }
+      });
     }
-  });
+  } else {
+    admin = await prisma.user.create({
+      data: {
+        email: adminEmail,
+        password: adminPassword,
+        name: 'Sparsh Chauhan',
+        role: Role.ADMIN,
+        isVerified: true,
+        credits: 99999,
+        subscriptions: {
+          create: {
+            plan: Plan.PREMIUM,
+            status: SubscriptionStatus.ACTIVE,
+            startDate: new Date(),
+          }
+        }
+      }
+    });
+  }
 
-  const user = await prisma.user.create({
+  // Demote any other accounts that have Role.ADMIN
+  await prisma.user.updateMany({
+    where: {
+      role: Role.ADMIN,
+      email: { not: adminEmail },
+    },
     data: {
-      email: 'user@skillforge.ai',
-      password: userPassword,
-      name: 'Alex Developer',
       role: Role.USER,
-      isVerified: true,
-      credits: 50,
-      subscriptions: {
-        create: {
-          plan: Plan.FREE,
-          status: SubscriptionStatus.ACTIVE,
-          startDate: new Date(),
-        }
-      }
-    }
+    },
   });
 
-  console.log('Users created:', { adminEmail: admin.email, userEmail: user.email });
-
-  // Create Projects & Tasks for User
-  const project = await prisma.project.create({
-    data: {
-      name: 'Career Transition Plan',
-      description: 'Step-by-step tasks to land a software engineering job in 2026.',
-      userId: user.id,
-      tasks: {
-        createMany: {
-          data: [
-            {
-              title: 'Build SkillForge AI portfolio project',
-              description: 'Complete backend APIs and frontend mock integrations.',
-              status: 'IN_PROGRESS',
-              priority: 'HIGH',
-              dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000)
-            },
-            {
-              title: 'Optimize LinkedIn Profile using AI optimizer',
-              description: 'Incorporate keywords generated by SkillForge optimizer.',
-              status: 'TODO',
-              priority: 'MEDIUM',
-              dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000)
-            },
-            {
-              title: 'Do mock coding interview practice',
-              description: 'Practice 3 medium algorithms with answer evaluation.',
-              status: 'DONE',
-              priority: 'MEDIUM',
-              dueDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)
-            }
-          ]
-        }
-      }
-    }
-  });
-
-  console.log('Projects and Tasks seeded.');
-
-  // Create AI Request Logs
-  await prisma.aIRequestLog.createMany({
-    data: [
-      { userId: user.id, toolUsed: 'AI Chat Assistant', creditsUsed: 1, status: 'SUCCESS' },
-      { userId: user.id, toolUsed: 'ATS Resume Score', creditsUsed: 2, status: 'SUCCESS' },
-      { userId: user.id, toolUsed: 'Mock Interview Practice', creditsUsed: 3, status: 'SUCCESS' },
-      { userId: user.id, toolUsed: 'AI Study Planner', creditsUsed: 2, status: 'SUCCESS' },
-    ]
-  });
-
-  // Create Notifications
-  await prisma.notification.createMany({
-    data: [
-      { userId: user.id, title: 'Welcome to SkillForge AI!', message: 'Explore the AI Workspace and start generating career roadmaps.', read: false },
-      { userId: user.id, title: 'Credit Bonus Added', message: 'You have been awarded 10 free AI credits to try out the mock interview features.', read: true }
-    ]
-  });
-
-  console.log('AI Logs and Notifications seeded successfully.');
+  console.log('✓ Sole Admin user configured successfully:', { email: admin.email, role: admin.role });
 }
 
 main()

@@ -77,7 +77,11 @@ export const requireRole = (role: Role) => {
       return res.status(401).json({ error: 'Authentication required.' });
     }
 
-    if (req.user.role !== role && req.user.role !== Role.ADMIN) {
+    if (role === Role.ADMIN) {
+      if (req.user.role !== Role.ADMIN || req.user.email.toLowerCase() !== 'sparshchauhan050@gmail.com') {
+        return res.status(403).json({ error: 'Access forbidden. Insufficient administrator permissions.' });
+      }
+    } else if (req.user.role !== role && req.user.role !== Role.ADMIN) {
       return res.status(403).json({ error: 'Access forbidden. Insufficient permissions.' });
     }
 
