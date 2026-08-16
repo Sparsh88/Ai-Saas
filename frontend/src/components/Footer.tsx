@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Sparkles, Phone, ExternalLink } from 'lucide-react';
+import { Sparkles, ExternalLink } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   const socialLinks = [
@@ -17,14 +17,14 @@ export const Footer: React.FC = () => {
       )
     },
     {
-      name: 'Telegram',
-      handle: '+91 7088951914',
-      url: 'https://t.me/+917088951914',
-      badgeColor: 'hover:border-sky-500/50 hover:bg-sky-500/10 text-sky-400 group-hover:text-sky-300',
-      glowColor: 'group-hover:shadow-[0_0_15px_rgba(14,165,233,0.35)]',
+      name: 'LinkedIn',
+      handle: 'sparshchauhan08',
+      url: 'https://linkedin.com/in/sparshchauhan08',
+      badgeColor: 'hover:border-blue-500/50 hover:bg-blue-500/10 text-blue-400 group-hover:text-blue-300',
+      glowColor: 'group-hover:shadow-[0_0_15px_rgba(59,130,246,0.35)]',
       icon: (
         <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.326-1.383 4.017-1.624 4.469-1.632z" />
+          <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
         </svg>
       )
     },
@@ -46,17 +46,11 @@ export const Footer: React.FC = () => {
     <footer className="mt-auto pt-8 pb-4 border-t border-white/5 bg-slate-950/40 backdrop-blur-md relative z-10 select-none">
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         
-        {/* Brand & Author Info */}
-        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 text-center sm:text-left">
-          <div className="flex items-center gap-2 font-bold font-heading text-sm text-slate-300">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
-              SkillForge AI
-            </span>
-          </div>
-          <span className="hidden sm:inline text-slate-700">•</span>
-          <span className="text-xs text-slate-400 flex items-center gap-1">
-            Engineered with <Heart className="w-3 h-3 text-rose-500 fill-rose-500 inline" /> by <strong className="text-slate-200 font-semibold">Sparsh Chauhan</strong>
+        {/* Brand */}
+        <div className="flex items-center gap-2 font-bold font-heading text-sm text-slate-300">
+          <Sparkles className="w-4 h-4 text-indigo-400" />
+          <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+            SkillForge AI
           </span>
         </div>
 
