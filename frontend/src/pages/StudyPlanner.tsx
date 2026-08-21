@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
 import {
   Map,
   BookOpen,
@@ -16,7 +15,6 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const StudyPlanner: React.FC = () => {
-  const { updateUserCredits } = useAuthStore();
   const [activeTab, setActiveTab] = useState<'ROADMAP' | 'PLANNER' | 'INTERVIEW'>('ROADMAP');
 
   // Input states
@@ -97,7 +95,6 @@ export const StudyPlanner: React.FC = () => {
         payload: { careerGoal }
       });
       setRoadmap(JSON.parse(response.data.result));
-      updateUserCredits(response.data.creditsRemaining);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to generate career path.');
     } finally {
@@ -119,7 +116,6 @@ export const StudyPlanner: React.FC = () => {
         payload: { topic: studyTopic }
       });
       setStudyPlan(JSON.parse(response.data.result));
-      updateUserCredits(response.data.creditsRemaining);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to generate study curriculum.');
     } finally {
@@ -145,7 +141,6 @@ export const StudyPlanner: React.FC = () => {
       });
       setInterviewQuestions(JSON.parse(response.data.result));
       setCurrentQuestionIndex(0);
-      updateUserCredits(response.data.creditsRemaining);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to create mock session.');
     } finally {
@@ -171,7 +166,6 @@ export const StudyPlanner: React.FC = () => {
       });
 
       setEvaluation(JSON.parse(evalResponse.data.result));
-      updateUserCredits(evalResponse.data.creditsRemaining);
 
       // 2. Evaluate filler words & speaking pacing
       const speechResponse = await axios.post('/api/ai/tool', {
@@ -180,7 +174,6 @@ export const StudyPlanner: React.FC = () => {
       });
 
       setSpeechAnalysis(JSON.parse(speechResponse.data.result));
-      updateUserCredits(speechResponse.data.creditsRemaining);
 
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to process evaluation.');

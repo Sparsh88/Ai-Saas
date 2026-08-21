@@ -95,10 +95,10 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     { title: 'AI Chat Assistant', category: 'AI Tools', path: '/chat' },
     { title: 'Resume Optimizer & ATS Score', category: 'AI Tools', path: '/tools' },
     { title: 'LinkedIn Profile Optimizer', category: 'AI Tools', path: '/tools' },
-    { title: 'Study Planner & Roads', category: 'Learning', path: '/careers' },
+    { title: 'Study Planner & Roadmaps', category: 'Learning', path: '/careers' },
     { title: 'Mock Coding Interviews', category: 'Interviews', path: '/careers' },
     { title: 'Kanban Task Management', category: 'Workspace', path: '/tasks' },
-    { title: 'Billing, Invoices & Credits', category: 'Billing', path: '/billing' },
+    { title: 'Documents Hub', category: 'Workspace', path: '/documents' },
   ];
 
   const filteredSearch = searchItems.filter((item) =>
@@ -117,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           <Menu className="w-5 h-5" />
         </button>
         <div className="md:hidden flex items-center gap-2 cursor-pointer font-bold" onClick={() => navigate('/dashboard')}>
-          <span className="bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent font-heading text-sm">SkillForge AI</span>
+          <span className="text-slate-200 font-heading text-sm font-bold">SkillForge AI</span>
         </div>
       </div>
 
@@ -138,22 +138,8 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
         </button>
       </div>
 
-
       {/* Header Actions */}
       <div className="flex items-center gap-4">
-        {/* Credit Badge */}
-        {user && (
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/billing')}
-            className="cursor-pointer flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-semibold text-indigo-400 hover:bg-indigo-500/15 transition-all"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{user.credits} credits</span>
-          </motion.div>
-        )}
-
         {/* Notifications Icon & Dropdown */}
         <div className="relative">
           <button
@@ -225,16 +211,11 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           <div className="flex items-center gap-2.5">
             <div className="text-right hidden md:block">
               <p className="text-xs font-semibold text-slate-200">{user.name}</p>
-              <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
-                {user.role}
-              </span>
+              <p className="text-[10px] text-slate-500">{user.email}</p>
             </div>
-            <motion.div
-              whileHover={{ scale: 1.08, rotate: 3 }}
-              className="w-8.5 h-8.5 rounded-full bg-slate-800 border border-white/5 flex items-center justify-center text-slate-300 shadow-inner cursor-pointer"
-            >
-              {user.role === 'ADMIN' ? <Shield className="w-4 h-4 text-indigo-400" /> : <User className="w-4 h-4" />}
-            </motion.div>
+            <div className="w-8.5 h-8.5 rounded-full bg-slate-800 border border-white/5 flex items-center justify-center text-slate-300 shadow-inner">
+              <User className="w-4 h-4" />
+            </div>
           </div>
         )}
       </div>

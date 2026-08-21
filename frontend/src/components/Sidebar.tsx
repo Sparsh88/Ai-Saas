@@ -42,12 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
     { name: 'Study & Careers', path: '/careers', icon: BookOpen },
     { name: 'Tasks & Kanban', path: '/tasks', icon: KanbanSquare },
     { name: 'Documents Hub', path: '/documents', icon: FileText },
-    { name: 'Billing & Pricing', path: '/billing', icon: CreditCard },
   ];
-
-  if (user?.role === 'ADMIN' && user?.email?.toLowerCase() === 'sparshchauhan050@gmail.com') {
-    navItems.push({ name: 'Admin Panel', path: '/admin', icon: ShieldCheck });
-  }
 
   const handleNavClick = (path: string) => {
     navigate(path);
@@ -143,35 +138,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
             );
           })}
         </nav>
-
-        {/* Credit Counter */}
-        {!isCollapsed && user && (
-          <div className="mx-4 my-2 p-3.5 rounded-xl bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent border border-indigo-500/10">
-            <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
-              <span>Credits Remaining</span>
-              <span className="font-semibold text-indigo-400">{user.credits}</span>
-            </div>
-            <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-              <div
-                className="bg-gradient-to-r from-indigo-500 to-purple-500 h-1.5 rounded-full"
-                style={{ width: `${Math.min((user.credits / 100) * 100, 100)}%` }}
-              />
-            </div>
-            <div className="flex items-center justify-between mt-2.5">
-              <span className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
-                Plan: {user.plan}
-              </span>
-              {user.plan === 'FREE' && (
-                <button
-                  onClick={() => handleNavClick('/billing')}
-                  className="text-[11px] font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
-                >
-                  Upgrade 🚀
-                </button>
-              )}
-            </div>
-          </div>
-        )}
 
         {/* Footer Profile Controls */}
         <div className="p-4 border-t border-white/5 flex flex-col gap-2">

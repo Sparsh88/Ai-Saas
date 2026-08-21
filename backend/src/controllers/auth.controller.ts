@@ -30,22 +30,13 @@ export const register = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const isAdminEmail = email === 'sparshchauhan050@gmail.com';
 
-    // Create user pre-verified with appropriate plan subscription and credits
+    // Create user pre-verified
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
-        name: name || (isAdminEmail ? 'Sparsh Chauhan' : undefined),
-        role: isAdminEmail ? Role.ADMIN : Role.USER,
+        name: name || 'User',
         isVerified: true,
-        credits: isAdminEmail ? 99999 : 10,
-        subscriptions: {
-          create: {
-            plan: isAdminEmail ? 'PREMIUM' : 'FREE',
-            status: 'ACTIVE',
-            startDate: new Date(),
-          }
-        }
       },
     });
 
@@ -71,8 +62,6 @@ export const register = async (req: Request, res: Response) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
-        credits: user.credits,
       },
     });
   } catch (error: any) {
@@ -146,12 +135,6 @@ export const login = async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
       where: { email },
-      include: {
-        subscriptions: {
-          where: { status: 'ACTIVE' },
-          take: 1,
-        }
-      }
     });
 
     if (!user) {
@@ -183,8 +166,6 @@ export const login = async (req: Request, res: Response) => {
       },
     });
 
-    const activeSubscription = user.subscriptions[0];
-
     return res.status(200).json({
       message: 'Login successful.',
       accessToken,
@@ -193,9 +174,6 @@ export const login = async (req: Request, res: Response) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
-        credits: user.credits,
-        plan: activeSubscription ? activeSubscription.plan : 'FREE',
       },
     });
   } catch (error) {

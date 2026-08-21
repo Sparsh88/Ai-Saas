@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { useAuthStore } from '../store/authStore';
 import {
   Wand2,
   FileSearch,
@@ -25,7 +24,6 @@ interface Tool {
   name: string;
   category: 'CAREER' | 'WRITING' | 'CODING' | 'CREATIVE';
   icon: React.ComponentType<any>;
-  cost: number;
   description: string;
   fields: Array<{
     name: string;
@@ -37,7 +35,6 @@ interface Tool {
 }
 
 export const AITools: React.FC = () => {
-  const { updateUserCredits } = useAuthStore();
   const [selectedToolId, setSelectedToolId] = useState('resume-analyzer');
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [result, setResult] = useState<string>('');
@@ -161,7 +158,6 @@ export const AITools: React.FC = () => {
       });
 
       setResult(response.data.result);
-      updateUserCredits(response.data.creditsRemaining);
     } catch (err: any) {
       setError(err.response?.data?.error || 'AI request execution failed.');
     } finally {
@@ -206,7 +202,7 @@ export const AITools: React.FC = () => {
           >
             {tools.map((t) => (
               <option key={t.id} value={t.id}>
-                {t.name} ({t.cost} credits)
+                {t.name}
               </option>
             ))}
           </select>
@@ -248,9 +244,6 @@ export const AITools: React.FC = () => {
                     <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-400' : 'text-slate-400'}`} />
                     <span className="truncate">{t.name}</span>
                   </div>
-                  <span className="text-[9px] font-semibold text-slate-500 bg-white/5 border border-white/5 px-1.5 py-0.5 rounded shrink-0">
-                    {t.cost} cr
-                  </span>
                 </button>
               );
             })}
@@ -267,8 +260,8 @@ export const AITools: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-sm font-bold text-slate-200">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded">
-                  Charges {currentTool.cost} credits
+                <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
+                  Active
                 </span>
               </div>
               <p className="text-xs text-slate-500 mb-6">{currentTool.description}</p>

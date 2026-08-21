@@ -55,7 +55,7 @@ const getStoredCache = (): DashboardData | null => {
 };
 
 export const Dashboard: React.FC = () => {
-  const { user, updateUserCredits } = useAuthStore();
+  const { user } = useAuthStore();
   const navigate = useNavigate();
   const initialCache = getStoredCache();
   const [data, setData] = useState<DashboardData | null>(initialCache);
@@ -66,7 +66,6 @@ export const Dashboard: React.FC = () => {
       const response = await axios.get('/api/workspace/dashboard-stats');
       setData(response.data);
       sessionStorage.setItem('SF_DASHBOARD_CACHE', JSON.stringify(response.data));
-      updateUserCredits(response.data.credits);
     } catch (error) {
       console.warn('Error fetching dashboard stats:', error);
     } finally {
@@ -148,9 +147,8 @@ export const Dashboard: React.FC = () => {
   const chartData =
     data?.usageSummary.map((item) => ({
       name: item.toolUsed,
-      credits: item.creditsUsed,
+      requests: item.creditsUsed,
     })) || [];
-
 
   const COLORS = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6', '#10b981'];
 
@@ -168,43 +166,47 @@ export const Dashboard: React.FC = () => {
         </div>
         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-500/10 dark:bg-indigo-500/10 border border-indigo-500/25 text-xs font-semibold text-indigo-500 dark:text-indigo-400 mb-4">
           <Zap className="w-3.5 h-3.5 fill-current" />
-          <span>Platform Active</span>
+          <span>Platform Active • Unlimited Access</span>
         </span>
         <h1 className="text-2xl md:text-3xl font-extrabold font-heading text-slate-100 tracking-tight animate-fade-in">
           Welcome back, {user?.name}!
         </h1>
         <p className="text-sm text-slate-400 mt-2 max-w-xl">
-          Accelerate your tasks using AI. Check your recent activities, active projects, and remaining platform credits below.
+          Accelerate your workflow using AI tools, documents analysis, study roadmaps, and workspace tasks.
         </p>
       </motion.div>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Credits Remaining */}
+        {/* AI Assistant Hub */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
           whileHover={{ y: -4, scale: 1.01 }}
+          onClick={() => navigate('/chat')}
           className="p-5 rounded-xl glass-card relative overflow-hidden group cursor-pointer"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Credits Remaining</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">AI Assistants & Tools</span>
             <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
               <Sparkles className="w-5 h-5" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black text-slate-100">{data?.credits}</span>
-            <span className="text-xs text-slate-500">of 1000 standard</span>
+            <span className="text-3xl font-black text-slate-100">{data?.recentActivity?.length || 0}</span>
+            <span className="text-xs text-slate-500">recent invocations</span>
           </div>
           <div className="mt-4 flex items-center justify-between">
-            <span className="text-xs text-indigo-400 font-semibold uppercase">{data?.plan} PLAN</span>
+            <span className="text-xs text-indigo-400 font-semibold uppercase">Active Hub</span>
             <button
-              onClick={() => navigate('/billing')}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate('/chat');
+              }}
               className="text-xs text-slate-400 hover:text-indigo-400 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
             >
-              <span>Add credits</span>
+              <span>Launch AI</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -277,7 +279,7 @@ export const Dashboard: React.FC = () => {
         <div className="lg:col-span-2 p-6 rounded-xl glass-panel border border-white/5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-base font-bold text-slate-200">AI Credit Usage</h3>
+              <h3 className="text-base font-bold text-slate-200">AI Tool Usage</h3>
               <p className="text-xs text-slate-500">Distribution across features</p>
             </div>
             <TrendingUp className="w-5 h-5 text-indigo-400" />
@@ -304,7 +306,7 @@ export const Dashboard: React.FC = () => {
                     labelStyle={{ color: 'var(--text-title)', fontWeight: 'bold' }}
                     itemStyle={{ color: 'var(--text-main)' }}
                   />
-                  <Bar dataKey="credits" radius={[4, 4, 0, 0]}>
+                  <Bar dataKey="requests" radius={[4, 4, 0, 0]}>
                     {chartData.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
@@ -322,7 +324,7 @@ export const Dashboard: React.FC = () => {
               <Clock className="w-4 h-4 text-slate-400" />
               <span>Recent Activity</span>
             </h3>
-            <p className="text-xs text-slate-500 mb-4">Historical AI credit usage logs</p>
+            <p className="text-xs text-slate-500 mb-4">Activity and prompt logs</p>
           </div>
 
           <div className="space-y-4 flex-1 overflow-y-auto max-h-64 pr-2">
@@ -340,7 +342,7 @@ export const Dashboard: React.FC = () => {
                   <div className="flex-1 pb-4">
                     <p className="font-medium text-slate-350">{act.toolUsed}</p>
                     <span className="text-[10px] text-slate-500">
-                      {new Date(act.createdAt).toLocaleTimeString()} • {act.creditsUsed} credits used
+                      {new Date(act.createdAt).toLocaleTimeString()}
                     </span>
                   </div>
                 </div>

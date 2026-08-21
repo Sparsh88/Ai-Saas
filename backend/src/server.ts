@@ -15,8 +15,6 @@ import authRoutes from './routes/auth.routes';
 import aiRoutes from './routes/ai.routes';
 import documentRoutes from './routes/document.routes';
 import workspaceRoutes from './routes/workspace.routes';
-import billingRoutes from './routes/billing.routes';
-import adminRoutes from './routes/admin.routes';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -144,8 +142,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/workspace', workspaceRoutes);
-app.use('/api/billing', billingRoutes);
-app.use('/api/admin', adminRoutes);
 
 // Global Error Handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

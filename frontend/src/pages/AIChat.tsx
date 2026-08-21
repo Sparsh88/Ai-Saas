@@ -26,7 +26,6 @@ interface Document {
 }
 
 export const AIChat: React.FC = () => {
-  const { updateUserCredits } = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: "Hello! I'm your SkillForge AI Assistant. Ask me any coding questions, request resume improvements, brainstorm strategies, or upload a document in the Documents Hub and toggle it below to chat directly with its content." }
   ]);
@@ -90,7 +89,6 @@ export const AIChat: React.FC = () => {
 
       const botMessage: Message = { role: 'assistant', content: response.data.reply };
       setMessages((prev) => [...prev, botMessage]);
-      updateUserCredits(response.data.creditsRemaining);
     } catch (err: any) {
       setError(err.response?.data?.error || 'AI parsing error. Check your credentials or try again.');
     } finally {

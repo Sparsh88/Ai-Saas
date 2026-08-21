@@ -14,8 +14,6 @@ const AITools = lazy(() => import('./pages/AITools').then((m) => ({ default: m.A
 const StudyPlanner = lazy(() => import('./pages/StudyPlanner').then((m) => ({ default: m.StudyPlanner })));
 const TaskManager = lazy(() => import('./pages/TaskManager').then((m) => ({ default: m.TaskManager })));
 const Documents = lazy(() => import('./pages/Documents').then((m) => ({ default: m.Documents })));
-const Billing = lazy(() => import('./pages/Billing').then((m) => ({ default: m.Billing })));
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard').then((m) => ({ default: m.AdminDashboard })));
 
 export const App: React.FC = () => {
   return (
@@ -38,8 +36,8 @@ export const App: React.FC = () => {
             <Route path="careers" element={<StudyPlanner />} />
             <Route path="tasks" element={<TaskManager />} />
             <Route path="documents" element={<Documents />} />
-            <Route path="billing" element={<Billing />} />
-            <Route path="admin" element={<AdminDashboard />} />
+            <Route path="billing" element={<Navigate to="/dashboard" replace />} />
+            <Route path="admin" element={<Navigate to="/dashboard" replace />} />
           </Route>
 
           {/* Fallback Catch-All */}

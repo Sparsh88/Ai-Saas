@@ -5,9 +5,6 @@ interface User {
   id: string;
   email: string;
   name: string;
-  role: 'USER' | 'ADMIN';
-  credits: number;
-  plan: 'FREE' | 'PREMIUM';
 }
 
 interface AuthState {
@@ -17,8 +14,6 @@ interface AuthState {
   theme: 'dark' | 'light';
   notificationsCount: number;
   setAuth: (user: User, token: string, refreshToken: string) => void;
-  updateUserCredits: (credits: number) => void;
-  updateUserPlan: (plan: 'FREE' | 'PREMIUM') => void;
   toggleTheme: () => void;
   setNotificationsCount: (count: number) => void;
   logout: () => Promise<void>;
@@ -41,24 +36,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     set({ user, token, refreshToken });
-  },
-
-  updateUserCredits: (credits) => {
-    const { user } = get();
-    if (user) {
-      const updated = { ...user, credits };
-      localStorage.setItem('SF_USER', JSON.stringify(updated));
-      set({ user: updated });
-    }
-  },
-
-  updateUserPlan: (plan) => {
-    const { user } = get();
-    if (user) {
-      const updated = { ...user, plan };
-      localStorage.setItem('SF_USER', JSON.stringify(updated));
-      set({ user: updated });
-    }
   },
 
   toggleTheme: () => {
