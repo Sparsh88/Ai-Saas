@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useAuthStore } from '../../store/authStore';
-import { Sparkles, Mail, Lock, LogIn, AlertCircle, Loader } from 'lucide-react';
+import { Sparkles, Mail, Lock, LogIn, AlertCircle, Loader, ShieldCheck } from 'lucide-react';
 import { GoogleAuthModal } from '../../components/GoogleAuthModal';
 
 export const Login: React.FC = () => {
@@ -171,9 +171,56 @@ export const Login: React.FC = () => {
           <span>Continue with Google</span>
         </motion.button>
 
+        {/* Demo Credentials Quick Fill Section */}
+        <div className="mt-5 pt-4 border-t border-white/5 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Demo Credentials</span>
+            <span className="text-[10px] text-indigo-400 font-medium">Click to auto-fill</span>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              type="button"
+              onClick={() => {
+                setEmail('sparshchauhan050@gmail.com');
+                setPassword('Sp@080806');
+                setError(null);
+              }}
+              className="flex items-center gap-2 p-2 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-left transition-all cursor-pointer group"
+            >
+              <div className="w-7 h-7 rounded-md bg-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0 group-hover:bg-indigo-500/30">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[11px] font-bold text-slate-200 truncate">Admin Demo</div>
+                <div className="text-[9px] text-indigo-300/80 truncate">Full Access • 99k</div>
+              </div>
+            </motion.button>
 
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              type="button"
+              onClick={() => {
+                setEmail('alex.dev@skillforge.ai');
+                setPassword('demo123');
+                setError(null);
+              }}
+              className="flex items-center gap-2 p-2 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 text-left transition-all cursor-pointer group"
+            >
+              <div className="w-7 h-7 rounded-md bg-purple-500/20 flex items-center justify-center text-purple-400 shrink-0 group-hover:bg-purple-500/30">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[11px] font-bold text-slate-200 truncate">User Demo</div>
+                <div className="text-[9px] text-purple-300/80 truncate">Premium • 150 Cr</div>
+              </div>
+            </motion.button>
+          </div>
+        </div>
 
-        <p className="text-slate-400 text-center text-xs mt-6">
+        <p className="text-slate-400 text-center text-xs mt-5">
           Don't have an account?{' '}
           <Link
             to="/register"

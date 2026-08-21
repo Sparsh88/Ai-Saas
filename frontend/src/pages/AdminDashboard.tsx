@@ -60,7 +60,7 @@ export const AdminDashboard: React.FC = () => {
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [editCreditsVal, setEditCreditsVal] = useState<number>(0);
 
-  const isSoleAdmin = user?.role === 'ADMIN' && user?.email?.toLowerCase() === 'sparshchauhan050@gmail.com';
+  const isSoleAdmin = user?.role === 'ADMIN';
 
   const fetchAdminStats = async () => {
     if (!isSoleAdmin) {

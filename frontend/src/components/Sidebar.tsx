@@ -45,7 +45,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
     { name: 'Billing & Pricing', path: '/billing', icon: CreditCard },
   ];
 
-  if (user?.role === 'ADMIN' && user?.email?.toLowerCase() === 'sparshchauhan050@gmail.com') {
+  if (user?.role === 'ADMIN') {
     navItems.push({ name: 'Admin Panel', path: '/admin', icon: ShieldCheck });
   }
 
