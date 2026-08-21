@@ -47,12 +47,12 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#000000] flex flex-col items-center justify-center p-4 relative overflow-hidden transition-colors">
       {/* Background Glow */}
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.22, 0.12] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/20 rounded-full blur-[140px] pointer-events-none"
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/15 rounded-full blur-[140px] pointer-events-none"
       />
 
       {/* Brand Logo */}
@@ -67,10 +67,10 @@ export const Register: React.FC = () => {
           <Sparkles className="w-5 h-5 fill-current" />
         </div>
         <div className="flex flex-col">
-          <h1 className="text-xl font-bold font-heading tracking-tight text-white">
+          <h1 className="text-xl font-bold font-heading tracking-tight text-slate-900 dark:text-white">
             SkillForge AI
           </h1>
-          <span className="text-[10px] text-slate-400 font-medium">Smart AI Workspace</span>
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Smart AI Workspace</span>
         </div>
       </motion.div>
 
@@ -79,13 +79,13 @@ export const Register: React.FC = () => {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md p-8 rounded-2xl bg-[#0d0d0d] shadow-2xl relative border border-[#1c1c1c]"
+        className="w-full max-w-md p-8 rounded-2xl bg-white dark:bg-[#0d0d0d] shadow-2xl relative border border-slate-200 dark:border-[#1c1c1c]"
       >
-        <h2 className="text-xl font-bold font-heading text-white mb-1">Create your account</h2>
-        <p className="text-slate-400 text-xs mb-6">Start boosting your career growth and coding speed.</p>
+        <h2 className="text-xl font-bold font-heading text-slate-900 dark:text-white mb-1">Create your account</h2>
+        <p className="text-slate-500 dark:text-slate-400 text-xs mb-6">Start boosting your career growth and coding speed.</p>
 
         {error && (
-          <div className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+          <div className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -93,49 +93,49 @@ export const Register: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
               Full Name
             </label>
             <div className="relative">
-              <User className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
+              <User className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
               <input
                 type="text"
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
+              <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
               <input
                 type="email"
                 placeholder="john@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
+              <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
               <input
                 type="password"
                 placeholder="Min 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -152,11 +152,11 @@ export const Register: React.FC = () => {
           </motion.button>
         </form>
 
-        <p className="text-slate-400 text-center text-xs mt-6">
+        <p className="text-slate-500 dark:text-slate-400 text-center text-xs mt-6">
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-[#3b82f6] hover:text-blue-300 transition-colors"
+            className="font-semibold text-blue-600 dark:text-[#3b82f6] hover:text-blue-500 transition-colors"
           >
             Log In
           </Link>
