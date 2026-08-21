@@ -47,7 +47,7 @@ export const Login: React.FC = () => {
       <motion.div
         animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.22, 0.12] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/20 rounded-full blur-[140px] pointer-events-none"
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#a855f7]/20 rounded-full blur-[140px] pointer-events-none"
       />
 
       {/* Brand */}
@@ -58,7 +58,7 @@ export const Login: React.FC = () => {
         className="flex items-center gap-3 mb-8 select-none cursor-pointer"
         onClick={() => navigate('/')}
       >
-        <div className="w-10 h-10 rounded-xl bg-[#3b82f6] flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+        <div className="w-10 h-10 rounded-xl bg-[#a855f7] flex items-center justify-center text-white shadow-lg shadow-purple-500/30">
           <Sparkles className="w-5 h-5 fill-current" />
         </div>
         <div className="flex flex-col">
@@ -98,7 +98,7 @@ export const Login: React.FC = () => {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ export const Login: React.FC = () => {
               </label>
               <Link
                 to="/forgot-password"
-                className="text-xs font-medium text-[#3b82f6] hover:text-blue-300 transition-colors"
+                className="text-xs font-medium text-[#a855f7] hover:text-purple-300 transition-colors"
               >
                 Forgot?
               </Link>
@@ -122,7 +122,7 @@ export const Login: React.FC = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export const Login: React.FC = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 mt-6 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-lg shadow-purple-500/25 disabled:opacity-50 cursor-pointer"
           >
             {loading ? <Loader className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
             <span>Log In</span>
@@ -143,7 +143,7 @@ export const Login: React.FC = () => {
           Don't have an account?{' '}
           <Link
             to="/register"
-            className="font-semibold text-[#3b82f6] hover:text-blue-300 transition-colors"
+            className="font-semibold text-[#a855f7] hover:text-purple-300 transition-colors"
           >
             Sign Up
           </Link>
