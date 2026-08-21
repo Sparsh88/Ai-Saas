@@ -10,8 +10,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma db push",
-    "prisma:studio": "prisma studio",
-    "seed": "ts-node src/config/seedUserData.ts"
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
