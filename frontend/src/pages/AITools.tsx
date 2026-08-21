@@ -199,15 +199,19 @@ export const AITools: React.FC = () => {
           </select>
         </div>
 
-        <div className="hidden lg:block p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
-          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-            <Grid className="w-4 h-4 text-indigo-400" />
+        <div className="hidden lg:block p-4 rounded-2xl glass-panel border border-white/10 bg-slate-900/70 shadow-2xl">
+          <h2 className="text-xs font-bold text-white uppercase tracking-widest mb-3.5 flex items-center gap-2">
+            <span className="p-1 rounded bg-gradient-to-tr from-blue-500 to-pink-500 text-white">
+              <Grid className="w-3.5 h-3.5" />
+            </span>
             <span>AI Tool Sets</span>
           </h2>
-          <div className="space-y-1 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
+          <div className="space-y-1.5 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
             {tools.map((t) => {
               const Icon = t.icon;
               const isSelected = t.id === selectedToolId;
+              const catColor = t.category === 'CAREER' ? 'text-pink-400' : t.category === 'WRITING' ? 'text-blue-400' : 'text-emerald-400';
+              const catBorder = t.category === 'CAREER' ? 'border-pink-500 from-pink-500/20' : t.category === 'WRITING' ? 'border-blue-500 from-blue-500/20' : 'border-emerald-500 from-emerald-500/20';
               return (
                 <button
                   key={t.id}
@@ -217,25 +221,25 @@ export const AITools: React.FC = () => {
                     setFormData({});
                     setError(null);
                   }}
-                  className={`w-full flex items-center justify-between text-left px-3 py-2.5 rounded-lg text-xs font-medium transition-all relative z-10 ${
+                  className={`w-full flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all relative z-10 cursor-pointer ${
                     isSelected
-                      ? 'text-indigo-400 font-semibold'
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
+                      ? 'text-white font-bold shadow-inner'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   {isSelected && (
                     <motion.div
                       layoutId="activeToolPill"
-                      className="absolute inset-0 bg-gradient-to-r from-indigo-500/15 to-purple-500/5 border-l-2 border-indigo-500 rounded-lg -z-10"
+                      className={`absolute inset-0 bg-gradient-to-r ${catBorder} to-transparent border-l-2 rounded-xl -z-10`}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <div className="flex items-center gap-2">
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-400' : 'text-slate-400'}`} />
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={`w-4 h-4 ${isSelected ? catColor : 'text-slate-400'}`} />
                     <span className="truncate">{t.name}</span>
                   </div>
-                  <span className="text-[9px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded shrink-0">
-                    Free
+                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase ${t.category === 'CAREER' ? 'bg-pink-500/15 text-pink-300' : t.category === 'WRITING' ? 'bg-blue-500/15 text-blue-300' : 'bg-emerald-500/15 text-emerald-300'}`}>
+                    {t.category}
                   </span>
                 </button>
               );
@@ -244,18 +248,23 @@ export const AITools: React.FC = () => {
         </div>
       </div>
 
+      {/* Inputs Form and Results Terminal */}
       <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
-        <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40 flex flex-col justify-between">
+        {/* Input Panel */}
+        <div className="p-6 rounded-2xl glass-panel card-purple flex flex-col justify-between shadow-2xl">
           <form onSubmit={handleRunTool} className="space-y-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <h3 className="text-sm font-bold text-slate-200">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                  Unlimited Access
+                <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-purple-400 shadow-md shadow-purple-400/50" />
+                  <span>{currentTool.name}</span>
+                </h3>
+                <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                  FREE & UNLIMITED
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mb-6">{currentTool.description}</p>
+              <p className="text-xs text-slate-300 mb-6">{currentTool.description}</p>
 
               <div className="space-y-4">
                 {currentTool.fields.map((f) => (
@@ -302,7 +311,7 @@ export const AITools: React.FC = () => {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 mt-4 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -311,7 +320,7 @@ export const AITools: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 active:scale-[0.98] disabled:opacity-50"
+              className="w-full flex items-center justify-center gap-2 mt-6 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white rounded-xl py-3.5 font-bold text-xs transition-all shadow-lg shadow-purple-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -329,27 +338,27 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Results Panel Terminal */}
-        <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/60 flex flex-col justify-between relative overflow-hidden min-h-[350px]">
+        <div className="p-6 rounded-2xl glass-panel card-cyan flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-2xl">
           
-          <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-              <Brain className="w-4 h-4 text-indigo-400" />
+          <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+            <span className="text-xs font-bold text-cyan-300 uppercase tracking-widest flex items-center gap-2">
+              <Brain className="w-4 h-4 text-cyan-400" />
               <span>AI Output Stream</span>
             </span>
 
             {/* Quick Export Controls */}
             {result && (
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <button
                   onClick={handleCopy}
-                  className="p-1.5 rounded bg-white/5 border border-white/5 hover:border-white/10 text-slate-400 hover:text-indigo-400 transition-all text-xs"
+                  className="p-1.5 rounded-lg bg-white/10 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 transition-all text-xs cursor-pointer"
                   title="Copy to clipboard"
                 >
                   {copied ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="p-1.5 rounded bg-white/5 border border-white/5 hover:border-white/10 text-slate-400 hover:text-indigo-400 transition-all text-xs"
+                  className="p-1.5 rounded-lg bg-white/10 border border-white/10 hover:border-cyan-500/40 text-slate-300 hover:text-cyan-300 transition-all text-xs cursor-pointer"
                   title="Download file"
                 >
                   <Download className="w-3.5 h-3.5" />

@@ -101,36 +101,41 @@ export const AIChat: React.FC = () => {
   };
 
   const templates = [
-    { text: 'Mock code review', prompt: 'Perform a detailed review of this TypeScript code block, checking for performance anomalies, memory leaks, and readability:\n\n```typescript\n\n```' },
-    { text: 'Analyze tech stack', prompt: 'What are the pros and cons of using Vite + React 19 + Tailwind v4 + PostgreSQL Neon for an AI SaaS startup?' },
-    { text: 'Draft cover letter', prompt: 'Write a modern, premium cover letter for a Frontend Engineer position at a high-growth fintech startup. Target keywords: React, state engines, design systems.' }
+    { text: 'Mock code review', color: 'border-blue-500/30 text-blue-400 bg-blue-500/10 hover:bg-blue-500/20', prompt: 'Perform a detailed review of this TypeScript code block, checking for performance anomalies, memory leaks, and readability:\n\n```typescript\n\n```' },
+    { text: 'Analyze tech stack', color: 'border-pink-500/30 text-pink-400 bg-pink-500/10 hover:bg-pink-500/20', prompt: 'What are the pros and cons of using Vite + React 19 + Tailwind v4 + PostgreSQL Neon for an AI SaaS startup?' },
+    { text: 'Draft cover letter', color: 'border-purple-500/30 text-purple-400 bg-purple-500/10 hover:bg-purple-500/20', prompt: 'Write a modern, premium cover letter for a Frontend Engineer position at a high-growth fintech startup. Target keywords: React, state engines, design systems.' },
+    { text: 'System Design Interview', color: 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20', prompt: 'Design a distributed rate limiter with Redis Token Bucket algorithm handling 100k requests/sec.' },
+    { text: 'SQL Query Builder', color: 'border-amber-500/30 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20', prompt: 'Write an optimized PostgreSQL query with window functions to find the top 3 highest spending customers per region.' }
   ];
 
   return (
-    <div className="h-[calc(100vh-10rem)] md:h-[calc(100vh-8.5rem)] flex flex-col justify-between max-w-4xl mx-auto rounded-2xl glass-panel border border-white/5 overflow-hidden shadow-2xl relative">
+    <div className="h-[calc(100vh-10rem)] md:h-[calc(100vh-8.5rem)] flex flex-col justify-between max-w-4xl mx-auto rounded-2xl glass-panel border border-blue-500/20 overflow-hidden shadow-2xl relative bg-slate-950/80">
       
       {/* Header Panel */}
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-white/5 flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-slate-900/50">
-        <div className="flex items-center gap-2">
-          <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-white/10 flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-slate-900/80 backdrop-blur-md">
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 rounded-xl bg-gradient-to-tr from-blue-500 via-purple-500 to-pink-500 text-white shadow-md shadow-purple-500/20">
             <BrainCircuit className="w-5 h-5 animate-pulse" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-slate-200">Interactive Workspace</h2>
-            <p className="text-[11px] text-slate-500">Ask coding prompts or load PDF records</p>
+            <h2 className="text-sm font-bold text-white flex items-center gap-2">
+              <span>Interactive AI Workspace</span>
+              <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded-full font-semibold">Gemini 1.5 Flash</span>
+            </h2>
+            <p className="text-[11px] text-slate-400">Ask coding prompts or load PDF records</p>
           </div>
         </div>
 
         {/* PDF selector attachment */}
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-            <FileText className="w-3.5 h-3.5" />
+          <span className="text-xs text-slate-300 font-medium flex items-center gap-1">
+            <FileText className="w-3.5 h-3.5 text-pink-400" />
             <span>Chat context:</span>
           </span>
           <select
             value={selectedDocId}
             onChange={(e) => setSelectedDocId(e.target.value)}
-            className="text-xs bg-slate-950 border border-white/10 text-slate-350 rounded-lg px-2 py-1 outline-none max-w-[180px] focus:border-indigo-500/50"
+            className="text-xs bg-slate-900 border border-white/15 text-slate-200 rounded-lg px-2.5 py-1.5 outline-none max-w-[180px] focus:border-blue-500"
           >
             <option value="">General (No Context)</option>
             {documents.map((doc) => (
@@ -154,16 +159,16 @@ export const AIChat: React.FC = () => {
           >
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs shrink-0 shadow-md ${
               msg.role === 'user'
-                ? 'bg-gradient-to-tr from-indigo-500 to-purple-600 text-white'
-                : 'bg-slate-800 text-indigo-400 border border-white/5'
+                ? 'bg-gradient-to-tr from-blue-500 via-indigo-500 to-pink-500 text-white'
+                : 'bg-slate-900 text-cyan-400 border border-cyan-500/30'
             }`}>
               {msg.role === 'user' ? <User className="w-4.5 h-4.5" /> : <Bot className="w-4.5 h-4.5" />}
             </div>
 
             <div className={`p-4 rounded-2xl text-sm leading-relaxed ${
               msg.role === 'user'
-                ? 'bg-indigo-600/90 text-slate-50 font-medium rounded-tr-none'
-                : 'bg-white/5 text-slate-300 rounded-tl-none border border-white/2'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-tr-none shadow-lg shadow-blue-500/20'
+                : 'bg-slate-900/90 text-slate-200 rounded-tl-none border border-white/10 shadow-md'
             }`}>
               <p className="whitespace-pre-wrap">{msg.content}</p>
             </div>
@@ -176,18 +181,18 @@ export const AIChat: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex gap-3 max-w-[85%]"
           >
-            <div className="w-8 h-8 rounded-full bg-slate-850 border border-white/5 flex items-center justify-center text-indigo-400 shrink-0 shadow-inner">
+            <div className="w-8 h-8 rounded-full bg-slate-900 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 shadow-inner">
               <Bot className="w-4.5 h-4.5 animate-bounce" />
             </div>
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/2 rounded-tl-none flex items-center gap-2">
-              <Loader className="w-4 h-4 text-indigo-400 animate-spin" />
-              <span className="text-xs text-slate-400 font-mono">SkillForge AI is generating response...</span>
+            <div className="p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/20 rounded-tl-none flex items-center gap-2">
+              <Loader className="w-4 h-4 text-cyan-400 animate-spin" />
+              <span className="text-xs text-cyan-300 font-mono">SkillForge AI is generating response...</span>
             </div>
           </motion.div>
         )}
 
         {error && (
-          <div className="flex items-center gap-2 p-3.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs max-w-md mx-auto">
+          <div className="flex items-center gap-2 p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs max-w-md mx-auto">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -196,21 +201,21 @@ export const AIChat: React.FC = () => {
         <div ref={chatEndRef} />
       </div>
 
-      {/* Templates Prompt Row */}
+      {/* Templates Prompt Row with Colorful Pills */}
       {messages.length === 1 && !loading && (
-        <div className="px-6 py-2 border-t border-white/2 bg-slate-900/20">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1">
-            <BookMarked className="w-3 h-3 text-slate-500" />
-            <span>Select a template prompt</span>
+        <div className="px-6 py-3 border-t border-white/10 bg-slate-900/50">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2.5 flex items-center gap-1.5">
+            <BookMarked className="w-3.5 h-3.5 text-pink-400" />
+            <span>Quick Prompt Starters</span>
           </p>
           <div className="flex flex-wrap gap-2">
             {templates.map((t, i) => (
               <motion.button
                 key={i}
-                whileHover={{ scale: 1.04, y: -2, borderColor: 'rgba(99, 102, 241, 0.4)' }}
+                whileHover={{ scale: 1.04, y: -2 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => selectPromptTemplate(t.prompt)}
-                className="text-[11px] font-medium text-slate-400 hover:text-indigo-400 border border-white/5 bg-white/2 rounded-lg py-1.5 px-3 transition-colors"
+                className={`text-[11px] font-semibold border rounded-lg py-1.5 px-3 transition-all cursor-pointer ${t.color}`}
               >
                 {t.text}
               </motion.button>
@@ -220,23 +225,22 @@ export const AIChat: React.FC = () => {
       )}
 
       {/* Input Form Bar */}
-      <form onSubmit={handleSend} className="px-4 py-3 md:px-6 md:py-4 border-t border-white/5 bg-slate-900/50 flex items-center gap-3">
+      <form onSubmit={handleSend} className="px-4 py-3 md:px-6 md:py-4 border-t border-white/10 bg-slate-900/90 flex items-center gap-3">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={selectedDocId ? "Ask a question about this file..." : "Type your message or prompt here..."}
-          className="flex-1 bg-white/5 hover:bg-white/[0.07] focus:bg-white/[0.07] border border-white/5 focus:border-indigo-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-500 text-sm outline-none transition-all"
+          className="flex-1 bg-slate-950/80 hover:bg-slate-950 focus:bg-slate-950 border border-white/10 focus:border-blue-500 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-sm outline-none transition-all"
         />
         <button
           type="submit"
           disabled={!input.trim() || loading}
-          className="p-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl shadow-lg shadow-indigo-500/20 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100"
+          className="p-3 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-purple-500/25 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
         >
           <Send className="w-4 h-4" />
         </button>
       </form>
-
     </div>
   );
 };
