@@ -134,7 +134,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
       <div className="relative w-80 max-w-lg hidden md:block">
         <button
           onClick={() => setShowSearch(true)}
-          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#111111] border border-[#222222] hover:border-blue-500/40 text-left text-xs text-slate-400 hover:text-slate-200 transition-all shadow-inner"
+          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#111111] border border-[#222222] hover:border-purple-500/40 text-left text-xs text-slate-400 hover:text-slate-200 transition-all shadow-inner"
         >
           <div className="flex items-center gap-2.5">
             <Search className="w-4 h-4 text-slate-500" />
@@ -161,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           >
             <Bell className="w-4 h-4" />
             {unreadCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#3b82f6] ring-2 ring-[#000000]" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#a855f7] ring-2 ring-[#000000]" />
             )}
           </button>
 
@@ -179,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                   <h3 className="text-xs font-bold font-heading text-white uppercase tracking-wider">
                     Notifications
                   </h3>
-                  <span className="text-[10px] text-blue-400 font-semibold">
+                  <span className="text-[10px] text-purple-400 font-semibold">
                     {unreadCount} Unread
                   </span>
                 </div>
@@ -194,14 +194,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                     <div
                       key={notif.id}
                       className={`py-3 first:pt-3 transition-colors relative ${
-                        !notif.read ? 'bg-blue-500/5 -mx-4 px-4' : ''
+                        !notif.read ? 'bg-purple-500/5 -mx-4 px-4' : ''
                       }`}
                     >
                       {!notif.read && (
                         <button
                           onClick={() => markAsRead(notif.id)}
                           title="Mark read"
-                          className="absolute right-4 top-4 text-blue-400 hover:text-blue-300 cursor-pointer"
+                          className="absolute right-4 top-4 text-purple-400 hover:text-purple-300 cursor-pointer"
                         >
                           <CircleDot className="w-3 h-3" />
                         </button>
@@ -224,7 +224,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate('/dashboard')}
-            className="w-9 h-9 rounded-xl bg-[#3b82f6] flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/25 text-xs cursor-pointer"
+            className="w-9 h-9 rounded-xl bg-[#a855f7] flex items-center justify-center font-bold text-white shadow-md shadow-purple-500/25 text-xs cursor-pointer"
             title={user.name}
           >
             {user.name.charAt(0).toUpperCase()}

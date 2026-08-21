@@ -228,7 +228,7 @@ export const AITools: React.FC = () => {
                   }}
                   className={`w-full flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all relative z-10 cursor-pointer ${
                     isSelected
-                      ? 'bg-[#3b82f6] text-white shadow-md shadow-blue-500/25'
+                      ? 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
@@ -277,14 +277,14 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     ) : f.type === 'select' ? (
                       <select
                         required
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       >
                         <option value="">Choose item...</option>
                         {f.options?.map((opt) => (
@@ -300,7 +300,7 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       />
                     )}
                   </div>
@@ -318,7 +318,7 @@ export const AITools: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-purple-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -340,7 +340,7 @@ export const AITools: React.FC = () => {
           
           <div className="flex items-center justify-between border-b border-[#1c1c1c] pb-3 mb-4">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-              <Brain className="w-4 h-4 text-[#3b82f6]" />
+              <Brain className="w-4 h-4 text-[#a855f7]" />
               <span>AI Output Stream</span>
             </span>
 
