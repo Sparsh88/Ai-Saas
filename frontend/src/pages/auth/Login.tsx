@@ -42,10 +42,10 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#000000] flex flex-col items-center justify-center p-4 relative overflow-hidden transition-colors">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] flex flex-col items-center justify-center p-4 relative overflow-hidden transition-colors duration-200">
       {/* Background Glow */}
       <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.22, 0.12] }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.08, 0.18, 0.08] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/15 rounded-full blur-[140px] pointer-events-none"
       />
@@ -74,7 +74,7 @@ export const Login: React.FC = () => {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md p-8 rounded-2xl bg-white dark:bg-[#0d0d0d] shadow-2xl relative border border-slate-200 dark:border-[#1c1c1c]"
+        className="w-full max-w-md p-8 rounded-2xl bg-white dark:bg-[#0d0d0d] shadow-xl relative border border-slate-200 dark:border-[#1c1c1c]"
       >
         <h2 className="text-xl font-bold font-heading text-slate-900 dark:text-white mb-1">Welcome back</h2>
         <p className="text-slate-500 dark:text-slate-400 text-xs mb-6">Log in to your dashboard to access AI workspaces.</p>
@@ -92,13 +92,13 @@ export const Login: React.FC = () => {
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
+              <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
               <input
                 type="email"
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -116,13 +116,13 @@ export const Login: React.FC = () => {
               </Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
+              <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400" />
               <input
                 type="password"
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -132,22 +132,22 @@ export const Login: React.FC = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-md shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
           >
             {loading ? <Loader className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
             <span>Log In</span>
           </motion.button>
         </form>
 
-        <p className="text-slate-500 dark:text-slate-400 text-center text-xs mt-6">
+        <div className="mt-8 text-center text-xs text-slate-500 dark:text-slate-400">
           Don't have an account?{' '}
           <Link
             to="/register"
-            className="font-semibold text-blue-600 dark:text-[#3b82f6] hover:text-blue-500 transition-colors"
+            className="text-blue-600 dark:text-[#3b82f6] hover:underline font-semibold"
           >
-            Sign Up
+            Create account
           </Link>
-        </p>
+        </div>
       </motion.div>
     </div>
   );

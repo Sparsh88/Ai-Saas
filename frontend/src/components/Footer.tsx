@@ -43,11 +43,11 @@ export const Footer: React.FC = () => {
   ];
 
   return (
-    <footer className="mt-auto pt-8 pb-4 border-t border-slate-200 dark:border-white/5 bg-slate-50/80 dark:bg-black/40 backdrop-blur-md relative z-10 select-none">
+    <footer className="mt-auto pt-8 pb-4 border-t border-slate-200 dark:border-white/5 bg-transparent relative z-10 select-none transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         
         {/* Brand */}
-        <div className="flex items-center gap-2 font-bold font-heading text-sm text-slate-900 dark:text-slate-200">
+        <div className="flex items-center gap-2 font-bold font-heading text-sm text-slate-800 dark:text-slate-200">
           <Sparkles className="w-4 h-4 text-blue-600 dark:text-slate-400" />
           <span>SkillForge AI</span>
         </div>
@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/5 transition-all text-xs duration-200 cursor-pointer shadow-xs ${social.badgeColor} ${social.glowColor}`}
+              className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/5 shadow-sm transition-all text-xs duration-200 cursor-pointer ${social.badgeColor} ${social.glowColor}`}
               title={`Connect on ${social.name}: ${social.handle}`}
             >
               <span className="shrink-0">{social.icon}</span>

@@ -229,7 +229,7 @@ export const AITools: React.FC = () => {
                     <span className="truncate">{t.name}</span>
                   </div>
                   <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0 ${
-                    isSelected ? 'bg-white/20 text-white' : 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20'
+                    isSelected ? 'bg-white/20 text-white' : 'text-blue-600 dark:text-blue-400 bg-blue-500/10 border border-blue-500/20'
                   }`}>
                     Free
                   </span>
@@ -249,7 +249,7 @@ export const AITools: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white font-heading">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 px-2 py-0.5 rounded-lg">
+                <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-lg">
                   Unlimited Access
                 </span>
               </div>
@@ -269,14 +269,14 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     ) : f.type === 'select' ? (
                       <select
                         required
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
                       >
                         <option value="">Choose item...</option>
                         {f.options?.map((opt) => (
@@ -292,7 +292,7 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
                       />
                     )}
                   </div>
@@ -310,7 +310,7 @@ export const AITools: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-md shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -331,7 +331,7 @@ export const AITools: React.FC = () => {
         <div className="p-6 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-sm">
           
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1c1c1c] pb-3 mb-4">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
               <Brain className="w-4 h-4 text-[#3b82f6]" />
               <span>AI Output Stream</span>
             </span>

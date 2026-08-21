@@ -52,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
       <motion.aside
         animate={{ width: isCollapsed ? '72px' : '260px' }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="flex flex-col h-screen bg-white dark:bg-[#000000] border-r border-slate-200 dark:border-[#1c1c1c] shrink-0 select-none relative"
+        className="flex flex-col h-screen bg-white dark:bg-[#000000] border-r border-slate-200 dark:border-[#1c1c1c] shrink-0 select-none relative transition-colors duration-200"
       >
         {/* Brand Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-[#1c1c1c]">
@@ -88,14 +88,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
           {/* Collapse button on desktop */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-6 h-6 rounded-full bg-slate-100 dark:bg-[#111111] border border-slate-300 dark:border-[#222222] hover:border-blue-500/50 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-500 transition-all absolute -right-3 top-5 shadow-sm hidden md:flex cursor-pointer z-20"
+            className="w-6 h-6 rounded-full bg-white dark:bg-[#111111] border border-slate-200 dark:border-[#222222] hover:border-blue-500/50 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all absolute -right-3 top-5 shadow-sm hidden md:flex cursor-pointer z-20"
           >
             {isCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
           </button>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white md:hidden cursor-pointer"
+            className="p-1.5 rounded-lg bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white md:hidden cursor-pointer"
             aria-label="Close Menu"
           >
             <X className="w-4 h-4" />
@@ -117,11 +117,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                   `flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all group relative z-10 ${
                     isActive
                       ? 'bg-[#3b82f6] text-white shadow-md shadow-blue-500/25'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.04]'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/[0.04]'
                   }`
                 }
               >
-                <item.icon className={`w-4.5 h-4.5 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors'}`} />
+                <item.icon className={`w-4.5 h-4.5 shrink-0 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-slate-200 transition-colors'}`} />
                 <AnimatePresence mode="wait">
                   {!isCollapsed && (
                     <motion.span
@@ -145,7 +145,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
             {!isCollapsed && (
               <button
                 onClick={toggleTheme}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded-xl bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] text-slate-700 dark:text-slate-300 hover:text-blue-500 transition-colors cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded-xl bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer"
               >
                 {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
               </button>
@@ -153,7 +153,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
             <button
               onClick={handleLogout}
-              className={`flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded-xl text-rose-600 dark:text-red-500 hover:bg-rose-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer ${
+              className={`flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded-xl text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer ${
                 isCollapsed ? 'w-full' : 'bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222]'
               }`}
               title="Log Out"

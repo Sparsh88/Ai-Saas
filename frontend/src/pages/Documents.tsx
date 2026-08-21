@@ -101,19 +101,18 @@ export const Documents: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Upload Zone & Title */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-        
-        {/* Upload Container */}
-        <div className="p-6 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] flex flex-col justify-between shadow-sm">
-          <div>
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white font-heading mb-1">Upload Knowledge Base</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
+        <div className="lg:col-span-1 p-6 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] flex flex-col justify-between shadow-sm">
+          <div className="space-y-2 mb-6">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white font-heading">Upload Documents</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Upload PDF, DOCX, TXT, or MD documents. Our extractor parses raw text, allowing you to ask questions contextually in the AI Chat.
             </p>
           </div>
 
           {/* Interactive Drag & Drop Box */}
-          <label className="border-2 border-dashed border-slate-300 dark:border-[#222222] hover:border-blue-500/60 rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer bg-slate-50 dark:bg-[#111111] hover:bg-blue-50/50 dark:hover:bg-blue-500/5 transition-all group min-h-[180px]">
+          <label className="border-2 border-dashed border-slate-200 dark:border-[#222222] hover:border-blue-500/40 rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer bg-slate-50 dark:bg-[#111111] hover:bg-blue-500/5 transition-all group min-h-[180px]">
             <input
               type="file"
               accept=".pdf,.docx,.txt,.md"
@@ -155,7 +154,7 @@ export const Documents: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-[#1c1c1c] pb-4 mb-4">
             <h3 className="text-sm font-bold text-slate-900 dark:text-white font-heading">Documents Library</h3>
             <div className="relative w-full sm:w-60">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
               <input
                 type="text"
                 placeholder="Search files..."
@@ -186,15 +185,15 @@ export const Documents: React.FC = () => {
                 ))}
               </div>
             ) : filteredDocs.length === 0 ? (
-              <div className="py-16 text-center text-slate-400 dark:text-slate-500 text-xs flex flex-col items-center gap-2">
-                <FileText className="w-8 h-8 text-slate-400 dark:text-slate-600" />
+              <div className="py-16 text-center text-slate-400 text-xs flex flex-col items-center gap-2">
+                <FileText className="w-8 h-8 text-slate-300 dark:text-slate-600" />
                 <span>No documents match your query.</span>
               </div>
             ) : (
               filteredDocs.map((doc) => (
                 <div
                   key={doc.id}
-                  className="p-4 rounded-xl border border-slate-200 dark:border-[#222222] bg-slate-50 dark:bg-[#111111] flex items-center justify-between group hover:border-blue-500/40 transition-all text-xs shadow-xs"
+                  className="p-4 rounded-xl border border-slate-200 dark:border-[#222222] bg-slate-50 dark:bg-[#111111] flex items-center justify-between group hover:border-blue-500/40 transition-all text-xs"
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-[#3b82f6]">

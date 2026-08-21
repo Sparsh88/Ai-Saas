@@ -237,14 +237,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Senior Full Stack React Developer"
                     value={careerGoal}
                     onChange={(e) => setCareerGoal(e.target.value)}
-                    className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-md shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Map className="w-4 h-4" />}
                   <span>Generate Roadmap</span>
@@ -265,21 +265,21 @@ export const StudyPlanner: React.FC = () => {
 
                   {/* Vertical Timeline Nodes */}
                   <div className="relative pl-6 space-y-6">
-                    <div className="absolute left-2.5 top-2 bottom-2 w-0.5 bg-blue-500/30 rounded-full" />
+                    <div className="absolute left-2.5 top-2 bottom-2 w-0.5 timeline-line rounded-full bg-slate-200 dark:bg-[#222222]" />
                     
                     {roadmap.milestones.map((ms: any, idx: number) => (
                       <div key={idx} className="relative text-xs">
                         {/* Dot indicator */}
-                        <div className="absolute -left-[22px] top-1.5 w-3.5 h-3.5 bg-white dark:bg-[#000000] border-2 border-[#3b82f6] rounded-full flex items-center justify-center shadow-lg" />
+                        <div className="absolute -left-[22px] top-1.5 w-3.5 h-3.5 bg-white dark:bg-[#000000] border-2 border-[#3b82f6] rounded-full flex items-center justify-center shadow-sm" />
                         
                         <div className="p-4 rounded-xl border border-slate-200 dark:border-[#222222] bg-slate-50 dark:bg-[#111111] space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-slate-900 dark:text-white text-xs">{ms.phase}</span>
-                            <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2 py-0.5 rounded">{ms.duration}</span>
+                            <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">{ms.duration}</span>
                           </div>
                           
                           <div className="space-y-1">
-                            <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Topics to cover</span>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Topics to cover</span>
                             <div className="flex flex-wrap gap-1.5">
                               {ms.topics.map((t: string, i: number) => (
                                 <span key={i} className="text-[10px] px-2 py-0.5 bg-white dark:bg-white/5 rounded text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/5">{t}</span>
@@ -288,7 +288,7 @@ export const StudyPlanner: React.FC = () => {
                           </div>
 
                           <div className="space-y-1 pt-1.5 border-t border-slate-200 dark:border-[#1c1c1c]">
-                            <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Milestone project challenge</span>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Milestone project challenge</span>
                             <div className="flex items-center gap-1 text-[11px] text-blue-600 dark:text-blue-300 font-semibold">
                               <Award className="w-3.5 h-3.5 shrink-0" />
                               <p>{ms.projects[0]}</p>
@@ -301,7 +301,7 @@ export const StudyPlanner: React.FC = () => {
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 py-16 gap-3">
-                  <Map className="w-8 h-8 text-slate-400 dark:text-slate-700" />
+                  <Map className="w-8 h-8 text-slate-300 dark:text-slate-700" />
                   <span className="text-xs">Your interactive roadmap milestones tree will render here.</span>
                 </div>
               )}
@@ -327,14 +327,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Next.js App Router & GraphQL"
                     value={studyTopic}
                     onChange={(e) => setStudyTopic(e.target.value)}
-                    className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-md shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
                   <span>Create Study Calendar</span>
@@ -354,7 +354,7 @@ export const StudyPlanner: React.FC = () => {
                     {studyPlan.weeklySchedule.map((week: any, wIdx: number) => (
                       <div key={wIdx} className="p-4 rounded-xl border border-slate-200 dark:border-[#222222] bg-slate-50 dark:bg-[#111111] flex flex-col justify-between">
                         <div className="mb-3">
-                          <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
+                          <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
                           <h5 className="text-xs font-bold text-slate-900 dark:text-white mt-2">{week.goal}</h5>
                         </div>
                         <div className="space-y-2 border-t border-slate-200 dark:border-[#1c1c1c] pt-2 text-[11px]">
@@ -371,7 +371,7 @@ export const StudyPlanner: React.FC = () => {
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 py-16 gap-3">
-                  <BookOpen className="w-8 h-8 text-slate-400 dark:text-slate-700" />
+                  <BookOpen className="w-8 h-8 text-slate-300 dark:text-slate-700" />
                   <span className="text-xs">Your study curriculum cards will render here.</span>
                 </div>
               )}
@@ -398,7 +398,7 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Junior React Developer"
                     value={interviewRole}
                     onChange={(e) => setInterviewRole(e.target.value)}
-                    className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
@@ -411,14 +411,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Fintech, SaaS"
                     value={interviewIndustry}
                     onChange={(e) => setInterviewIndustry(e.target.value)}
-                    className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-md shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
                   <span>Generate Interview Session</span>
@@ -433,7 +433,7 @@ export const StudyPlanner: React.FC = () => {
                   <div>
                     {/* Header question status */}
                     <div className="flex items-center justify-between border-b border-slate-200 dark:border-white/5 pb-2.5 mb-4">
-                      <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2.5 py-0.5 rounded tracking-wide">
+                      <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded tracking-wide">
                         QUESTION {currentQuestionIndex + 1} OF 3: {interviewQuestions[currentQuestionIndex].type}
                       </span>
                       <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">Targets: {interviewQuestions[currentQuestionIndex].optimalKeywords.slice(0, 2).join(', ')}</span>
@@ -446,7 +446,7 @@ export const StudyPlanner: React.FC = () => {
                     {/* Speech / Text Area */}
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest">Your Answer Response</label>
+                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Your Answer Response</label>
                         
                         {/* Audio controls */}
                         <button
@@ -476,7 +476,7 @@ export const StudyPlanner: React.FC = () => {
                         placeholder={isRecording ? "Listening to your microphone transcript..." : "Write your response text here..."}
                         value={candidateAnswer}
                         onChange={(e) => setCandidateAnswer(e.target.value)}
-                        className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     </div>
 
@@ -493,7 +493,7 @@ export const StudyPlanner: React.FC = () => {
                               <Award className="w-4 h-4 text-blue-600 dark:text-blue-400 animate-bounce" />
                               <span>AI Evaluation Results</span>
                             </h5>
-                            <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 px-2 py-0.5 rounded">Score: {evaluation.score}/100</span>
+                            <span className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">Score: {evaluation.score}/100</span>
                           </div>
                           
                           <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-white/[0.03] p-3 rounded-xl border border-slate-200 dark:border-white/5">{evaluation.feedback}</p>
@@ -502,7 +502,7 @@ export const StudyPlanner: React.FC = () => {
                             <div className="grid grid-cols-2 gap-4 border-t border-slate-200 dark:border-white/5 pt-3 text-[11px]">
                               <div>
                                 <span className="font-bold text-slate-500 block uppercase tracking-wider mb-1">Speaking Pacing</span>
-                                <p className="text-slate-800 dark:text-slate-300 font-semibold">{speechAnalysis.speakingRateWPM} WPM ({speechAnalysis.pacingFeedback})</p>
+                                <p className="text-slate-700 dark:text-slate-300 font-semibold">{speechAnalysis.speakingRateWPM} WPM ({speechAnalysis.pacingFeedback})</p>
                               </div>
                               <div>
                                 <span className="font-bold text-slate-500 block uppercase tracking-wider mb-1">Purity (Filler Words)</span>
@@ -529,7 +529,7 @@ export const StudyPlanner: React.FC = () => {
                       <button
                         onClick={handleSubmitAnswer}
                         disabled={loading || !candidateAnswer.trim()}
-                        className="flex items-center gap-1.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                        className="flex items-center gap-1.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
                       >
                         {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
                         <span>Submit Answer</span>
@@ -543,7 +543,7 @@ export const StudyPlanner: React.FC = () => {
                             setEvaluation(null);
                             setSpeechAnalysis(null);
                           }}
-                          className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 hover:border-blue-500/30 text-slate-700 dark:text-slate-350 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer"
+                          className="flex items-center gap-1 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/5 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer"
                         >
                           <span>Next Question</span>
                           <ChevronRight className="w-4 h-4" />
@@ -556,7 +556,7 @@ export const StudyPlanner: React.FC = () => {
                             setEvaluation(null);
                             setSpeechAnalysis(null);
                           }}
-                          className="bg-[#3b82f6] hover:bg-[#2563eb] text-white px-4 py-2 rounded-xl text-xs font-semibold shadow-md shadow-blue-500/25 cursor-pointer"
+                          className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-semibold"
                         >
                           Finish Session 🏁
                         </button>
@@ -565,9 +565,9 @@ export const StudyPlanner: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-400 dark:text-slate-650 py-16 gap-3">
-                  <UserCheck className="w-8 h-8 text-slate-400 dark:text-slate-700" />
-                  <span className="text-xs">Generate an interview session on the left to activate prep simulator.</span>
+                <div className="h-full flex flex-col items-center justify-center text-slate-650 py-16 gap-3">
+                  <UserCheck className="w-8 h-8 text-slate-700" />
+                  <span>Generate an interview session on the left to activate prep simulator.</span>
                 </div>
               )}
             </div>
