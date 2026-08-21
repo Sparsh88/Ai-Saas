@@ -52,9 +52,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
       <motion.aside
         animate={{ width: isCollapsed ? '76px' : '260px' }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="flex flex-col h-screen bg-[#07090e] dark:bg-[#07090e] border-r border-white/5 shrink-0 select-none relative"
+        className="flex flex-col h-screen glass-panel border-r border-white/5 shrink-0 select-none relative bg-[#0d111a]"
       >
-        {/* Brand Header with MoneyMate-style Logo */}
+        {/* Brand Header & Logo matching screenshot */}
         <div className="flex items-center justify-between p-4 border-b border-white/5">
           <AnimatePresence mode="wait">
             {!isCollapsed && (
@@ -62,37 +62,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="flex items-center gap-3 cursor-pointer"
+                className="flex items-center gap-3 cursor-pointer select-none"
                 onClick={() => handleNavClick('/dashboard')}
               >
-                {/* Logo Rounded Box */}
-                <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 shrink-0">
+                {/* Logo Icon Box */}
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 shrink-0">
                   <Sparkles className="w-5 h-5" />
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-white text-base tracking-tight leading-tight">
-                    SkillForge
-                  </span>
-                  <span className="text-[11px] text-zinc-400 font-medium tracking-normal">
-                    Smart AI Workspace
-                  </span>
+                <div className="flex flex-col min-w-0">
+                  <span className="font-bold font-heading text-base text-white tracking-tight leading-tight">SkillForge</span>
+                  <span className="text-[11px] font-medium text-slate-400 leading-tight">Smart AI Hub</span>
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
 
           {isCollapsed && (
-            <div className="mx-auto cursor-pointer" onClick={() => handleNavClick('/dashboard')}>
-              <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
-                <Sparkles className="w-5 h-5" />
-              </div>
+            <div
+              className="mx-auto w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 cursor-pointer"
+              onClick={() => handleNavClick('/dashboard')}
+              title="SkillForge AI"
+            >
+              <Sparkles className="w-5 h-5" />
             </div>
           )}
 
           {/* Collapse button on desktop, Close button on mobile */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-7 h-7 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition-all absolute -right-3.5 top-5 shadow-lg shadow-blue-600/30 hidden md:flex cursor-pointer border border-blue-400/30 active:scale-95"
+            className="w-7 h-7 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center absolute -right-3.5 top-6 shadow-md shadow-blue-600/30 transition-all hover:scale-105 hidden md:flex cursor-pointer z-20"
             title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -100,10 +98,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
           <button
             onClick={onClose}
-            className="p-1 rounded-md hover:bg-white/5 text-zinc-400 hover:text-white md:hidden cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-white/5 border border-white/5 transition-colors text-slate-400 hover:text-white md:hidden cursor-pointer"
             aria-label="Close Menu"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -118,19 +116,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 onClick={() => {
                   if (onClose) onClose();
                 }}
-                className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium transition-all group ${
-                  isActive
-                    ? 'bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/25'
-                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
-                }`}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all group relative z-10 ${
+                    isActive
+                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                  }`
+                }
               >
-                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-blue-400 transition-colors'}`} />
+                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-white transition-colors'}`} />
                 <AnimatePresence mode="wait">
                   {!isCollapsed && (
                     <motion.span
                       initial={{ opacity: 0, x: -5 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -5 }}
+                      className="truncate"
                     >
                       {item.name}
                     </motion.span>
@@ -141,14 +142,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
           })}
         </nav>
 
-        {/* Footer Profile Controls */}
-        <div className="p-4 border-t border-white/5 flex flex-col gap-2 bg-[#07090e]">
+        {/* Footer Profile & Logout */}
+        <div className="p-3 border-t border-white/5 flex flex-col gap-2 bg-black/20">
+          {/* User Card */}
+          {user && (
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-white/[0.02] border border-white/5">
+              <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shrink-0 shadow-md shadow-blue-600/20">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+              {!isCollapsed && (
+                <div className="overflow-hidden min-w-0 flex-1">
+                  <p className="text-xs font-bold truncate text-white leading-tight">{user.name}</p>
+                  <p className="text-[10px] text-slate-400 truncate leading-tight mt-0.5">{user.email}</p>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Theme Toggle & Logout */}
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-1.5 mt-1">
             {!isCollapsed && (
               <button
                 onClick={toggleTheme}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-slate-300 hover:text-white transition-colors cursor-pointer"
               >
                 {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
               </button>
@@ -156,8 +172,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
             <button
               onClick={handleLogout}
-              className={`flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg text-rose-400 hover:bg-rose-500/10 transition-colors ${
-                isCollapsed ? 'w-full' : 'bg-white/5'
+              className={`flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-rose-500/20 transition-colors cursor-pointer ${
+                isCollapsed ? 'w-full' : ''
               }`}
               title="Log Out"
             >
@@ -165,21 +181,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
               {!isCollapsed && <span>Logout</span>}
             </button>
           </div>
-
-          {/* User Card */}
-          {user && (
-            <div className="flex items-center gap-3 mt-2 pt-2 border-t border-white/5">
-              <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shrink-0 shadow-md shadow-blue-500/20">
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-              {!isCollapsed && (
-                <div className="overflow-hidden min-w-0">
-                  <p className="text-sm font-semibold truncate text-white">{user.name}</p>
-                  <p className="text-[11px] text-zinc-400 truncate">{user.email}</p>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </motion.aside>
     </div>

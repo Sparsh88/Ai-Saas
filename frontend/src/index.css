@@ -18,9 +18,10 @@
 }
 
 :root {
-  /* Crisp Light Mode */
+  /* High-Contrast Light Mode */
   --bg-main: #f4f6f9;
   --bg-panel: #ffffff;
+  --bg-card: #ffffff;
   --bg-input: #eef2f6;
   --text-main: #0f172a;
   --text-title: #020617;
@@ -30,41 +31,32 @@
   --text-muted: #64748b;
   --text-placeholder: #94a3b8;
   
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --primary-light: rgba(37, 99, 235, 0.1);
-  --border-color: rgba(15, 23, 42, 0.12);
-  --card-bg-opacity: #ffffff;
-  --card-bg-opacity-hover: #ffffff;
-  --card-bg-opacity-subtle: #f8fafc;
-  --bg-panel-subtle: #f1f5f9;
-  --glass-bg: #ffffff;
-  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+  --primary-accent: #2563eb;
+  --primary-accent-hover: #1d4ed8;
+  --primary-accent-light: rgba(37, 99, 235, 0.1);
+  --border-color: rgba(15, 23, 42, 0.1);
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
 }
 
 .dark {
-  /* Pitch-Black Modern Blue Dark Mode (Fintech / AI SaaS Aesthetic) */
-  --bg-main: #060709;
-  --bg-panel: #0b0d12;
-  --bg-input: #12151d;
-  --text-main: #d1d5db;
+  /* Sleek Pitch Dark Obsidian + Royal Electric Blue Theme */
+  --bg-main: #07090e;
+  --bg-panel: #0d111a;
+  --bg-card: #111724;
+  --bg-input: #151d2e;
+  --text-main: #cbd5e1;
   --text-title: #ffffff;
-  --text-title-secondary: #f3f4f6;
-  --text-subtitle: #9ca3af;
-  --text-subtitle-secondary: #6b7280;
-  --text-muted: #4b5563;
-  --text-placeholder: #374151;
+  --text-title-secondary: #f1f5f9;
+  --text-subtitle: #94a3b8;
+  --text-subtitle-secondary: #64748b;
+  --text-muted: #475569;
+  --text-placeholder: #334155;
   
-  --primary: #2563eb;
-  --primary-hover: #3b82f6;
-  --primary-light: rgba(37, 99, 235, 0.15);
-  --border-color: rgba(255, 255, 255, 0.08);
-  --card-bg-opacity: #0f1118;
-  --card-bg-opacity-hover: #141722;
-  --card-bg-opacity-subtle: #0b0d14;
-  --bg-panel-subtle: #0d0f15;
-  --glass-bg: #0b0d12;
-  --card-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.2);
+  --primary-accent: #3b82f6;
+  --primary-accent-hover: #2563eb;
+  --primary-accent-light: rgba(59, 130, 246, 0.15);
+  --border-color: rgba(255, 255, 255, 0.06);
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {

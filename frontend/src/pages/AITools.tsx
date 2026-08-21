@@ -199,12 +199,12 @@ export const AITools: React.FC = () => {
           </select>
         </div>
 
-        <div className="hidden lg:block p-4 rounded-2xl bg-[#0d1017] border border-white/5">
-          <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-            <Grid className="w-4 h-4 text-blue-400" />
+        <div className="hidden lg:block p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
+          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+            <Grid className="w-4 h-4 text-indigo-400" />
             <span>AI Tool Sets</span>
           </h2>
-          <div className="space-y-1.5 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
+          <div className="space-y-1 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
             {tools.map((t) => {
               const Icon = t.icon;
               const isSelected = t.id === selectedToolId;
@@ -217,18 +217,18 @@ export const AITools: React.FC = () => {
                     setFormData({});
                     setError(null);
                   }}
-                  className={`w-full flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  className={`w-full flex items-center justify-between text-left px-3 py-2.5 rounded-xl text-xs font-medium transition-all relative z-10 ${
                     isSelected
-                      ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/25'
-                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                      ? 'text-white font-semibold bg-blue-600 shadow-md shadow-blue-600/20'
+                      : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-zinc-400'}`} />
+                  <div className="flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-400'}`} />
                     <span className="truncate">{t.name}</span>
                   </div>
-                  <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-lg shrink-0 ${
-                    isSelected ? 'bg-white/20 text-white' : 'text-blue-400 bg-blue-500/10'
+                  <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0 ${
+                    isSelected ? 'bg-white/20 text-white' : 'text-blue-400 bg-blue-500/10 border border-blue-500/20'
                   }`}>
                     Free
                   </span>
@@ -239,26 +239,23 @@ export const AITools: React.FC = () => {
         </div>
       </div>
 
-      {/* Inputs Form and Results Terminal */}
       <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
-        {/* Input Panel */}
-        <div className="p-6 rounded-2xl bg-[#0d1017] border border-white/5 flex flex-col justify-between">
+        <div className="p-6 rounded-2xl bg-[#111724] border border-white/5 flex flex-col justify-between shadow-md">
           <form onSubmit={handleRunTool} className="space-y-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-sm font-bold text-white">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2.5 py-0.5 rounded-lg">
+                <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
                   Unlimited Access
                 </span>
               </div>
-              <p className="text-xs text-zinc-400 mb-6">{currentTool.description}</p>
+              <p className="text-xs text-slate-400 mb-6">{currentTool.description}</p>
 
-              {/* Dynamic Fields */}
               <div className="space-y-4">
                 {currentTool.fields.map((f) => (
                   <div key={f.name}>
-                    <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                       {f.label}
                     </label>
                     {f.type === 'textarea' ? (
@@ -268,14 +265,14 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#11141c] border border-white/10 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-zinc-500 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-[#0d111a] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     ) : f.type === 'select' ? (
                       <select
                         required
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#11141c] border border-white/10 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-zinc-500 text-xs outline-none transition-all"
+                        className="w-full bg-[#0d111a] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-600 text-xs outline-none transition-all"
                       >
                         <option value="">Choose item...</option>
                         {f.options?.map((opt) => (
@@ -291,7 +288,7 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#11141c] border border-white/10 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-zinc-500 text-xs outline-none transition-all"
+                        className="w-full bg-[#0d111a] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-600 text-xs outline-none transition-all"
                       />
                     )}
                   </div>
@@ -300,7 +297,7 @@ export const AITools: React.FC = () => {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+              <div className="flex items-center gap-2 p-3 mt-4 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -327,10 +324,10 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Results Panel Terminal */}
-        <div className="p-6 rounded-2xl bg-[#0d1017] border border-white/5 flex flex-col justify-between relative overflow-hidden min-h-[350px]">
+        <div className="p-6 rounded-2xl bg-[#111724] border border-white/5 flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-md">
           
           <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
-            <span className="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
               <Brain className="w-4 h-4 text-blue-400" />
               <span>AI Output Stream</span>
             </span>
