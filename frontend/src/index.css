@@ -40,25 +40,25 @@
 }
 
 .dark {
-  /* Sleek Modern Obsidian Blue Dark Mode */
-  --bg-main: #080b11;
-  --bg-panel: #0c101a;
-  --bg-card: #101623;
-  --bg-input: #090d16;
-  --text-main: #cbd5e1;
+  /* Exact Pure Jet Black Dark Mode matching Reference UI */
+  --bg-main: #050505;
+  --bg-panel: #0a0a0a;
+  --bg-card: #121212;
+  --bg-input: #0f0f0f;
+  --text-main: #d1d5db;
   --text-title: #ffffff;
-  --text-title-secondary: #f1f5f9;
-  --text-subtitle: #94a3b8;
-  --text-subtitle-secondary: #64748b;
-  --text-muted: #475569;
-  --text-placeholder: #334155;
+  --text-title-secondary: #f3f4f6;
+  --text-subtitle: #9ca3af;
+  --text-subtitle-secondary: #6b7280;
+  --text-muted: #4b5563;
+  --text-placeholder: #374151;
   
-  --border-color: rgba(255, 255, 255, 0.07);
-  --card-bg-opacity: #101623;
-  --card-bg-opacity-hover: #131b2b;
-  --card-bg-opacity-subtle: #0d121c;
-  --bg-panel-subtle: #0c101a;
-  --glass-bg: #0c101a;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --card-bg-opacity: #121212;
+  --card-bg-opacity-hover: #171717;
+  --card-bg-opacity-subtle: #0d0d0d;
+  --bg-panel-subtle: #0a0a0a;
+  --glass-bg: #0a0a0a;
   --card-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.15);
 }
 
