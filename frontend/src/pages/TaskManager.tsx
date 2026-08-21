@@ -142,12 +142,12 @@ export const TaskManager: React.FC = () => {
         {/* View Mode controls & Add task button */}
         {activeProject && (
           <div className="flex items-center gap-3 self-end md:self-auto">
-            <div className="flex bg-slate-900 border border-white/5 rounded-xl p-0.5">
+            <div className="flex bg-[#111111] border border-[#222222] rounded-xl p-0.5">
               <button
                 onClick={() => setViewMode('KANBAN')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   viewMode === 'KANBAN'
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                    ? 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -158,7 +158,7 @@ export const TaskManager: React.FC = () => {
                 onClick={() => setViewMode('CALENDAR')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   viewMode === 'CALENDAR'
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                    ? 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -171,7 +171,7 @@ export const TaskManager: React.FC = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowAddTask(true)}
-              className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-blue-600/25 cursor-pointer"
+              className="flex items-center gap-1.5 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-purple-500/25 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Add Task</span>
@@ -367,7 +367,7 @@ export const TaskManager: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-blue-500/25 cursor-pointer"
+                  className="bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-purple-500/25 cursor-pointer"
                 >
                   Create Project
                 </button>
@@ -391,7 +391,7 @@ export const TaskManager: React.FC = () => {
                   placeholder="e.g., Polish resume section"
                   value={taskTitle}
                   onChange={(e) => setTaskTitle(e.target.value)}
-                  className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                  className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all"
                 />
               </div>
 
@@ -402,7 +402,7 @@ export const TaskManager: React.FC = () => {
                   placeholder="Task details..."
                   value={taskDesc}
                   onChange={(e) => setTaskDesc(e.target.value)}
-                  className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                  className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                 />
               </div>
 
@@ -412,7 +412,7 @@ export const TaskManager: React.FC = () => {
                   <select
                     value={taskPriority}
                     onChange={(e: any) => setTaskPriority(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-2.5 px-3 text-white text-xs outline-none transition-all"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -426,7 +426,7 @@ export const TaskManager: React.FC = () => {
                     type="date"
                     value={taskDueDate}
                     onChange={(e) => setTaskDueDate(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2 px-3 text-white text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-2 px-3 text-white text-xs outline-none transition-all"
                   />
                 </div>
               </div>
@@ -441,7 +441,7 @@ export const TaskManager: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-blue-500/25 cursor-pointer"
+                  className="bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-purple-500/25 cursor-pointer"
                 >
                   Add Task
                 </button>

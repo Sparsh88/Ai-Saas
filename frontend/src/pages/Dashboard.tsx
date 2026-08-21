@@ -166,7 +166,7 @@ export const Dashboard: React.FC = () => {
 
         <button
           onClick={() => navigate('/tools')}
-          className="self-start md:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-xs md:text-sm shadow-lg shadow-blue-500/25 transition-all active:scale-95 cursor-pointer"
+          className="self-start md:self-auto flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#a855f7] hover:bg-[#9333ea] text-white font-semibold text-xs md:text-sm shadow-lg shadow-purple-500/25 transition-all active:scale-95 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>+ Launch AI Tool</span>

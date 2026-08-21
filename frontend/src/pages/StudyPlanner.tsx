@@ -188,7 +188,7 @@ export const StudyPlanner: React.FC = () => {
       {/* Selector Tabs */}
       <div className="flex gap-2 border-b border-[#1c1c1c] pb-2 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
         {[
-          { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map, activeBg: 'bg-[#3b82f6] text-white shadow-md shadow-blue-500/25' },
+          { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map, activeBg: 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25' },
           { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen, activeBg: 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25' },
           { id: 'INTERVIEW', name: 'Mock Interview Prep', icon: UserCheck, activeBg: 'bg-[#eab308] text-black font-bold shadow-md shadow-yellow-500/25' }
         ].map((tab) => (
@@ -237,14 +237,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Senior Full Stack React Developer"
                     value={careerGoal}
                     onChange={(e) => setCareerGoal(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-purple-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Map className="w-4 h-4" />}
                   <span>Generate Roadmap</span>
@@ -270,12 +270,12 @@ export const StudyPlanner: React.FC = () => {
                     {roadmap.milestones.map((ms: any, idx: number) => (
                       <div key={idx} className="relative text-xs">
                         {/* Dot indicator */}
-                        <div className="absolute -left-[22px] top-1.5 w-3.5 h-3.5 bg-[#000000] border-2 border-[#3b82f6] rounded-full flex items-center justify-center shadow-lg" />
+                        <div className="absolute -left-[22px] top-1.5 w-3.5 h-3.5 bg-[#000000] border-2 border-[#a855f7] rounded-full flex items-center justify-center shadow-lg" />
                         
                         <div className="p-4 rounded-xl border border-[#222222] bg-[#111111] space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-white text-xs">{ms.phase}</span>
-                            <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded">{ms.duration}</span>
+                            <span className="text-[10px] font-semibold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">{ms.duration}</span>
                           </div>
                           
                           <div className="space-y-1">
@@ -327,14 +327,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Next.js App Router & GraphQL"
                     value={studyTopic}
                     onChange={(e) => setStudyTopic(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-purple-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
                   <span>Create Study Calendar</span>
@@ -354,13 +354,13 @@ export const StudyPlanner: React.FC = () => {
                     {studyPlan.weeklySchedule.map((week: any, wIdx: number) => (
                       <div key={wIdx} className="p-4 rounded-xl border border-[#222222] bg-[#111111] flex flex-col justify-between">
                         <div className="mb-3">
-                          <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
+                          <span className="text-[10px] font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
                           <h5 className="text-xs font-bold text-white mt-2">{week.goal}</h5>
                         </div>
                         <div className="space-y-2 border-t border-[#1c1c1c] pt-2 text-[11px]">
                           {week.days.map((d: any, dIdx: number) => (
                             <div key={dIdx} className="flex gap-2 text-slate-400">
-                              <span className="font-semibold text-blue-300 min-w-[50px] shrink-0">{d.day}:</span>
+                              <span className="font-semibold text-purple-300 min-w-[50px] shrink-0">{d.day}:</span>
                               <span>{d.task}</span>
                             </div>
                           ))}
@@ -398,7 +398,7 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Junior React Developer"
                     value={interviewRole}
                     onChange={(e) => setInterviewRole(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
@@ -411,14 +411,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Fintech, SaaS"
                     value={interviewIndustry}
                     onChange={(e) => setInterviewIndustry(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-purple-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
                   <span>Generate Interview Session</span>
