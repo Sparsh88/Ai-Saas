@@ -16,81 +16,106 @@ const prisma = new PrismaClient({
 });
 
 async function main() {
-  console.log('--- Setting up Admin Accounts & Demo Credentials ---');
+  console.log('--- Setting up Sole Admin & Purging Demo Credentials ---');
 
-  // 1. Primary Admin: sparshchauhan050@gmail.com
   const adminEmail = 'sparshchauhan050@gmail.com'.toLowerCase();
   const adminPassPlain = 'Sp@080806';
   const hashedPassword = await bcrypt.hash(adminPassPlain, 10);
 
-  const adminUser = await prisma.user.upsert({
+  // 1. Check or Upsert Admin User
+  const existingAdmin = await prisma.user.findUnique({
     where: { email: adminEmail },
-    update: {
-      password: hashedPassword,
-      role: Role.ADMIN,
-      isVerified: true,
-      credits: 99999,
-      name: 'Sparsh Chauhan',
-    },
-    create: {
-      email: adminEmail,
-      password: hashedPassword,
-      name: 'Sparsh Chauhan',
-      role: Role.ADMIN,
-      isVerified: true,
-      credits: 99999,
-    },
+    include: { subscriptions: true },
   });
 
-  const activeSub = await prisma.subscription.findFirst({ where: { userId: adminUser.id } });
-  if (!activeSub) {
-    await prisma.subscription.create({
+  let adminUser;
+  if (existingAdmin) {
+    console.log(`Found existing user for ${adminEmail}. Updating credentials and admin permissions...`);
+    adminUser = await prisma.user.update({
+      where: { id: existingAdmin.id },
       data: {
-        userId: adminUser.id,
-        plan: Plan.PREMIUM,
-        status: SubscriptionStatus.ACTIVE,
-        startDate: new Date(),
+        password: hashedPassword,
+        role: Role.ADMIN,
+        isVerified: true,
+        credits: 99999,
+        name: existingAdmin.name || 'Sparsh Chauhan',
+      },
+    });
+
+    // Ensure active PREMIUM subscription
+    const activeSub = existingAdmin.subscriptions.find((s) => s.status === SubscriptionStatus.ACTIVE);
+    if (!activeSub) {
+      await prisma.subscription.create({
+        data: {
+          userId: adminUser.id,
+          plan: Plan.PREMIUM,
+          status: SubscriptionStatus.ACTIVE,
+          startDate: new Date(),
+        },
+      });
+    }
+  } else {
+    console.log(`Creating new Admin user for ${adminEmail}...`);
+    adminUser = await prisma.user.create({
+      data: {
+        email: adminEmail,
+        password: hashedPassword,
+        name: 'Sparsh Chauhan',
+        role: Role.ADMIN,
+        isVerified: true,
+        credits: 99999,
+        subscriptions: {
+          create: {
+            plan: Plan.PREMIUM,
+            status: SubscriptionStatus.ACTIVE,
+            startDate: new Date(),
+          },
+        },
       },
     });
   }
 
-  console.log(`✓ Primary Admin configured: ${adminUser.email} (Role: ${adminUser.role})`);
+  console.log(`✓ Admin user successfully configured: ${adminUser.email} (Role: ${adminUser.role})`);
 
-  // 2. Demo Admin: admin@skillforge.ai
-  const demoAdminEmail = 'admin@skillforge.ai'.toLowerCase();
-  const demoAdminPass = await bcrypt.hash('admin123', 10);
-  const demoAdminUser = await prisma.user.upsert({
-    where: { email: demoAdminEmail },
-    update: {
-      password: demoAdminPass,
+  // 2. Demote any other accounts that might have Role.ADMIN to Role.USER
+  const demoted = await prisma.user.updateMany({
+    where: {
       role: Role.ADMIN,
-      isVerified: true,
-      credits: 99999,
-      name: 'SkillForge Demo Admin',
+      email: { not: adminEmail },
     },
-    create: {
-      email: demoAdminEmail,
-      password: demoAdminPass,
-      name: 'SkillForge Demo Admin',
-      role: Role.ADMIN,
-      isVerified: true,
-      credits: 99999,
+    data: {
+      role: Role.USER,
     },
   });
-
-  const demoAdminSub = await prisma.subscription.findFirst({ where: { userId: demoAdminUser.id } });
-  if (!demoAdminSub) {
-    await prisma.subscription.create({
-      data: {
-        userId: demoAdminUser.id,
-        plan: Plan.PREMIUM,
-        status: SubscriptionStatus.ACTIVE,
-        startDate: new Date(),
-      },
-    });
+  if (demoted.count > 0) {
+    console.log(`✓ Demoted ${demoted.count} other admin account(s) to USER.`);
   }
 
-  console.log(`✓ Demo Admin configured: ${demoAdminUser.email} (Role: ${demoAdminUser.role})`);
+  // 3. Delete demo accounts (admin@skillforge.ai, user@skillforge.ai) and their associated records
+  const demoEmails = ['admin@skillforge.ai', 'user@skillforge.ai'];
+  for (const demoEmail of demoEmails) {
+    const demoUser = await prisma.user.findUnique({
+      where: { email: demoEmail },
+    });
+
+    if (demoUser) {
+      console.log(`Purging demo user: ${demoEmail}...`);
+      await prisma.notification.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.aIRequestLog.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.message.deleteMany({ where: { chat: { userId: demoUser.id } } });
+      await prisma.chat.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.document.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.task.deleteMany({ where: { project: { userId: demoUser.id } } });
+      await prisma.project.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.payment.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.subscription.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.refreshToken.deleteMany({ where: { userId: demoUser.id } });
+      await prisma.user.delete({ where: { id: demoUser.id } });
+      console.log(`✓ Purged demo user: ${demoEmail}`);
+    }
+  }
+
+  console.log('All demo credentials removed and sparshchauhan050@gmail.com is configured as sole admin!');
 }
 
 main()

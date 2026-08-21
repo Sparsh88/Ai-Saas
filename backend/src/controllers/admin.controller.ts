@@ -196,8 +196,8 @@ export const deleteUser = async (req: Request, res: Response) => {
       select: { email: true },
     });
 
-    if (targetUser && (targetUser.email.toLowerCase() === 'sparshchauhan050@gmail.com' || targetUser.email.toLowerCase() === 'admin@skillforge.ai')) {
-      return res.status(400).json({ error: 'Primary administrator accounts cannot be deleted.' });
+    if (targetUser && targetUser.email.toLowerCase() === 'sparshchauhan050@gmail.com') {
+      return res.status(400).json({ error: 'Primary administrator account cannot be deleted.' });
     }
 
     await prisma.user.delete({

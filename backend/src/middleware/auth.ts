@@ -78,7 +78,7 @@ export const requireRole = (role: Role) => {
     }
 
     if (role === Role.ADMIN) {
-      if (req.user.role !== Role.ADMIN) {
+      if (req.user.role !== Role.ADMIN || req.user.email.toLowerCase() !== 'sparshchauhan050@gmail.com') {
         return res.status(403).json({ error: 'Access forbidden. Insufficient administrator permissions.' });
       }
     } else if (req.user.role !== role && req.user.role !== Role.ADMIN) {

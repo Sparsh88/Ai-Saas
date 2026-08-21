@@ -11,14 +11,6 @@ An intelligent full-stack SaaS platform combining AI-powered career development 
 - **API Health Check:** [https://skillforge-ai-api.onrender.com/health](https://skillforge-ai-api.onrender.com/health)
 - **GitHub Repository:** [https://github.com/Sparsh88/Ai-Saas](https://github.com/Sparsh88/Ai-Saas)
 
-### 🔑 Demo Credentials
-
-| Role | Email | Password | Access / Scope |
-| :--- | :--- | :--- | :--- |
-| **Admin** | `sparshchauhan050@gmail.com` | `Sp@080806` | Full Admin Console, User Telemetry, Credit Management, Revenue & AI Analytics |
-| **Demo Admin** | `admin@skillforge.ai` | `admin123` | Administrator Telemetry & Controls (99,999 Credits) |
-| **Demo User** | `alex.dev@skillforge.ai` | `demo123` | Standard Workspace, AI Tools, ATS Resume Scorer, Kanban (150 Credits) |
-
 ---
 
 ## Overview
@@ -170,7 +162,7 @@ CLIENT_URL="http://localhost:5173"
 cd backend
 npm install
 npx prisma db push
-npm run prisma:seed    # Populates admin account, demo users, sample tasks & AI telemetry
+npm run prisma:seed
 npm run dev
 ```
 
