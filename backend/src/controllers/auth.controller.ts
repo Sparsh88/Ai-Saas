@@ -28,15 +28,15 @@ export const register = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const isAdminEmail = email === 'sparshchauhan050@gmail.com';
 
-    // Create user pre-verified
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
-        name: name || 'User',
+        name: name || 'Developer User',
+        role: Role.USER,
         isVerified: true,
+        credits: 99999,
       },
     });
 
@@ -118,8 +118,6 @@ export const verifyEmail = async (req: Request, res: Response) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
-        credits: user.credits,
       },
     });
   } catch (error) {

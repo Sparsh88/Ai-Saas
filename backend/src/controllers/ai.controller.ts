@@ -15,15 +15,15 @@ export const chatAssistant = async (req: AuthenticatedRequest, res: Response) =>
   try {
     const reply = await getAIChatResponse(messages, systemInstruction);
 
-    // Log user activity
+    // Log AI activity
     await prisma.aIRequestLog.create({
       data: {
         userId,
         toolUsed: 'AI Chat Assistant',
-        creditsUsed: 1,
+        creditsUsed: 0,
         status: 'SUCCESS',
       },
-    });
+    }).catch((err) => console.warn('Activity log write skipped:', err));
 
     invalidateDashboardCache(userId);
 
@@ -57,10 +57,10 @@ export const chatWithDocument = async (req: AuthenticatedRequest, res: Response)
       data: {
         userId,
         toolUsed: `Doc Chat (${document.name})`,
-        creditsUsed: 1,
+        creditsUsed: 0,
         status: 'SUCCESS',
       },
-    });
+    }).catch((err) => console.warn('Activity log write skipped:', err));
 
     invalidateDashboardCache(userId);
 
@@ -86,10 +86,10 @@ export const runAITool = async (req: AuthenticatedRequest, res: Response) => {
       data: {
         userId,
         toolUsed: toolName.split('-').map((s: string) => s.charAt(0).toUpperCase() + s.slice(1)).join(' '),
-        creditsUsed: 1,
+        creditsUsed: 0,
         status: 'SUCCESS',
       },
-    });
+    }).catch((err) => console.warn('Activity log write skipped:', err));
 
     invalidateDashboardCache(userId);
 
@@ -99,3 +99,4 @@ export const runAITool = async (req: AuthenticatedRequest, res: Response) => {
     return res.status(500).json({ error: 'AI calculation failed.' });
   }
 };
+

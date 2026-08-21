@@ -1,13 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import prisma from '../config/db';
-import { Role } from '@prisma/client';
 
 export interface AuthenticatedUser {
   id: string;
   email: string;
-  role: Role;
-  credits: number;
+  name?: string | null;
 }
 
 export interface AuthenticatedRequest extends Request {
@@ -15,7 +13,6 @@ export interface AuthenticatedRequest extends Request {
 }
 
 // In-memory cache for decoded user identities (30s TTL)
-// Avoids 3-4 duplicate database SELECTs on initial page loads with parallel requests
 interface CacheEntry {
   user: AuthenticatedUser;
   expiresAt: number;
@@ -39,7 +36,7 @@ export const authenticateJWT = async (req: AuthenticatedRequest, res: Response, 
 
   try {
     const secret = process.env.JWT_ACCESS_SECRET || 'skillforge_super_secret_access_token_12345!';
-    const decoded = jwt.verify(token, secret) as { id: string; email: string; role: Role };
+    const decoded = jwt.verify(token, secret) as { id: string; email: string };
 
     // Check fast memory cache
     const now = Date.now();
@@ -51,7 +48,7 @@ export const authenticateJWT = async (req: AuthenticatedRequest, res: Response, 
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
-      select: { id: true, email: true, role: true, credits: true },
+      select: { id: true, email: true, name: true },
     });
 
     if (!user) {
@@ -71,21 +68,4 @@ export const authenticateJWT = async (req: AuthenticatedRequest, res: Response, 
   }
 };
 
-export const requireRole = (role: Role) => {
-  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    if (!req.user) {
-      return res.status(401).json({ error: 'Authentication required.' });
-    }
-
-    if (role === Role.ADMIN) {
-      if (req.user.role !== Role.ADMIN || req.user.email.toLowerCase() !== 'sparshchauhan050@gmail.com') {
-        return res.status(403).json({ error: 'Access forbidden. Insufficient administrator permissions.' });
-      }
-    } else if (req.user.role !== role && req.user.role !== Role.ADMIN) {
-      return res.status(403).json({ error: 'Access forbidden. Insufficient permissions.' });
-    }
-
-    next();
-  };
-};
 

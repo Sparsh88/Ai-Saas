@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useAuthStore } from '../store/authStore';
 import {
   Wand2,
   FileSearch,
@@ -49,7 +50,6 @@ export const AITools: React.FC = () => {
       name: 'ATS Resume Scorer',
       category: 'CAREER',
       icon: FileSearch,
-      cost: 2,
       description: 'Analyze your resume for formatting and key match ratios.',
       fields: [
         { name: 'resumeText', label: 'Paste Resume Content', type: 'textarea', placeholder: 'Paste your raw resume text here...' }
@@ -60,7 +60,6 @@ export const AITools: React.FC = () => {
       name: 'Cover Letter Maker',
       category: 'CAREER',
       icon: FileSignature,
-      cost: 2,
       description: 'Draft a tailored cover letter mapping your experiences to a job specification.',
       fields: [
         { name: 'resumeText', label: 'Resume Content', type: 'textarea', placeholder: 'Paste your experience details...' },
@@ -72,7 +71,6 @@ export const AITools: React.FC = () => {
       name: 'LinkedIn Optimizer',
       category: 'CAREER',
       icon: Wand2,
-      cost: 2,
       description: 'Boost search rankings with keywords in your LinkedIn profile.',
       fields: [
         { name: 'profileText', label: 'Profile Summary', type: 'textarea', placeholder: 'Paste your current summary or skills...' }
@@ -84,7 +82,6 @@ export const AITools: React.FC = () => {
       name: 'AI Email Writer',
       category: 'WRITING',
       icon: Mail,
-      cost: 1,
       description: 'Compose high-impact emails with professional phrasing.',
       fields: [
         { name: 'subject', label: 'Email Subject / Objective', type: 'text', placeholder: 'e.g., Requesting meeting reschedule' },
@@ -96,7 +93,6 @@ export const AITools: React.FC = () => {
       name: 'Grammar Checker',
       category: 'WRITING',
       icon: FileEdit,
-      cost: 1,
       description: 'Correct punctuation and sentence flows instantly.',
       fields: [
         { name: 'text', label: 'Enter Text to Correct', type: 'textarea', placeholder: 'Paste text with spelling or grammatical errors...' }
@@ -108,7 +104,6 @@ export const AITools: React.FC = () => {
       name: 'AI Code Generator',
       category: 'CODING',
       icon: Code2,
-      cost: 1,
       description: 'Generate clean, documented functions in multiple languages.',
       fields: [
         { name: 'prompt', label: 'What should the code do?', type: 'textarea', placeholder: 'e.g., A function that merges overlapping intervals' },
@@ -120,7 +115,6 @@ export const AITools: React.FC = () => {
       name: 'AI SQL Generator',
       category: 'CODING',
       icon: Database,
-      cost: 1,
       description: 'Translate plain English queries into production SQL queries.',
       fields: [
         { name: 'prompt', label: 'Describe database query', type: 'textarea', placeholder: 'e.g., Get total payments per customer sorted by revenue' }
@@ -131,7 +125,6 @@ export const AITools: React.FC = () => {
       name: 'Bug Fix Suggestions',
       category: 'CODING',
       icon: FileCode,
-      cost: 1,
       description: 'Identify syntax issues, potential overflows, and refactor blocks.',
       fields: [
         { name: 'code', label: 'Paste buggy code block', type: 'textarea', placeholder: 'Paste code block...' }
@@ -183,9 +176,7 @@ export const AITools: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
-      {/* Sidebar Tool Selector */}
       <div className="lg:col-span-1 space-y-4">
-        {/* Mobile Selector Dropdown */}
         <div className="lg:hidden p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
           <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
             Select AI Tool
@@ -208,7 +199,6 @@ export const AITools: React.FC = () => {
           </select>
         </div>
 
-        {/* Desktop Selector Panel */}
         <div className="hidden lg:block p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
           <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
             <Grid className="w-4 h-4 text-indigo-400" />
@@ -244,6 +234,9 @@ export const AITools: React.FC = () => {
                     <Icon className={`w-4 h-4 ${isSelected ? 'text-indigo-400' : 'text-slate-400'}`} />
                     <span className="truncate">{t.name}</span>
                   </div>
+                  <span className="text-[9px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded shrink-0">
+                    Free
+                  </span>
                 </button>
               );
             })}
@@ -251,22 +244,19 @@ export const AITools: React.FC = () => {
         </div>
       </div>
 
-      {/* Inputs Form and Results Terminal */}
       <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
-        {/* Input Panel */}
         <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40 flex flex-col justify-between">
           <form onSubmit={handleRunTool} className="space-y-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-sm font-bold text-slate-200">{currentTool.name}</h3>
                 <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">
-                  Active
+                  Unlimited Access
                 </span>
               </div>
               <p className="text-xs text-slate-500 mb-6">{currentTool.description}</p>
 
-              {/* Dynamic Fields */}
               <div className="space-y-4">
                 {currentTool.fields.map((f) => (
                   <div key={f.name}>

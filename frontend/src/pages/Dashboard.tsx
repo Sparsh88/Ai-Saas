@@ -25,13 +25,9 @@ import {
 } from 'recharts';
 
 interface DashboardData {
-  credits: number;
-  plan: string;
-  endDate: string | null;
   recentActivity: Array<{
     id: string;
     toolUsed: string;
-    creditsUsed: number;
     createdAt: string;
   }>;
   metrics: {
@@ -41,7 +37,8 @@ interface DashboardData {
   };
   usageSummary: Array<{
     toolUsed: string;
-    creditsUsed: number;
+    requestsCount?: number;
+    creditsUsed?: number;
   }>;
 }
 
@@ -147,7 +144,7 @@ export const Dashboard: React.FC = () => {
   const chartData =
     data?.usageSummary.map((item) => ({
       name: item.toolUsed,
-      requests: item.creditsUsed,
+      count: item.requestsCount || item.creditsUsed || 1,
     })) || [];
 
   const COLORS = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6', '#10b981'];
@@ -172,41 +169,38 @@ export const Dashboard: React.FC = () => {
           Welcome back, {user?.name}!
         </h1>
         <p className="text-sm text-slate-400 mt-2 max-w-xl">
-          Accelerate your workflow using AI tools, documents analysis, study roadmaps, and workspace tasks.
+          Accelerate your tasks using AI. Access unlimited AI chat, resume scoring, career roadmaps, document analysis, and tasks.
         </p>
       </motion.div>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* AI Assistant Hub */}
+        {/* AI Suite */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
           whileHover={{ y: -4, scale: 1.01 }}
-          onClick={() => navigate('/chat')}
+          onClick={() => navigate('/tools')}
           className="p-5 rounded-xl glass-card relative overflow-hidden group cursor-pointer"
         >
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">AI Assistants & Tools</span>
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">AI Writing Suite</span>
             <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
               <Sparkles className="w-5 h-5" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black text-slate-100">{data?.recentActivity?.length || 0}</span>
-            <span className="text-xs text-slate-500">recent invocations</span>
+            <span className="text-3xl font-black text-slate-100">25+</span>
+            <span className="text-xs text-slate-500">AI tools & utilities</span>
           </div>
           <div className="mt-4 flex items-center justify-between">
-            <span className="text-xs text-indigo-400 font-semibold uppercase">Active Hub</span>
+            <span className="text-xs text-emerald-400 font-semibold uppercase">UNLIMITED ACCESS</span>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate('/chat');
-              }}
+              onClick={() => navigate('/tools')}
               className="text-xs text-slate-400 hover:text-indigo-400 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
             >
-              <span>Launch AI</span>
+              <span>Explore tools</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -279,8 +273,8 @@ export const Dashboard: React.FC = () => {
         <div className="lg:col-span-2 p-6 rounded-xl glass-panel border border-white/5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-base font-bold text-slate-200">AI Tool Usage</h3>
-              <p className="text-xs text-slate-500">Distribution across features</p>
+              <h3 className="text-base font-bold text-slate-200">AI Features Activity</h3>
+              <p className="text-xs text-slate-500">Distribution across modules</p>
             </div>
             <TrendingUp className="w-5 h-5 text-indigo-400" />
           </div>
@@ -306,7 +300,7 @@ export const Dashboard: React.FC = () => {
                     labelStyle={{ color: 'var(--text-title)', fontWeight: 'bold' }}
                     itemStyle={{ color: 'var(--text-main)' }}
                   />
-                  <Bar dataKey="requests" radius={[4, 4, 0, 0]}>
+                  <Bar dataKey="count" name="Calls" radius={[4, 4, 0, 0]}>
                     {chartData.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
@@ -324,7 +318,7 @@ export const Dashboard: React.FC = () => {
               <Clock className="w-4 h-4 text-slate-400" />
               <span>Recent Activity</span>
             </h3>
-            <p className="text-xs text-slate-500 mb-4">Activity and prompt logs</p>
+            <p className="text-xs text-slate-500 mb-4">Historical AI usage logs</p>
           </div>
 
           <div className="space-y-4 flex-1 overflow-y-auto max-h-64 pr-2">
@@ -340,9 +334,9 @@ export const Dashboard: React.FC = () => {
                     <div className="w-[1px] flex-1 bg-slate-800 absolute top-2 bottom-[-16px]" />
                   </div>
                   <div className="flex-1 pb-4">
-                    <p className="font-medium text-slate-350">{act.toolUsed}</p>
+                    <p className="font-medium text-slate-300">{act.toolUsed}</p>
                     <span className="text-[10px] text-slate-500">
-                      {new Date(act.createdAt).toLocaleTimeString()}
+                      {new Date(act.createdAt).toLocaleTimeString()} • Generated
                     </span>
                   </div>
                 </div>

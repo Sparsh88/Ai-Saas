@@ -1,6 +1,6 @@
 # SkillForge AI — Intelligent Career & Productivity SaaS
 
-An intelligent full-stack SaaS platform combining AI-powered career development tools, document intelligence, Kanban project management, and credit-metered Razorpay billing into a unified workspace.
+An intelligent full-stack SaaS platform combining AI-powered career development tools, document intelligence, and Kanban project management into a unified, high-performance workspace.
 
 ---
 
@@ -15,20 +15,9 @@ An intelligent full-stack SaaS platform combining AI-powered career development 
 
 ## Overview
 
-SkillForge AI is a full-stack SaaS web application engineered to consolidate fragmented career preparation, document analysis, and developer productivity utilities into a single platform. Built with React 19, TypeScript, Node.js/Express, Prisma ORM, PostgreSQL (Neon), and Google Gemini 1.5 Flash, the platform delivers context-aware AI utilities alongside project management and credit-based subscription billing.
+SkillForge AI is a full-stack SaaS web application engineered to consolidate fragmented career preparation, document analysis, and developer productivity utilities into a single platform. Built with React 19, TypeScript, Node.js/Express, Prisma ORM, PostgreSQL (Neon), and Google Gemini 1.5 Flash, the platform delivers context-aware AI utilities alongside project management with instant, unrestricted access for all registered users.
 
 The application addresses productivity loss caused by context switching across disconnected tools. By uniting document-grounded question answering, ATS resume scoring, voice-enabled mock interviews, career roadmap planning, and task tracking under one interface, SkillForge AI offers a streamlined workflow for students, job seekers, and developers.
-
-The system features atomic credit deduction transactions, multi-tier in-memory caching, Razorpay payment verification with HMAC SHA-256 signatures, and resilient fallback mechanisms when third-party AI endpoints are unavailable.
-
----
-
-## Problem Statement
-
-- **Tool Fragmentation:** Job seekers routinely switch across separate single-purpose tools for resume optimization, interview prep, coding help, document review, and task tracking.
-- **Lack of Actionable Feedback:** Standard career advice platforms provide generic tips rather than metric-driven evaluations like ATS keyword scoring, speaking pace (WPM), and filler word counts.
-- **Manual Document Extraction:** Reviewing lengthy technical PDFs, project specifications, or job postings is time-consuming without context-grounded AI extraction.
-- **SaaS Resource Metering & Monetization:** Production SaaS apps require reliable token authentication, atomic credit deduction mechanisms, rate limiting, and secure payment verification.
 
 ---
 
@@ -40,8 +29,7 @@ The system features atomic credit deduction transactions, multi-tier in-memory c
 - **Career Roadmaps & Study Curricula:** Generates multi-phase technical learning milestones, structured weekly study timetables, interactive mind map nodes, and flashcard decks.
 - **Developer & Writing Utilities:** Built-in tools for SQL generation, regex creation, code explanation, bug fixing, cover letter drafting, and professional email generation.
 - **Kanban Task & Project Management:** Multi-project task boards supporting `TODO`, `IN_PROGRESS`, and `DONE` states with priority tags (`LOW`, `MEDIUM`, `HIGH`) and real-time status updates.
-- **Credit Metering & Razorpay Payments:** Transactional credit accounting per AI tool execution, Razorpay checkout with cryptographic HMAC SHA-256 signature verification, and sandbox simulation fallback.
-- **Role-Based Admin Telemetry:** Admin dashboard displaying real-time user management, manual credit adjustment controls, platform revenue tracking, and daily API usage analytics.
+- **Direct & Instant Access:** Seamless login and account creation with immediate access to all AI models and productivity tools.
 
 ---
 
@@ -53,9 +41,8 @@ The system features atomic credit deduction transactions, multi-tier in-memory c
 | Styling & UI | Tailwind CSS, Lucide React | Responsive dark/light theme and accessible iconography |
 | State Management | Zustand | Lightweight client stores for authentication and workspace state |
 | Backend Runtime | Node.js, Express.js | REST API routing, rate limiting, compression, and business logic |
-| Database & ORM | PostgreSQL (Neon Cloud), Prisma ORM | Relational schema with migrations, foreign keys, and atomic transactions |
+| Database & ORM | PostgreSQL (Neon Cloud), Prisma ORM | Relational schema with migrations and foreign keys |
 | AI Integration | Google Gemini 1.5 Flash | Document Q&A, mock interview evaluation, and career planning |
-| Payment Gateway | Razorpay SDK | Order creation, webhook/signature verification, and credit bundles |
 | Document Parsers | pdf-parse, mammoth | In-memory text extraction from uploaded PDF and DOCX documents |
 | Deployment | Vercel (Frontend), Render (Backend) | Global edge hosting and containerized API hosting |
 

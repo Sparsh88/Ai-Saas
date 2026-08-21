@@ -232,18 +232,7 @@ export const getDashboardStats = async (req: AuthenticatedRequest, res: Response
 
   try {
     // Parallelized optimized database queries with database-level aggregation
-    const [user, recentLogs, totalDocs, totalProjects, totalTasks, usageGrouped] = await Promise.all([
-      prisma.user.findUnique({
-        where: { id: userId },
-        select: {
-          credits: true,
-          subscriptions: {
-            where: { status: 'ACTIVE' },
-            select: { plan: true, endDate: true },
-            take: 1,
-          },
-        },
-      }),
+    const [recentLogs, totalDocs, totalProjects, totalTasks, usageGrouped] = await Promise.all([
       prisma.aIRequestLog.findMany({
         where: { userId },
         select: {
@@ -260,24 +249,19 @@ export const getDashboardStats = async (req: AuthenticatedRequest, res: Response
       prisma.task.count({
         where: { project: { userId } },
       }),
-      // Database-level GROUP BY aggregation instead of loading all log rows into memory
       prisma.aIRequestLog.groupBy({
         by: ['toolUsed'],
-        _sum: { creditsUsed: true },
+        _count: { toolUsed: true },
         where: { userId },
       }),
     ]);
 
-    const activeSubscription = user?.subscriptions[0];
     const usageSummary = usageGrouped.map((g) => ({
       toolUsed: g.toolUsed,
-      creditsUsed: g._sum.creditsUsed || 0,
+      requestsCount: g._count.toolUsed || 0,
     }));
 
     const responsePayload = {
-      credits: user?.credits || 0,
-      plan: activeSubscription ? activeSubscription.plan : 'FREE',
-      endDate: activeSubscription ? activeSubscription.endDate : null,
       recentActivity: recentLogs,
       metrics: {
         totalDocs,

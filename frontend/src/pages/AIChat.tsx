@@ -90,7 +90,7 @@ export const AIChat: React.FC = () => {
       const botMessage: Message = { role: 'assistant', content: response.data.reply };
       setMessages((prev) => [...prev, botMessage]);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'AI parsing error. Check your credentials or try again.');
+      setError(err.response?.data?.error || 'AI parsing error. Please try again.');
     } finally {
       setLoading(false);
     }

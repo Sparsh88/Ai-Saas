@@ -36,8 +36,6 @@ export const App: React.FC = () => {
             <Route path="careers" element={<StudyPlanner />} />
             <Route path="tasks" element={<TaskManager />} />
             <Route path="documents" element={<Documents />} />
-            <Route path="billing" element={<Navigate to="/dashboard" replace />} />
-            <Route path="admin" element={<Navigate to="/dashboard" replace />} />
           </Route>
 
           {/* Fallback Catch-All */}
