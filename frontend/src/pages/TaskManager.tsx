@@ -116,11 +116,11 @@ export const TaskManager: React.FC = () => {
       {/* Project Selector Bar */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-4">
         <div className="flex items-center gap-3">
-          <FolderOpen className="w-5 h-5 text-blue-400" />
+          <FolderOpen className="w-5 h-5 text-indigo-400" />
           <select
             value={activeProject?.id || ''}
             onChange={(e) => selectProject(e.target.value)}
-            className="bg-[#0d111a] border border-white/5 text-white text-xs font-bold rounded-xl px-3 py-2 outline-none focus:border-blue-500/50"
+            className="bg-slate-900 border border-white/5 text-slate-200 text-sm font-bold rounded-xl px-3 py-2 outline-none focus:border-indigo-500/50"
           >
             {projects.length === 0 && <option value="">No Active Projects</option>}
             {projects.map((p) => (
@@ -132,7 +132,7 @@ export const TaskManager: React.FC = () => {
 
           <button
             onClick={() => setShowAddProject(true)}
-            className="p-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-2 rounded-xl bg-white/5 border border-white/5 text-slate-400 hover:text-indigo-400 hover:bg-white/10 transition-colors"
             title="Create Project"
           >
             <FolderPlus className="w-4 h-4" />
@@ -142,12 +142,12 @@ export const TaskManager: React.FC = () => {
         {/* View Mode controls & Add task button */}
         {activeProject && (
           <div className="flex items-center gap-3 self-end md:self-auto">
-            <div className="flex bg-[#0d111a] border border-white/5 rounded-xl p-1">
+            <div className="flex bg-slate-900 border border-white/5 rounded-xl p-0.5">
               <button
                 onClick={() => setViewMode('KANBAN')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   viewMode === 'KANBAN'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -156,9 +156,9 @@ export const TaskManager: React.FC = () => {
               </button>
               <button
                 onClick={() => setViewMode('CALENDAR')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   viewMode === 'CALENDAR'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -168,10 +168,10 @@ export const TaskManager: React.FC = () => {
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => setShowAddTask(true)}
-              className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-blue-600/25 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Add Task</span>
@@ -188,12 +188,12 @@ export const TaskManager: React.FC = () => {
             {/* Columns Mapping */}
             {[
               { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-blue-500' },
-              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-indigo-500' },
+              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-sky-500' },
               { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-emerald-500' }
             ].map((col) => (
-              <div key={col.id} className="p-4 rounded-2xl border border-white/5 bg-[#111724] flex flex-col min-h-[450px] shadow-md">
+              <div key={col.id} className="p-4 rounded-2xl border border-white/5 bg-[#101623] flex flex-col min-h-[450px] shadow-sm">
                 <div className={`flex items-center justify-between border-t-2 ${col.glow} pt-3 pb-4 mb-2`}>
-                  <span className="text-xs font-bold text-slate-200">{col.title}</span>
+                  <span className="text-xs font-bold text-white font-heading">{col.title}</span>
                   <span className="text-[10px] font-semibold text-slate-400 bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
                     {col.tasks.length}
                   </span>
@@ -210,39 +210,39 @@ export const TaskManager: React.FC = () => {
                         whileHover={{ y: -3 }}
                         transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                         key={task.id}
-                        className="p-4 rounded-xl glass-card border border-white/5 bg-slate-950/45 flex flex-col justify-between group cursor-pointer"
+                        className="p-4 rounded-xl border border-white/5 bg-[#090d16] flex flex-col justify-between group cursor-pointer hover:border-blue-500/30 transition-all"
                       >
                       <div>
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors leading-snug">{task.title}</h4>
+                          <h4 className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors leading-snug">{task.title}</h4>
                           <button
                             onClick={() => deleteTask(task.id)}
-                            className="p-1 rounded text-slate-650 hover:text-rose-400 hover:bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-all"
+                            className="p-1 rounded text-slate-600 hover:text-rose-400 hover:bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
                             title="Delete"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                         {task.description && (
-                          <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{task.description}</p>
+                          <p className="text-[11px] text-slate-400 mt-1 line-clamp-2">{task.description}</p>
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/2">
+                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/5">
                         {/* Due date */}
-                        <div className="flex items-center gap-1 text-[9px] text-slate-550">
+                        <div className="flex items-center gap-1 text-[9px] text-slate-400">
                           <Clock className="w-3 h-3" />
                           <span>{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date'}</span>
                         </div>
 
                         {/* Priority Selector or Status Toggle */}
                         <div className="flex items-center gap-1.5">
-                          <span className={`text-[9px] font-semibold px-2 py-0.5 rounded ${
+                          <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-lg ${
                             task.priority === 'HIGH'
                               ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                               : task.priority === 'MEDIUM'
                               ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                              : 'bg-indigo-500/10 text-indigo-450 border border-indigo-500/20'
+                              : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                           }`}>
                             {task.priority}
                           </span>

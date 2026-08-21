@@ -18,32 +18,33 @@
 }
 
 :root {
-  /* High-Contrast Light Mode */
-  --bg-main: #f4f6f9;
+  /* Crisp Light Mode */
+  --bg-main: #f8fafc;
   --bg-panel: #ffffff;
-  --bg-card: #ffffff;
-  --bg-input: #eef2f6;
+  --bg-input: #f1f5f9;
   --text-main: #0f172a;
   --text-title: #020617;
   --text-title-secondary: #0f172a;
   --text-subtitle: #1e293b;
   --text-subtitle-secondary: #334155;
-  --text-muted: #64748b;
-  --text-placeholder: #94a3b8;
+  --text-muted: #475569;
+  --text-placeholder: #64748b;
   
-  --primary-accent: #2563eb;
-  --primary-accent-hover: #1d4ed8;
-  --primary-accent-light: rgba(37, 99, 235, 0.1);
-  --border-color: rgba(15, 23, 42, 0.1);
-  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  --border-color: rgba(15, 23, 42, 0.12);
+  --card-bg-opacity: #ffffff;
+  --card-bg-opacity-hover: #ffffff;
+  --card-bg-opacity-subtle: #f1f5f9;
+  --bg-panel-subtle: #f8fafc;
+  --glass-bg: #ffffff;
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
 }
 
 .dark {
-  /* Sleek Pitch Dark Obsidian + Royal Electric Blue Theme */
-  --bg-main: #07090e;
-  --bg-panel: #0d111a;
-  --bg-card: #111724;
-  --bg-input: #151d2e;
+  /* Sleek Modern Obsidian Blue Dark Mode */
+  --bg-main: #080b11;
+  --bg-panel: #0c101a;
+  --bg-card: #101623;
+  --bg-input: #090d16;
   --text-main: #cbd5e1;
   --text-title: #ffffff;
   --text-title-secondary: #f1f5f9;
@@ -52,11 +53,13 @@
   --text-muted: #475569;
   --text-placeholder: #334155;
   
-  --primary-accent: #3b82f6;
-  --primary-accent-hover: #2563eb;
-  --primary-accent-light: rgba(59, 130, 246, 0.15);
-  --border-color: rgba(255, 255, 255, 0.06);
-  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --border-color: rgba(255, 255, 255, 0.07);
+  --card-bg-opacity: #101623;
+  --card-bg-opacity-hover: #131b2b;
+  --card-bg-opacity-subtle: #0d121c;
+  --bg-panel-subtle: #0c101a;
+  --glass-bg: #0c101a;
+  --card-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.15);
 }
 
 @layer base {
@@ -77,7 +80,7 @@
   }
 }
 
-/* Global utility overrides for absolute compatibility with hardcoded classes */
+/* Global utility overrides */
 .border-white\/2 {
   border-color: var(--border-color) !important;
 }
@@ -87,14 +90,18 @@
 .border-white\/10 {
   border-color: var(--border-color) !important;
 }
-.border-indigo-500\/10 {
-  border-color: color-mix(in srgb, var(--text-title) 10%, transparent) !important;
+
+.border-indigo-500\/10,
+.border-blue-500\/10 {
+  border-color: rgba(59, 130, 246, 0.1) !important;
 }
-.border-indigo-500\/20 {
-  border-color: color-mix(in srgb, var(--text-title) 20%, transparent) !important;
+.border-indigo-500\/20,
+.border-blue-500\/20 {
+  border-color: rgba(59, 130, 246, 0.2) !important;
 }
-.border-indigo-500\/25 {
-  border-color: color-mix(in srgb, var(--text-title) 25%, transparent) !important;
+.border-indigo-500\/25,
+.border-blue-500\/25 {
+  border-color: rgba(59, 130, 246, 0.25) !important;
 }
 
 .bg-white\/2 {
@@ -103,20 +110,14 @@
 .bg-white\/5 {
   background-color: var(--card-bg-opacity) !important;
 }
-.bg-slate-950\/40 {
-  background-color: var(--bg-main) !important;
-}
+.bg-slate-950\/40,
 .bg-slate-950\/45 {
   background-color: var(--bg-main) !important;
 }
-.bg-slate-900\/40 {
-  background-color: var(--bg-panel-subtle) !important;
-}
-.bg-slate-900\/50 {
-  background-color: var(--bg-panel-subtle) !important;
-}
+.bg-slate-900\/40,
+.bg-slate-900\/50,
 .bg-slate-900\/60 {
-  background-color: var(--bg-panel-subtle) !important;
+  background-color: var(--card-bg-opacity) !important;
 }
 
 /* Custom Scrollbars */
@@ -130,7 +131,7 @@
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 4px;
 }
 
@@ -140,31 +141,29 @@
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.25);
 }
 
-/* Premium Gradient Backgrounds & Glassmorphism Utilities */
+/* Clean Panels & Cards Utilities */
 .glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--bg-panel);
   border: 1px solid var(--border-color);
 }
 
 .glass-card {
   background: var(--card-bg-opacity);
   border: 1px solid var(--border-color);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s ease-in-out;
 }
 
 .glass-card:hover {
   background: var(--card-bg-opacity-hover);
-  border-color: rgba(99, 102, 241, 0.35); /* Indigo border glow */
-  box-shadow: var(--card-shadow, 0 10px 30px -10px rgba(99, 102, 241, 0.15));
+  border-color: rgba(59, 130, 246, 0.35);
+  box-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.18);
   transform: translateY(-2px);
 }
 
@@ -190,8 +189,8 @@
   background-image: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 20%,
-    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0.04) 20%,
+    rgba(255, 255, 255, 0.08) 60%,
     rgba(255, 255, 255, 0) 100%
   );
   animation: shimmer 2s infinite;
@@ -208,7 +207,7 @@
   );
 }
 
-/* Workspace Grid/Timeline Line style */
+/* Timeline Line style */
 .timeline-line {
-  background: linear-gradient(to bottom, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  background: linear-gradient(to bottom, #2563eb 0%, #3b82f6 50%, #60a5fa 100%);
 }

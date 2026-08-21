@@ -11,9 +11,11 @@ import {
   User,
   Shield,
   CircleDot,
-  Menu
+  Menu,
+  Sun,
+  Moon
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface Notification {
   id: string;
@@ -28,12 +30,24 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
-  const { user } = useAuthStore();
+  const { user, theme, toggleTheme } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Page title mapping
+  const pageTitles: Record<string, string> = {
+    '/dashboard': 'Dashboard',
+    '/chat': 'AI Chat Hub',
+    '/tools': 'AI Writing Suite',
+    '/careers': 'Study & Careers',
+    '/tasks': 'Tasks & Kanban',
+    '/documents': 'Documents Hub',
+  };
+  const currentTitle = pageTitles[location.pathname] || 'Dashboard';
 
   // Fetch notifications with request deduplication
   const lastFetchRef = React.useRef<number>(0);
@@ -56,12 +70,10 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   useEffect(() => {
     if (user?.id) {
       fetchNotifications();
-      // Poll notifications every 60s
       const interval = setInterval(() => fetchNotifications(true), 60000);
       return () => clearInterval(interval);
     }
   }, [user?.id]);
-
 
   // Keyboard shortcut listener (Ctrl+K or Cmd+K)
   useEffect(() => {
@@ -104,45 +116,33 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     item.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const getPageTitle = () => {
-    switch (location.pathname) {
-      case '/dashboard': return 'Dashboard';
-      case '/chat': return 'AI Chat Hub';
-      case '/tools': return 'AI Writing Tools';
-      case '/careers': return 'Study & Careers';
-      case '/tasks': return 'Tasks & Kanban';
-      case '/documents': return 'Documents Hub';
-      default: return 'SkillForge AI';
-    }
-  };
-
   return (
-    <header className="h-16 border-b border-white/5 px-4 md:px-6 flex items-center justify-between shrink-0 glass-panel relative z-20 bg-[#0d111a]">
-      {/* Toggle Sidebar & Page Title */}
+    <header className="h-16 border-b border-white/5 px-4 md:px-6 flex items-center justify-between shrink-0 glass-panel relative z-20">
+      {/* Page Title & Mobile Toggle */}
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuToggle}
-          className="p-2 -ml-1 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-white/5 transition-colors md:hidden active:scale-95 cursor-pointer"
+          className="p-2 -ml-1 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-colors md:hidden active:scale-95 cursor-pointer"
           aria-label="Toggle Menu"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <h1 className="text-base md:text-lg font-bold font-heading text-white tracking-tight">
-          {getPageTitle()}
+        <h1 className="text-base md:text-lg font-bold text-white font-heading tracking-tight">
+          {currentTitle}
         </h1>
       </div>
 
-      {/* Centered Search Pill (desktop only) */}
+      {/* Search Input Bar (desktop only) */}
       <div className="relative w-80 max-w-lg hidden md:block">
         <button
           onClick={() => setShowSearch(true)}
-          className="w-full flex items-center justify-between px-4 py-2 rounded-full bg-[#111724] border border-white/5 hover:border-white/10 text-left text-xs text-slate-400 hover:text-slate-300 transition-all cursor-pointer shadow-inner"
+          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#101623] border border-white/5 hover:border-blue-500/40 text-left text-xs text-slate-400 hover:text-slate-200 transition-all shadow-inner"
         >
           <div className="flex items-center gap-2.5">
-            <Search className="w-3.5 h-3.5 text-slate-400" />
-            <span>Search features or tools...</span>
+            <Search className="w-4 h-4 text-slate-400" />
+            <span>Search workspace, tools...</span>
           </div>
-          <div className="flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-400">
+          <div className="flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-300">
             <Command className="w-2.5 h-2.5" />
             <span>K</span>
           </div>
@@ -150,14 +150,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
       </div>
 
       {/* Header Actions */}
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-3">
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="w-9 h-9 rounded-full bg-[#111724] border border-white/5 hover:border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
-          title={theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
+          className="p-2 rounded-xl bg-[#101623] border border-white/5 hover:border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-400" />}
         </button>
 
         {/* Notifications Icon & Dropdown */}
@@ -167,12 +167,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
               setShowNotifications(!showNotifications);
               fetchNotifications(true);
             }}
-            className="w-9 h-9 rounded-full bg-[#111724] border border-white/5 hover:border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition-colors relative cursor-pointer"
+            className="p-2 rounded-xl bg-[#101623] border border-white/5 hover:border-white/10 text-slate-400 hover:text-white transition-colors relative cursor-pointer"
             aria-label="Notifications"
           >
             <Bell className="w-4 h-4" />
-            {notifications.some((n) => !n.read) && (
-              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-blue-500 ring-2 ring-[#0d111a]" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-500 ring-2 ring-[#080b11]" />
             )}
           </button>
 
@@ -184,14 +184,14 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto rounded-2xl glass-panel shadow-2xl p-4 border border-white/10 z-50 divide-y divide-white/5 bg-[#111724]"
+                className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto rounded-2xl bg-[#101623] shadow-2xl p-4 border border-white/10 z-50 divide-y divide-white/5"
               >
                 <div className="flex items-center justify-between pb-3">
                   <h3 className="text-xs font-bold font-heading text-white uppercase tracking-wider">
                     Notifications
                   </h3>
                   <span className="text-[10px] text-blue-400 font-semibold">
-                    {notifications.filter((n) => !n.read).length} Unread
+                    {unreadCount} Unread
                   </span>
                 </div>
 
@@ -205,7 +205,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                     <div
                       key={notif.id}
                       className={`py-3 first:pt-3 transition-colors relative ${
-                        !notif.read ? 'bg-blue-500/10 -mx-4 px-4' : ''
+                        !notif.read ? 'bg-blue-500/5 -mx-4 px-4' : ''
                       }`}
                     >
                       {!notif.read && (
@@ -217,7 +217,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                           <CircleDot className="w-3 h-3" />
                         </button>
                       )}
-                      <h4 className="text-xs font-semibold text-slate-200 pr-4">{notif.title}</h4>
+                      <h4 className="text-xs font-semibold text-white pr-4">{notif.title}</h4>
                       <p className="text-[11px] text-slate-400 mt-0.5">{notif.message}</p>
                       <span className="text-[9px] text-slate-500 block mt-1.5">
                         {new Date(notif.createdAt).toLocaleDateString()}
@@ -230,15 +230,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           </AnimatePresence>
         </div>
 
-        {/* User Quick Info Initial Pill matching screenshot */}
+        {/* User Avatar Circle */}
         {user && (
           <motion.div
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-9 h-9 rounded-full bg-blue-600 font-bold text-white shadow-md shadow-blue-600/30 flex items-center justify-center text-sm cursor-pointer select-none"
-            title={`${user.name} (${user.email})`}
+            onClick={() => navigate('/dashboard')}
+            className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white shadow-md shadow-blue-600/30 text-xs cursor-pointer"
+            title={user.name}
           >
-            <span>{user.name.charAt(0).toUpperCase()}</span>
+            {user.name.charAt(0).toUpperCase()}
           </motion.div>
         )}
       </div>

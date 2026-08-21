@@ -107,16 +107,16 @@ export const AIChat: React.FC = () => {
   ];
 
   return (
-    <div className="h-[calc(100vh-10rem)] md:h-[calc(100vh-8.5rem)] flex flex-col justify-between max-w-4xl mx-auto rounded-2xl bg-[#111724] border border-white/5 overflow-hidden shadow-2xl relative">
+    <div className="h-[calc(100vh-10rem)] md:h-[calc(100vh-8.5rem)] flex flex-col justify-between max-w-4xl mx-auto rounded-2xl bg-[#101623] border border-white/5 overflow-hidden shadow-xl relative">
       
       {/* Header Panel */}
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-white/5 flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-[#0d111a]">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-white/5 flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-[#0c101a]">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
-            <BrainCircuit className="w-5 h-5 animate-pulse" />
+          <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center">
+            <BrainCircuit className="w-4.5 h-4.5" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-white">Interactive Workspace</h2>
+            <h2 className="text-sm font-bold text-white font-heading">Interactive Workspace</h2>
             <p className="text-[11px] text-slate-400">Ask coding prompts or load PDF records</p>
           </div>
         </div>
@@ -130,7 +130,7 @@ export const AIChat: React.FC = () => {
           <select
             value={selectedDocId}
             onChange={(e) => setSelectedDocId(e.target.value)}
-            className="text-xs bg-[#080b11] border border-white/10 text-slate-200 rounded-xl px-3 py-1.5 outline-none max-w-[180px] focus:border-blue-500/50"
+            className="text-xs bg-[#090d16] border border-white/10 text-slate-300 rounded-xl px-2.5 py-1.5 outline-none max-w-[180px] focus:border-blue-500/50"
           >
             <option value="">General (No Context)</option>
             {documents.map((doc) => (
@@ -152,18 +152,18 @@ export const AIChat: React.FC = () => {
             key={index}
             className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
           >
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs shrink-0 shadow-md ${
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs shrink-0 shadow-md ${
               msg.role === 'user'
                 ? 'bg-blue-600 text-white shadow-blue-600/30'
-                : 'bg-[#0d111a] text-blue-400 border border-white/5'
+                : 'bg-[#0c101a] text-blue-400 border border-white/5'
             }`}>
               {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
 
-            <div className={`p-4 rounded-2xl text-sm leading-relaxed ${
+            <div className={`p-4 rounded-2xl text-xs md:text-sm leading-relaxed ${
               msg.role === 'user'
                 ? 'bg-blue-600 text-white font-medium rounded-tr-none shadow-md shadow-blue-600/20'
-                : 'bg-[#0d111a] text-slate-200 rounded-tl-none border border-white/5'
+                : 'bg-[#0c101a] text-slate-200 rounded-tl-none border border-white/5'
             }`}>
               <p className="whitespace-pre-wrap">{msg.content}</p>
             </div>
@@ -176,10 +176,10 @@ export const AIChat: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex gap-3 max-w-[85%]"
           >
-            <div className="w-8 h-8 rounded-full bg-[#0d111a] border border-white/5 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
+            <div className="w-8 h-8 rounded-xl bg-[#0c101a] border border-white/5 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
               <Bot className="w-4 h-4 animate-bounce" />
             </div>
-            <div className="p-4 rounded-2xl bg-[#0d111a] border border-white/5 rounded-tl-none flex items-center gap-2">
+            <div className="p-4 rounded-2xl bg-[#0c101a] border border-white/5 rounded-tl-none flex items-center gap-2">
               <Loader className="w-4 h-4 text-blue-400 animate-spin" />
               <span className="text-xs text-slate-400 font-mono">SkillForge AI is generating response...</span>
             </div>
@@ -198,19 +198,19 @@ export const AIChat: React.FC = () => {
 
       {/* Templates Prompt Row */}
       {messages.length === 1 && !loading && (
-        <div className="px-6 py-2.5 border-t border-white/5 bg-[#0d111a]">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-            <BookMarked className="w-3 h-3 text-slate-400" />
-            <span>Select a template prompt</span>
+        <div className="px-6 py-2.5 border-t border-white/5 bg-[#0c101a]/50">
+          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1">
+            <BookMarked className="w-3 h-3 text-slate-500" />
+            <span>Suggested Prompts</span>
           </p>
           <div className="flex flex-wrap gap-2">
             {templates.map((t, i) => (
               <motion.button
                 key={i}
-                whileHover={{ scale: 1.03, y: -1 }}
-                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.02, borderColor: 'rgba(59, 130, 246, 0.4)' }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => selectPromptTemplate(t.prompt)}
-                className="text-[11px] font-medium text-slate-300 hover:text-white border border-white/5 bg-[#111724] hover:border-blue-500/40 rounded-xl py-1.5 px-3 transition-colors cursor-pointer"
+                className="text-[11px] font-medium text-slate-300 hover:text-blue-400 border border-white/5 bg-[#0c101a] rounded-xl py-1.5 px-3 transition-colors cursor-pointer"
               >
                 {t.text}
               </motion.button>
@@ -220,23 +220,22 @@ export const AIChat: React.FC = () => {
       )}
 
       {/* Input Form Bar */}
-      <form onSubmit={handleSend} className="px-4 py-3 md:px-6 md:py-4 border-t border-white/5 bg-[#0d111a] flex items-center gap-3">
+      <form onSubmit={handleSend} className="px-4 py-3 md:px-6 md:py-4 border-t border-white/5 bg-[#0c101a] flex items-center gap-3">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={selectedDocId ? "Ask a question about this file..." : "Type your message or prompt here..."}
-          className="flex-1 bg-[#111724] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-sm outline-none transition-all"
+          className="flex-1 bg-[#101623] hover:bg-[#131a29] focus:bg-[#131a29] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
         />
         <button
           type="submit"
           disabled={!input.trim() || loading}
-          className="p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+          className="p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl shadow-lg shadow-blue-600/25 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
         >
           <Send className="w-4 h-4" />
         </button>
       </form>
-
     </div>
   );
 };

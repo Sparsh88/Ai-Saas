@@ -50,11 +50,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
   return (
     <div className={`fixed inset-y-0 left-0 z-35 md:relative md:translate-x-0 transition-transform duration-300 ease-in-out ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <motion.aside
-        animate={{ width: isCollapsed ? '76px' : '260px' }}
+        animate={{ width: isCollapsed ? '72px' : '260px' }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="flex flex-col h-screen glass-panel border-r border-white/5 shrink-0 select-none relative bg-[#0d111a]"
+        className="flex flex-col h-screen glass-panel border-r border-white/5 shrink-0 select-none relative"
       >
-        {/* Brand Header & Logo matching screenshot */}
+        {/* Brand Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/5">
           <AnimatePresence mode="wait">
             {!isCollapsed && (
@@ -62,16 +62,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="flex items-center gap-3 cursor-pointer select-none"
+                className="flex items-center gap-3 cursor-pointer group"
                 onClick={() => handleNavClick('/dashboard')}
               >
-                {/* Logo Icon Box */}
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 shrink-0">
-                  <Sparkles className="w-5 h-5" />
+                <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/30 shrink-0 group-hover:scale-105 transition-transform">
+                  <Sparkles className="w-5 h-5 fill-current" />
                 </div>
-                <div className="flex flex-col min-w-0">
-                  <span className="font-bold font-heading text-base text-white tracking-tight leading-tight">SkillForge</span>
-                  <span className="text-[11px] font-medium text-slate-400 leading-tight">Smart AI Hub</span>
+                <div className="flex flex-col">
+                  <span className="font-bold font-heading text-sm text-white tracking-tight">SkillForge</span>
+                  <span className="text-[10px] font-medium text-slate-400">Smart Workspace</span>
                 </div>
               </motion.div>
             )}
@@ -79,26 +78,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
           {isCollapsed && (
             <div
-              className="mx-auto w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 cursor-pointer"
+              className="mx-auto cursor-pointer w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/30"
               onClick={() => handleNavClick('/dashboard')}
-              title="SkillForge AI"
             >
-              <Sparkles className="w-5 h-5" />
+              <Sparkles className="w-5 h-5 fill-current" />
             </div>
           )}
 
-          {/* Collapse button on desktop, Close button on mobile */}
+          {/* Collapse button on desktop */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-7 h-7 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center absolute -right-3.5 top-6 shadow-md shadow-blue-600/30 transition-all hover:scale-105 hidden md:flex cursor-pointer z-20"
-            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            className="w-6 h-6 rounded-full bg-[#111726] border border-white/10 hover:border-blue-500/50 flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all absolute -right-3 top-5 shadow-lg hidden md:flex cursor-pointer z-20"
           >
-            {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+            {isCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
           </button>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg hover:bg-white/5 border border-white/5 transition-colors text-slate-400 hover:text-white md:hidden cursor-pointer"
+            className="p-1.5 rounded-lg bg-white/5 border border-white/5 text-slate-400 hover:text-white md:hidden cursor-pointer"
             aria-label="Close Menu"
           >
             <X className="w-4 h-4" />
@@ -117,21 +114,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                   if (onClose) onClose();
                 }}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all group relative z-10 ${
+                  `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group relative z-10 ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/25'
+                      : 'text-slate-400 hover:text-slate-100 hover:bg-white/[0.04]'
                   }`
                 }
               >
-                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-white transition-colors'}`} />
+                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-400 transition-colors'}`} />
                 <AnimatePresence mode="wait">
                   {!isCollapsed && (
                     <motion.span
                       initial={{ opacity: 0, x: -5 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -5 }}
-                      className="truncate"
                     >
                       {item.name}
                     </motion.span>
@@ -142,29 +138,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
           })}
         </nav>
 
-        {/* Footer Profile & Logout */}
-        <div className="p-3 border-t border-white/5 flex flex-col gap-2 bg-black/20">
-          {/* User Card */}
-          {user && (
-            <div className="flex items-center gap-3 p-2 rounded-xl bg-white/[0.02] border border-white/5">
-              <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shrink-0 shadow-md shadow-blue-600/20">
-                {user.name.charAt(0).toUpperCase()}
-              </div>
-              {!isCollapsed && (
-                <div className="overflow-hidden min-w-0 flex-1">
-                  <p className="text-xs font-bold truncate text-white leading-tight">{user.name}</p>
-                  <p className="text-[10px] text-slate-400 truncate leading-tight mt-0.5">{user.email}</p>
-                </div>
-              )}
-            </div>
-          )}
-
+        {/* Footer Profile Controls */}
+        <div className="p-4 border-t border-white/5 flex flex-col gap-2.5">
           {/* Theme Toggle & Logout */}
-          <div className="flex items-center justify-between gap-1.5 mt-1">
+          <div className="flex items-center justify-between gap-2">
             {!isCollapsed && (
               <button
                 onClick={toggleTheme}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-2 text-xs font-semibold rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded-xl bg-white/5 border border-white/5 text-slate-300 hover:text-blue-400 transition-colors"
               >
                 {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
               </button>
@@ -172,15 +153,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
             <button
               onClick={handleLogout}
-              className={`flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 border border-rose-500/20 transition-colors cursor-pointer ${
-                isCollapsed ? 'w-full' : ''
+              className={`flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs font-medium rounded-xl text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors ${
+                isCollapsed ? 'w-full' : 'bg-white/5 border border-white/5'
               }`}
               title="Log Out"
             >
               <LogOut className="w-4 h-4" />
-              {!isCollapsed && <span>Logout</span>}
+              {!isCollapsed && <span>Log Out</span>}
             </button>
           </div>
+
+          {/* User Card */}
+          {user && (
+            <div className="flex items-center gap-3 mt-1 p-1 rounded-xl">
+              <div className="w-8.5 h-8.5 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white shrink-0 shadow-md shadow-blue-600/20 text-xs">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+              {!isCollapsed && (
+                <div className="overflow-hidden min-w-0">
+                  <p className="text-xs font-semibold truncate text-white">{user.name}</p>
+                  <p className="text-[10px] text-slate-400 truncate">{user.email}</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </motion.aside>
     </div>

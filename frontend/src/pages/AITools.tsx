@@ -176,8 +176,8 @@ export const AITools: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
-      <div className="lg:col-span-1 space-y-4">
-        <div className="lg:hidden p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
+      <div className="lg:col-span-1 space-y-4">        {/* Mobile Selector Dropdown */}
+        <div className="lg:hidden p-4 rounded-2xl bg-[#101623] border border-white/5">
           <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
             Select AI Tool
           </label>
@@ -189,7 +189,7 @@ export const AITools: React.FC = () => {
               setFormData({});
               setError(null);
             }}
-            className="w-full bg-slate-950 border border-white/10 text-slate-200 text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-indigo-500/50"
+            className="w-full bg-[#090d16] border border-white/10 text-white text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-blue-500/50"
           >
             {tools.map((t) => (
               <option key={t.id} value={t.id}>
@@ -199,12 +199,13 @@ export const AITools: React.FC = () => {
           </select>
         </div>
 
-        <div className="hidden lg:block p-4 rounded-xl glass-panel border border-white/5 bg-slate-900/50">
+        {/* Desktop Selector Panel */}
+        <div className="hidden lg:block p-4 rounded-2xl bg-[#101623] border border-white/5 shadow-sm">
           <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-            <Grid className="w-4 h-4 text-indigo-400" />
+            <Grid className="w-4 h-4 text-blue-400" />
             <span>AI Tool Sets</span>
           </h2>
-          <div className="space-y-1 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
+          <div className="space-y-1.5 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
             {tools.map((t) => {
               const Icon = t.icon;
               const isSelected = t.id === selectedToolId;
@@ -217,10 +218,10 @@ export const AITools: React.FC = () => {
                     setFormData({});
                     setError(null);
                   }}
-                  className={`w-full flex items-center justify-between text-left px-3 py-2.5 rounded-xl text-xs font-medium transition-all relative z-10 ${
+                  className={`w-full flex items-center justify-between text-left px-3 py-2.5 rounded-xl text-xs font-medium transition-all relative z-10 cursor-pointer ${
                     isSelected
-                      ? 'text-white font-semibold bg-blue-600 shadow-md shadow-blue-600/20'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/25'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
                   <div className="flex items-center gap-2">
@@ -239,19 +240,22 @@ export const AITools: React.FC = () => {
         </div>
       </div>
 
+      {/* Inputs Form and Results Terminal */}
       <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
-        <div className="p-6 rounded-2xl bg-[#111724] border border-white/5 flex flex-col justify-between shadow-md">
+        {/* Input Panel */}
+        <div className="p-6 rounded-2xl bg-[#101623] border border-white/5 flex flex-col justify-between shadow-sm">
           <form onSubmit={handleRunTool} className="space-y-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <h3 className="text-sm font-bold text-white">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
+                <h3 className="text-sm font-bold text-white font-heading">{currentTool.name}</h3>
+                <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-lg">
                   Unlimited Access
                 </span>
               </div>
               <p className="text-xs text-slate-400 mb-6">{currentTool.description}</p>
 
+              {/* Dynamic Fields */}
               <div className="space-y-4">
                 {currentTool.fields.map((f) => (
                   <div key={f.name}>
@@ -265,14 +269,14 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#0d111a] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     ) : f.type === 'select' ? (
                       <select
                         required
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#0d111a] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       >
                         <option value="">Choose item...</option>
                         {f.options?.map((opt) => (
@@ -288,7 +292,7 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#0d111a] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       />
                     )}
                   </div>
@@ -297,7 +301,7 @@ export const AITools: React.FC = () => {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 mt-4 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -306,7 +310,7 @@ export const AITools: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 bg-blue-600 hover:bg-blue-500 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-600/30 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 mt-6 bg-blue-600 hover:bg-blue-500 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-600/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -324,7 +328,7 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Results Panel Terminal */}
-        <div className="p-6 rounded-2xl bg-[#111724] border border-white/5 flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-md">
+        <div className="p-6 rounded-2xl bg-[#101623] border border-white/5 flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-sm">
           
           <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">

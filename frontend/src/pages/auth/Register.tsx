@@ -47,17 +47,12 @@ export const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-[#080b11] flex flex-col items-center justify-center p-4 relative overflow-hidden">
       {/* Background Glow */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"
-      />
-      <motion.div
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.5, 0.3, 0.5] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[140px] pointer-events-none"
       />
 
       {/* Brand Logo */}
@@ -65,12 +60,18 @@ export const Register: React.FC = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex items-center gap-2 mb-8 select-none"
+        className="flex items-center gap-3 mb-8 select-none cursor-pointer"
+        onClick={() => navigate('/')}
       >
-        <Sparkles className="w-6 h-6 text-slate-300" />
-        <h1 className="text-2xl font-bold font-heading tracking-tight text-white">
-          SkillForge AI
-        </h1>
+        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
+          <Sparkles className="w-5 h-5 fill-current" />
+        </div>
+        <div className="flex flex-col">
+          <h1 className="text-xl font-bold font-heading tracking-tight text-white">
+            SkillForge AI
+          </h1>
+          <span className="text-[10px] text-slate-400 font-medium">Smart AI Workspace</span>
+        </div>
       </motion.div>
 
       {/* Form Container */}
@@ -78,13 +79,13 @@ export const Register: React.FC = () => {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md p-8 rounded-2xl glass-panel shadow-2xl relative border border-white/5"
+        className="w-full max-w-md p-8 rounded-2xl bg-[#101623] shadow-2xl relative border border-white/5"
       >
-        <h2 className="text-xl font-bold font-heading text-slate-100 mb-2">Create your account</h2>
-        <p className="text-slate-400 text-sm mb-6">Start boosting your career growth and coding speed.</p>
+        <h2 className="text-xl font-bold font-heading text-white mb-1">Create your account</h2>
+        <p className="text-slate-400 text-xs mb-6">Start boosting your career growth and coding speed.</p>
 
         {error && (
-          <div className="flex items-center gap-2 p-3 mb-4 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
+          <div className="flex items-center gap-2 p-3 mb-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
@@ -92,49 +93,49 @@ export const Register: React.FC = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               Full Name
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-3.5 w-4 h-4 text-slate-500" />
+              <User className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
               <input
                 type="text"
                 placeholder="John Doe"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-white/5 hover:bg-white/[0.07] focus:bg-white/[0.07] border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 pl-10 pr-4 text-slate-100 placeholder-slate-500 text-sm outline-none transition-all"
+                className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               Email Address
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-3.5 w-4 h-4 text-slate-500" />
+              <Mail className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
               <input
                 type="email"
                 placeholder="john@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-white/5 hover:bg-white/[0.07] focus:bg-white/[0.07] border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 pl-10 pr-4 text-slate-100 placeholder-slate-500 text-sm outline-none transition-all"
+                className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
               Password
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-3.5 w-4 h-4 text-slate-500" />
+              <Lock className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-500" />
               <input
                 type="password"
                 placeholder="Min 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-white/5 hover:bg-white/[0.07] focus:bg-white/[0.07] border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 pl-10 pr-4 text-slate-100 placeholder-slate-500 text-sm outline-none transition-all"
+                className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -144,7 +145,7 @@ export const Register: React.FC = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-lg py-3 font-semibold text-sm transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 mt-6 bg-blue-600 hover:bg-blue-500 text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-lg shadow-blue-600/25 disabled:opacity-50 cursor-pointer"
           >
             {loading ? <Loader className="w-4 h-4 animate-spin" /> : <UserPlus className="w-4 h-4" />}
             <span>Sign Up</span>
@@ -155,7 +156,7 @@ export const Register: React.FC = () => {
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
+            className="font-semibold text-blue-400 hover:text-blue-300 transition-colors"
           >
             Log In
           </Link>
