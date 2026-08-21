@@ -50,52 +50,65 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
   return (
     <div className={`fixed inset-y-0 left-0 z-35 md:relative md:translate-x-0 transition-transform duration-300 ease-in-out ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
       <motion.aside
-        animate={{ width: isCollapsed ? '72px' : '260px' }}
+        animate={{ width: isCollapsed ? '76px' : '260px' }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="flex flex-col h-screen glass-panel border-r shrink-0 select-none relative"
+        className="flex flex-col h-screen bg-[#07090e] dark:bg-[#07090e] border-r border-white/5 shrink-0 select-none relative"
       >
-        {/* Brand Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/5 dark:border-white/5 border-black/5">
+        {/* Brand Header with MoneyMate-style Logo */}
+        <div className="flex items-center justify-between p-4 border-b border-white/5">
           <AnimatePresence mode="wait">
             {!isCollapsed && (
               <motion.div
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="flex items-center gap-2 cursor-pointer font-bold font-heading text-base text-slate-100 tracking-tight hover:text-white transition-colors"
+                className="flex items-center gap-3 cursor-pointer"
                 onClick={() => handleNavClick('/dashboard')}
               >
-                <Sparkles className="w-4 h-4 text-slate-300" />
-                <span>SkillForge AI</span>
+                {/* Logo Rounded Box */}
+                <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25 shrink-0">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-bold text-white text-base tracking-tight leading-tight">
+                    SkillForge
+                  </span>
+                  <span className="text-[11px] text-zinc-400 font-medium tracking-normal">
+                    Smart AI Workspace
+                  </span>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
 
           {isCollapsed && (
             <div className="mx-auto cursor-pointer" onClick={() => handleNavClick('/dashboard')}>
-              <Sparkles className="w-5 h-5 text-slate-300" />
+              <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
+                <Sparkles className="w-5 h-5" />
+              </div>
             </div>
           )}
 
           {/* Collapse button on desktop, Close button on mobile */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 rounded-md hover:bg-white/5 border border-white/5 transition-colors absolute -right-3 top-5 bg-slate-900 dark:bg-slate-900 light:bg-white light:border-black/5 text-slate-400 hover:text-indigo-400 shadow-md hidden md:block cursor-pointer"
+            className="w-7 h-7 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition-all absolute -right-3.5 top-5 shadow-lg shadow-blue-600/30 hidden md:flex cursor-pointer border border-blue-400/30 active:scale-95"
+            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
           <button
             onClick={onClose}
-            className="p-1 rounded-md hover:bg-white/5 border border-white/5 transition-colors text-slate-400 hover:text-indigo-400 md:hidden cursor-pointer"
+            className="p-1 rounded-md hover:bg-white/5 text-zinc-400 hover:text-white md:hidden cursor-pointer"
             aria-label="Close Menu"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -105,22 +118,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 onClick={() => {
                   if (onClose) onClose();
                 }}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group relative z-10 ${
-                    isActive
-                      ? 'text-indigo-400'
-                      : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
-                  }`
-                }
+                className={`flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-medium transition-all group ${
+                  isActive
+                    ? 'bg-blue-600 text-white font-semibold shadow-lg shadow-blue-600/25'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                }`}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeNavIndicator"
-                    className="absolute inset-0 bg-gradient-to-r from-indigo-500/12 to-purple-500/4 border-l-2 border-indigo-500 rounded-lg -z-10"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-indigo-400' : 'text-slate-400 group-hover:text-indigo-400 transition-colors'}`} />
+                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-white' : 'text-zinc-400 group-hover:text-blue-400 transition-colors'}`} />
                 <AnimatePresence mode="wait">
                   {!isCollapsed && (
                     <motion.span
@@ -138,13 +142,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
         </nav>
 
         {/* Footer Profile Controls */}
-        <div className="p-4 border-t border-white/5 flex flex-col gap-2">
+        <div className="p-4 border-t border-white/5 flex flex-col gap-2 bg-[#07090e]">
           {/* Theme Toggle & Logout */}
           <div className="flex items-center justify-between gap-2">
             {!isCollapsed && (
               <button
                 onClick={toggleTheme}
-                className="flex-1 flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs rounded-md bg-white/5 border border-white/5 text-slate-300 hover:text-indigo-400 transition-colors"
+                className="flex-1 flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 transition-colors"
               >
                 {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
               </button>
@@ -152,26 +156,26 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
             <button
               onClick={handleLogout}
-              className={`flex items-center justify-center gap-1.5 px-2 py-1.5 text-xs rounded-md text-slate-400 hover:text-rose-400 transition-colors ${
-                isCollapsed ? 'w-full' : 'bg-white/5 border border-white/5'
+              className={`flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium rounded-lg text-rose-400 hover:bg-rose-500/10 transition-colors ${
+                isCollapsed ? 'w-full' : 'bg-white/5'
               }`}
               title="Log Out"
             >
               <LogOut className="w-4 h-4" />
-              {!isCollapsed && <span>Log Out</span>}
+              {!isCollapsed && <span>Logout</span>}
             </button>
           </div>
 
           {/* User Card */}
           {user && (
-            <div className="flex items-center gap-3 mt-2">
-              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center font-bold text-white shrink-0 shadow-md shadow-indigo-500/10">
+            <div className="flex items-center gap-3 mt-2 pt-2 border-t border-white/5">
+              <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shrink-0 shadow-md shadow-blue-500/20">
                 {user.name.charAt(0).toUpperCase()}
               </div>
               {!isCollapsed && (
                 <div className="overflow-hidden min-w-0">
-                  <p className="text-sm font-semibold truncate text-slate-200">{user.name}</p>
-                  <p className="text-[11px] text-slate-500 truncate">{user.email}</p>
+                  <p className="text-sm font-semibold truncate text-white">{user.name}</p>
+                  <p className="text-[11px] text-zinc-400 truncate">{user.email}</p>
                 </div>
               )}
             </div>

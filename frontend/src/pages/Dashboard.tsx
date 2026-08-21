@@ -147,160 +147,189 @@ export const Dashboard: React.FC = () => {
       count: item.requestsCount || item.creditsUsed || 1,
     })) || [];
 
-  const COLORS = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6', '#10b981'];
+  const COLORS = ['#2563eb', '#38bdf8', '#818cf8', '#34d399', '#f59e0b'];
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning';
+    if (hour < 18) return 'Good Afternoon';
+    return 'Good Evening';
+  };
+
+  const firstName = user?.name ? user.name.split(' ')[0] : 'there';
 
   return (
     <div className="space-y-6">
-      {/* Welcome Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="relative p-6 rounded-2xl border border-indigo-500/20 dark:border-indigo-500/10 overflow-hidden bg-gradient-to-r from-indigo-50/60 via-purple-50/40 to-transparent dark:from-indigo-950/20 dark:via-purple-950/10 dark:to-transparent"
-      >
-        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-          <BrainCircuit className="w-40 h-40 text-indigo-400 dark:text-indigo-400" />
+      {/* Top Greeting Header & Action Button (Screenshot Style) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            {getGreeting()}, {firstName}!
+          </h1>
+          <p className="text-xs md:text-sm text-zinc-400 mt-1 font-normal">
+            Here's your AI workspace overview for {new Date().toLocaleString('en-US', { month: 'long', year: 'numeric' })}
+          </p>
         </div>
-        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-indigo-500/10 dark:bg-indigo-500/10 border border-indigo-500/25 text-xs font-semibold text-indigo-500 dark:text-indigo-400 mb-4">
-          <Zap className="w-3.5 h-3.5 fill-current" />
-          <span>Platform Active • Unlimited Access</span>
-        </span>
-        <h1 className="text-2xl md:text-3xl font-extrabold font-heading text-slate-100 tracking-tight animate-fade-in">
-          Welcome back, {user?.name}!
-        </h1>
-        <p className="text-sm text-slate-400 mt-2 max-w-xl">
-          Accelerate your tasks using AI. Access unlimited AI chat, resume scoring, career roadmaps, document analysis, and tasks.
-        </p>
-      </motion.div>
 
-      {/* Metrics Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* AI Suite */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate('/tools')}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-all shadow-lg shadow-blue-600/30 active:scale-95 cursor-pointer"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>+ New AI Session</span>
+          </button>
+        </div>
+      </div>
+
+      {/* 4 Metric Cards Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+        {/* Card 1: AI Writing Suite */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          whileHover={{ y: -4, scale: 1.01 }}
+          whileHover={{ y: -3 }}
           onClick={() => navigate('/tools')}
-          className="p-5 rounded-xl glass-card relative overflow-hidden group cursor-pointer"
+          className="p-5 rounded-2xl bg-[#0d1017] border border-white/5 hover:border-blue-500/30 transition-all cursor-pointer flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">AI Writing Suite</span>
-            <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
-              <Sparkles className="w-5 h-5" />
+          <div className="flex items-start justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+                TOTAL AI TOOLS
+              </span>
+              <div className="text-2xl md:text-3xl font-black text-white mt-1">
+                25+
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-blue-500/15 text-blue-400 flex items-center justify-center shrink-0">
+              <Wand2 className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black text-slate-100">25+</span>
-            <span className="text-xs text-slate-500">AI tools & utilities</span>
-          </div>
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-xs text-emerald-400 font-semibold uppercase">UNLIMITED ACCESS</span>
-            <button
-              onClick={() => navigate('/tools')}
-              className="text-xs text-slate-400 hover:text-indigo-400 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
-            >
-              <span>Explore tools</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </button>
+          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+            <span className="text-zinc-400">Active utilities</span>
+            <span className="text-blue-400 font-semibold flex items-center gap-0.5">
+              Launch <ArrowUpRight className="w-3 h-3" />
+            </span>
           </div>
         </motion.div>
 
-        {/* Documents Extracted */}
+        {/* Card 2: Documents Hub */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-          whileHover={{ y: -4, scale: 1.01 }}
-          className="p-5 rounded-xl glass-card relative overflow-hidden group cursor-pointer"
+          whileHover={{ y: -3 }}
+          onClick={() => navigate('/documents')}
+          className="p-5 rounded-2xl bg-[#0d1017] border border-white/5 hover:border-cyan-500/30 transition-all cursor-pointer flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Documents Hub</span>
-            <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400">
+          <div className="flex items-start justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+                DOCUMENTS HUB
+              </span>
+              <div className="text-2xl md:text-3xl font-black text-white mt-1">
+                {data?.metrics.totalDocs ?? 0}
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center shrink-0">
               <FileText className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black text-slate-100">{data?.metrics.totalDocs}</span>
-            <span className="text-xs text-slate-500">parsed files</span>
-          </div>
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-xs text-slate-500">PDF, DOCX, TXT formats</span>
-            <button
-              onClick={() => navigate('/documents')}
-              className="text-xs text-slate-400 hover:text-purple-400 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
-            >
-              <span>Manage hub</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </button>
+          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+            <span className="text-zinc-400">PDF & DOCX files</span>
+            <span className="text-cyan-400 font-semibold flex items-center gap-0.5">
+              Explore <ArrowUpRight className="w-3 h-3" />
+            </span>
           </div>
         </motion.div>
 
-        {/* Projects Running */}
+        {/* Card 3: Kanban Projects */}
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          whileHover={{ y: -4, scale: 1.01 }}
-          className="p-5 rounded-xl glass-card relative overflow-hidden group cursor-pointer"
+          whileHover={{ y: -3 }}
+          onClick={() => navigate('/tasks')}
+          className="p-5 rounded-2xl bg-[#0d1017] border border-white/5 hover:border-emerald-500/30 transition-all cursor-pointer flex flex-col justify-between"
         >
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Workspace</span>
-            <div className="p-2 rounded-lg bg-pink-500/10 text-pink-400">
+          <div className="flex items-start justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+                WORKSPACE TASKS
+              </span>
+              <div className="text-2xl md:text-3xl font-black text-white mt-1">
+                {data?.metrics.totalTasks ?? 0}
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center shrink-0">
               <CheckSquare className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-black text-slate-100">{data?.metrics.totalProjects}</span>
-            <span className="text-xs text-slate-500">projects | {data?.metrics.totalTasks} tasks</span>
+          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+            <span className="text-zinc-400">{data?.metrics.totalProjects ?? 0} Projects</span>
+            <span className="text-emerald-400 font-semibold flex items-center gap-0.5">
+              Manage <ArrowUpRight className="w-3 h-3" />
+            </span>
           </div>
-          <div className="mt-4 flex items-center justify-between">
-            <span className="text-xs text-slate-500">Kanban cards & calendars</span>
-            <button
-              onClick={() => navigate('/tasks')}
-              className="text-xs text-slate-400 hover:text-pink-400 font-medium flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
-            >
-              <span>Open tasks</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </button>
+        </motion.div>
+
+        {/* Card 4: Platform Access */}
+        <motion.div
+          whileHover={{ y: -3 }}
+          onClick={() => navigate('/chat')}
+          className="p-5 rounded-2xl bg-[#0d1017] border border-white/5 hover:border-indigo-500/30 transition-all cursor-pointer flex flex-col justify-between"
+        >
+          <div className="flex items-start justify-between">
+            <div>
+              <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
+                AI CHAT & MODELS
+              </span>
+              <div className="text-2xl md:text-3xl font-black text-white mt-1">
+                Active
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center shrink-0">
+              <BrainCircuit className="w-5 h-5" />
+            </div>
+          </div>
+          <div className="mt-3 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+            <span className="text-blue-400 font-semibold">● Unlimited Access</span>
+            <span className="text-indigo-400 font-semibold flex items-center gap-0.5">
+              Open <ArrowUpRight className="w-3 h-3" />
+            </span>
           </div>
         </motion.div>
       </div>
 
-      {/* Analytics & Activity */}
+      {/* Analytics & Activity Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart Card */}
-        <div className="lg:col-span-2 p-6 rounded-xl glass-panel border border-white/5 flex flex-col justify-between">
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-[#0d1017] border border-white/5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-base font-bold text-slate-200">AI Features Activity</h3>
-              <p className="text-xs text-slate-500">Distribution across modules</p>
+              <h3 className="text-base font-bold text-white">AI Modules Analytics</h3>
+              <p className="text-xs text-zinc-400">Invocations & feature usage statistics</p>
             </div>
-            <TrendingUp className="w-5 h-5 text-indigo-400" />
+            <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400">
+              <TrendingUp className="w-4 h-4" />
+            </div>
           </div>
 
           <div className="h-64 w-full">
             {chartData.length === 0 ? (
-              <div className="h-full flex items-center justify-center text-slate-500 text-xs">
+              <div className="h-full flex items-center justify-center text-zinc-500 text-xs">
                 No telemetry logs found. Run any AI feature to populate statistics.
               </div>
             ) : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" strokeOpacity={0.5} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1f2430" opacity={0.6} />
                   <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
                   <YAxis stroke="#64748b" fontSize={11} tickLine={false} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'var(--bg-panel)',
-                      borderColor: 'var(--border-color)',
-                      borderRadius: '8px',
+                      backgroundColor: '#0c0e14',
+                      borderColor: '#1e2433',
+                      borderRadius: '12px',
                       fontSize: '12px',
+                      color: '#ffffff',
                     }}
-                    labelStyle={{ color: 'var(--text-title)', fontWeight: 'bold' }}
-                    itemStyle={{ color: 'var(--text-main)' }}
+                    labelStyle={{ color: '#ffffff', fontWeight: 'bold' }}
+                    itemStyle={{ color: '#93c5fd' }}
                   />
-                  <Bar dataKey="count" name="Calls" radius={[4, 4, 0, 0]}>
+                  <Bar dataKey="count" name="Calls" radius={[6, 6, 0, 0]}>
                     {chartData.map((_, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
@@ -312,31 +341,31 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Activity Timeline */}
-        <div className="p-6 rounded-xl glass-panel border border-white/5 flex flex-col justify-between">
+        <div className="p-6 rounded-2xl bg-[#0d1017] border border-white/5 flex flex-col justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-200 mb-1 flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-slate-400" />
+            <h3 className="text-base font-bold text-white mb-1 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-blue-400" />
               <span>Recent Activity</span>
             </h3>
-            <p className="text-xs text-slate-500 mb-4">Historical AI usage logs</p>
+            <p className="text-xs text-zinc-400 mb-4">Live AI generation logs</p>
           </div>
 
           <div className="space-y-4 flex-1 overflow-y-auto max-h-64 pr-2">
             {!data?.recentActivity || data.recentActivity.length === 0 ? (
-              <div className="py-12 text-center text-slate-500 text-xs">
-                No recent activity. Try launching the AI assistant.
+              <div className="py-12 text-center text-zinc-500 text-xs">
+                No recent activity. Try launching an AI tool.
               </div>
             ) : (
               data.recentActivity.map((act) => (
                 <div key={act.id} className="flex gap-3 text-xs">
                   <div className="relative flex flex-col items-center">
-                    <div className="w-2 h-2 bg-indigo-500 rounded-full z-10 shrink-0" />
-                    <div className="w-[1px] flex-1 bg-slate-800 absolute top-2 bottom-[-16px]" />
+                    <div className="w-2.5 h-2.5 bg-blue-500 rounded-full z-10 shrink-0 ring-4 ring-[#0d1017]" />
+                    <div className="w-[1px] flex-1 bg-zinc-800 absolute top-2.5 bottom-[-16px]" />
                   </div>
                   <div className="flex-1 pb-4">
-                    <p className="font-medium text-slate-300">{act.toolUsed}</p>
-                    <span className="text-[10px] text-slate-500">
-                      {new Date(act.createdAt).toLocaleTimeString()} • Generated
+                    <p className="font-medium text-zinc-200">{act.toolUsed}</p>
+                    <span className="text-[10px] text-zinc-500">
+                      {new Date(act.createdAt).toLocaleTimeString()} • Completed
                     </span>
                   </div>
                 </div>

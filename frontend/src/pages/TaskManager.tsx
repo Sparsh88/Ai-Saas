@@ -147,8 +147,8 @@ export const TaskManager: React.FC = () => {
                 onClick={() => setViewMode('KANBAN')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   viewMode === 'KANBAN'
-                    ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <KanbanSquare className="w-4 h-4" />
@@ -156,10 +156,10 @@ export const TaskManager: React.FC = () => {
               </button>
               <button
                 onClick={() => setViewMode('CALENDAR')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   viewMode === 'CALENDAR'
-                    ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
-                    : 'text-slate-400 hover:text-slate-200'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                    : 'text-zinc-400 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <CalendarIcon className="w-4 h-4" />
@@ -167,15 +167,13 @@ export const TaskManager: React.FC = () => {
               </button>
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.04, y: -1 }}
-              whileTap={{ scale: 0.96 }}
+            <button
               onClick={() => setShowAddTask(true)}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-indigo-500/20"
+              className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-blue-600/30 transition-all active:scale-95 cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Add Task</span>
-            </motion.button>
+            </button>
           </div>
         )}
       </div>
@@ -187,14 +185,14 @@ export const TaskManager: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Columns Mapping */}
             {[
-              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-indigo-500' },
-              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-purple-500' },
+              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-blue-500' },
+              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-cyan-500' },
               { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-emerald-500' }
             ].map((col) => (
-              <div key={col.id} className="p-4 rounded-xl border border-white/5 bg-slate-900/20 flex flex-col min-h-[450px]">
+              <div key={col.id} className="p-4 rounded-2xl border border-white/5 bg-[#0d1017] flex flex-col min-h-[450px]">
                 <div className={`flex items-center justify-between border-t-2 ${col.glow} pt-3 pb-4 mb-2`}>
-                  <span className="text-xs font-bold text-slate-350">{col.title}</span>
-                  <span className="text-[10px] font-semibold text-slate-500 bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-bold text-white">{col.title}</span>
+                  <span className="text-[10px] font-semibold text-zinc-400 bg-white/5 border border-white/5 px-2.5 py-0.5 rounded-full">
                     {col.tasks.length}
                   </span>
                 </div>
@@ -210,39 +208,39 @@ export const TaskManager: React.FC = () => {
                         whileHover={{ y: -3 }}
                         transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                         key={task.id}
-                        className="p-4 rounded-xl glass-card border border-white/5 bg-slate-950/45 flex flex-col justify-between group cursor-pointer"
+                        className="p-4 rounded-xl border border-white/5 bg-[#12151e] flex flex-col justify-between group cursor-pointer"
                       >
                       <div>
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors leading-snug">{task.title}</h4>
+                          <h4 className="text-xs font-bold text-zinc-200 group-hover:text-blue-400 transition-colors leading-snug">{task.title}</h4>
                           <button
                             onClick={() => deleteTask(task.id)}
-                            className="p-1 rounded text-slate-650 hover:text-rose-400 hover:bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-all"
+                            className="p-1 rounded text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
                             title="Delete"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                         {task.description && (
-                          <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{task.description}</p>
+                          <p className="text-[11px] text-zinc-400 mt-1 line-clamp-2">{task.description}</p>
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/2">
+                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/5">
                         {/* Due date */}
-                        <div className="flex items-center gap-1 text-[9px] text-slate-550">
+                        <div className="flex items-center gap-1 text-[9px] text-zinc-500">
                           <Clock className="w-3 h-3" />
                           <span>{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date'}</span>
                         </div>
 
                         {/* Priority Selector or Status Toggle */}
                         <div className="flex items-center gap-1.5">
-                          <span className={`text-[9px] font-semibold px-2 py-0.5 rounded ${
+                          <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-lg ${
                             task.priority === 'HIGH'
                               ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                               : task.priority === 'MEDIUM'
                               ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                              : 'bg-indigo-500/10 text-indigo-450 border border-indigo-500/20'
+                              : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
                           }`}>
                             {task.priority}
                           </span>

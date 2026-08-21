@@ -18,47 +18,53 @@
 }
 
 :root {
-  /* Ultra-High Contrast Crisp Light Mode */
-  --bg-main: #f8fafc; /* slate-50 background */
-  --bg-panel: #ffffff; /* pure white sidebar & panels */
-  --bg-input: #f1f5f9; /* slate-100 inputs */
-  --text-main: #0f172a; /* slate-900 absolute dark body text */
-  --text-title: #020617; /* slate-950 absolute black titles */
-  --text-title-secondary: #0f172a; /* slate-900 section headers */
-  --text-subtitle: #1e293b; /* slate-800 clear secondary texts */
-  --text-subtitle-secondary: #334155; /* slate-700 tertiary texts */
-  --text-muted: #475569; /* slate-600 helper texts */
-  --text-placeholder: #64748b; /* slate-500 placeholder text */
+  /* Crisp Light Mode */
+  --bg-main: #f4f6f9;
+  --bg-panel: #ffffff;
+  --bg-input: #eef2f6;
+  --text-main: #0f172a;
+  --text-title: #020617;
+  --text-title-secondary: #0f172a;
+  --text-subtitle: #1e293b;
+  --text-subtitle-secondary: #334155;
+  --text-muted: #64748b;
+  --text-placeholder: #94a3b8;
   
-  --border-color: rgba(15, 23, 42, 0.16); /* high visibility crisp dividers */
-  --card-bg-opacity: #ffffff; /* solid clean cards */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.1);
+  --border-color: rgba(15, 23, 42, 0.12);
+  --card-bg-opacity: #ffffff;
   --card-bg-opacity-hover: #ffffff;
-  --card-bg-opacity-subtle: #f1f5f9;
-  --bg-panel-subtle: #f8fafc;
+  --card-bg-opacity-subtle: #f8fafc;
+  --bg-panel-subtle: #f1f5f9;
   --glass-bg: #ffffff;
-  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
 }
 
 .dark {
-  /* Premium Slate-Free True Dark Mode (Deep Zinc) */
-  --bg-main: #09090b; /* zinc-950 */
-  --bg-panel: #111113; /* zinc-900 */
-  --bg-input: #1c1c20; /* zinc-800 */
-  --text-main: #d4d4d8; /* zinc-300 */
-  --text-title: #fafafa; /* zinc-50 */
-  --text-title-secondary: #f4f4f5; /* zinc-100 */
-  --text-subtitle: #a1a1aa; /* zinc-400 */
-  --text-subtitle-secondary: #71717a; /* zinc-500 */
-  --text-muted: #52525b; /* zinc-600 */
-  --text-placeholder: #3f3f46; /* zinc-700 */
+  /* Pitch-Black Modern Blue Dark Mode (Fintech / AI SaaS Aesthetic) */
+  --bg-main: #060709;
+  --bg-panel: #0b0d12;
+  --bg-input: #12151d;
+  --text-main: #d1d5db;
+  --text-title: #ffffff;
+  --text-title-secondary: #f3f4f6;
+  --text-subtitle: #9ca3af;
+  --text-subtitle-secondary: #6b7280;
+  --text-muted: #4b5563;
+  --text-placeholder: #374151;
   
-  --border-color: rgba(255, 255, 255, 0.07);
-  --card-bg-opacity: rgba(255, 255, 255, 0.02);
-  --card-bg-opacity-hover: rgba(255, 255, 255, 0.04);
-  --card-bg-opacity-subtle: rgba(255, 255, 255, 0.015);
-  --bg-panel-subtle: rgba(0, 0, 0, 0.25);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --card-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+  --primary: #2563eb;
+  --primary-hover: #3b82f6;
+  --primary-light: rgba(37, 99, 235, 0.15);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --card-bg-opacity: #0f1118;
+  --card-bg-opacity-hover: #141722;
+  --card-bg-opacity-subtle: #0b0d14;
+  --bg-panel-subtle: #0d0f15;
+  --glass-bg: #0b0d12;
+  --card-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.2);
 }
 
 @layer base {
