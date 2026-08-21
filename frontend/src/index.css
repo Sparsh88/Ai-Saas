@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-slate-950: var(--bg-main);
   --color-slate-900: var(--bg-panel);
