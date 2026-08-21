@@ -69,10 +69,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
-                className="flex items-center gap-2 cursor-pointer font-bold font-heading text-lg bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent"
+                className="flex items-center gap-2 cursor-pointer font-bold font-heading text-base text-slate-100 tracking-tight hover:text-white transition-colors"
                 onClick={() => handleNavClick('/dashboard')}
               >
-                <Sparkles className="w-5 h-5 text-indigo-400" />
+                <Sparkles className="w-4 h-4 text-slate-300" />
                 <span>SkillForge AI</span>
               </motion.div>
             )}
@@ -80,7 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
 
           {isCollapsed && (
             <div className="mx-auto cursor-pointer" onClick={() => handleNavClick('/dashboard')}>
-              <Sparkles className="w-6 h-6 text-indigo-400 animate-pulse" />
+              <Sparkles className="w-5 h-5 text-slate-300" />
             </div>
           )}
 

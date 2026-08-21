@@ -47,11 +47,9 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         
         {/* Brand */}
-        <div className="flex items-center gap-2 font-bold font-heading text-sm text-slate-300">
-          <Sparkles className="w-4 h-4 text-indigo-400" />
-          <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
-            SkillForge AI
-          </span>
+        <div className="flex items-center gap-2 font-bold font-heading text-sm text-slate-200">
+          <Sparkles className="w-4 h-4 text-slate-400" />
+          <span>SkillForge AI</span>
         </div>
 
         {/* Social Connect Icons */}

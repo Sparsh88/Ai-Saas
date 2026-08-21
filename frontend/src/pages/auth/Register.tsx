@@ -67,8 +67,8 @@ export const Register: React.FC = () => {
         transition={{ duration: 0.4 }}
         className="flex items-center gap-2 mb-8 select-none"
       >
-        <Sparkles className="w-8 h-8 text-indigo-400" />
-        <h1 className="text-3xl font-black font-heading tracking-tight bg-gradient-to-r from-indigo-200 via-purple-300 to-indigo-100 bg-clip-text text-transparent">
+        <Sparkles className="w-6 h-6 text-slate-300" />
+        <h1 className="text-2xl font-bold font-heading tracking-tight text-white">
           SkillForge AI
         </h1>
       </motion.div>
