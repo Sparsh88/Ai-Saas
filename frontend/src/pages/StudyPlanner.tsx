@@ -570,6 +570,8 @@ export const StudyPlanner: React.FC = () => {
                   <span>Generate an interview session on the left to activate prep simulator.</span>
                 </div>
               )}
+            </div>
+          </div>
         )}
       </div>
     </div>

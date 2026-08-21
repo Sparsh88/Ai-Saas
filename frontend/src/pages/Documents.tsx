@@ -103,9 +103,6 @@ export const Documents: React.FC = () => {
     <div className="space-y-6">
       {/* Upload Zone & Title */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-        <div className="lg:col-span-1 p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40 flex flex-col justify-between">
-          <div className="space-y-2 mb-6">
-            <h3 className="text-sm font-bold text-slate-200">Upload Documents</h3>
         
         {/* Upload Card */}
         <div className="p-6 rounded-2xl bg-[#0d1017] border border-white/5 flex flex-col justify-between">
@@ -122,7 +119,7 @@ export const Documents: React.FC = () => {
               id="doc-upload"
               type="file"
               accept=".pdf,.docx,.txt"
-              onChange={handleUpload}
+              onChange={handleFileUpload}
               className="hidden"
               disabled={uploading}
             />
@@ -210,8 +207,7 @@ export const Documents: React.FC = () => {
                         {doc.name}
                       </h4>
                       <span className="text-[10px] text-zinc-500 block">
-                        {(doc.size / 1024).toFixed(1)} KB • {doc.fileType.toUpperCase()} •{' '}
-                        {new Date(doc.createdAt).toLocaleDateString()}
+                        {doc.fileType.toUpperCase()} • {new Date(doc.createdAt).toLocaleDateString()}
                       </span>
                     </div>
                   </div>
