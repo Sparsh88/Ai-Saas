@@ -189,7 +189,7 @@ export const StudyPlanner: React.FC = () => {
       <div className="flex gap-2 border-b border-[#1c1c1c] pb-2 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
         {[
           { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map, activeBg: 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25' },
-          { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen, activeBg: 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25' },
+          { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen, activeBg: 'bg-[#ef4444] text-white shadow-md shadow-red-500/25' },
           { id: 'INTERVIEW', name: 'Mock Interview Prep', icon: UserCheck, activeBg: 'bg-[#eab308] text-black font-bold shadow-md shadow-yellow-500/25' }
         ].map((tab) => (
           <button
@@ -219,7 +219,7 @@ export const StudyPlanner: React.FC = () => {
 
       {/* View Panels */}
       <div>
-        {/* tab 1: roadmaps */}
+        {/* tab 1: roadmaps (Purple) */}
         {activeTab === 'ROADMAP' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Input Form */}
@@ -289,7 +289,7 @@ export const StudyPlanner: React.FC = () => {
 
                           <div className="space-y-1 pt-1.5 border-t border-[#1c1c1c]">
                             <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Milestone project challenge</span>
-                            <div className="flex items-center gap-1 text-[11px] text-blue-300 font-semibold">
+                            <div className="flex items-center gap-1 text-[11px] text-purple-300 font-semibold">
                               <Award className="w-3.5 h-3.5 shrink-0" />
                               <p>{ms.projects[0]}</p>
                             </div>
@@ -309,7 +309,7 @@ export const StudyPlanner: React.FC = () => {
           </div>
         )}
 
-        {/* tab 2: study plan */}
+        {/* tab 2: study plan (Red) */}
         {activeTab === 'PLANNER' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Input Form */}
@@ -327,14 +327,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Next.js App Router & GraphQL"
                     value={studyTopic}
                     onChange={(e) => setStudyTopic(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-red-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-purple-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#ef4444] hover:bg-[#dc2626] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-red-500/25 disabled:opacity-50 cursor-pointer"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
                   <span>Create Study Calendar</span>
@@ -354,13 +354,13 @@ export const StudyPlanner: React.FC = () => {
                     {studyPlan.weeklySchedule.map((week: any, wIdx: number) => (
                       <div key={wIdx} className="p-4 rounded-xl border border-[#222222] bg-[#111111] flex flex-col justify-between">
                         <div className="mb-3">
-                          <span className="text-[10px] font-bold text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
+                          <span className="text-[10px] font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
                           <h5 className="text-xs font-bold text-white mt-2">{week.goal}</h5>
                         </div>
                         <div className="space-y-2 border-t border-[#1c1c1c] pt-2 text-[11px]">
                           {week.days.map((d: any, dIdx: number) => (
                             <div key={dIdx} className="flex gap-2 text-slate-400">
-                              <span className="font-semibold text-purple-300 min-w-[50px] shrink-0">{d.day}:</span>
+                              <span className="font-semibold text-red-300 min-w-[50px] shrink-0">{d.day}:</span>
                               <span>{d.task}</span>
                             </div>
                           ))}
@@ -379,7 +379,7 @@ export const StudyPlanner: React.FC = () => {
           </div>
         )}
 
-        {/* tab 3: mock interview */}
+        {/* tab 3: mock interview (Yellow) */}
         {activeTab === 'INTERVIEW' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Interview Settings */}
@@ -398,7 +398,7 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Junior React Developer"
                     value={interviewRole}
                     onChange={(e) => setInterviewRole(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-yellow-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
@@ -411,16 +411,16 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Fintech, SaaS"
                     value={interviewIndustry}
                     onChange={(e) => setInterviewIndustry(e.target.value)}
-                    className="w-full bg-[#111111] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-yellow-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-purple-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-[#eab308] hover:bg-[#ca8a04] text-black font-bold rounded-xl py-3 text-xs transition-all shadow-lg shadow-yellow-500/25 disabled:opacity-50 cursor-pointer"
                 >
-                  {loading ? <Loader className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
+                  {loading ? <Loader className="w-4 h-4 animate-spin text-black" /> : <UserCheck className="w-4 h-4" />}
                   <span>Generate Interview Session</span>
                 </button>
               </form>
