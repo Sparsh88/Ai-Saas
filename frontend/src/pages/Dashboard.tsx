@@ -149,7 +149,7 @@ export const Dashboard: React.FC = () => {
       count: item.requestsCount || item.creditsUsed || 1,
     })) || [];
 
-  const COLORS = ['#3b82f6', '#ef4444', '#f59e0b', '#38bdf8', '#8b5cf6'];
+  const THEME_COLORS = ['#3b82f6', '#a855f7', '#ef4444', '#eab308'];
 
   return (
     <div className="space-y-6">
@@ -173,49 +173,49 @@ export const Dashboard: React.FC = () => {
         </button>
       </div>
 
-      {/* 4 Metric Cards Row (Exact Screenshot Color Combination) */}
+      {/* 4 Metric Cards Row (Blue, Purple, Red, Yellow Palette) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-        {/* Card 1: TOTAL BALANCE / SUITE (Neutral Dark with Blue Icon) */}
+        {/* Card 1: BLUE (AI Writing Suite) */}
         <motion.div
           whileHover={{ y: -3 }}
           onClick={() => navigate('/tools')}
-          className="p-5 rounded-2xl bg-[#0e1217] border border-[#1b222c] hover:border-blue-500/40 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
+          className="p-5 rounded-2xl bg-[#081528] border border-[#0f294a] hover:border-[#3b82f6]/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AI Writing Suite</span>
-            <div className="w-9 h-9 rounded-xl bg-[#14233a] border border-[#1e3a61] text-[#3b82f6] flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#0c2242] border border-[#1d4474] text-[#3b82f6] flex items-center justify-center group-hover:scale-105 transition-transform">
               <Sparkles className="w-4.5 h-4.5" />
             </div>
           </div>
           <div>
-            <span className="text-2xl md:text-3xl font-extrabold text-white">25+</span>
-            <p className="text-xs text-slate-500 mt-1">Lifetime net utilities</p>
+            <span className="text-2xl md:text-3xl font-extrabold text-[#3b82f6]">25+</span>
+            <p className="text-xs text-slate-400 mt-1">Lifetime net utilities</p>
           </div>
         </motion.div>
 
-        {/* Card 2: MONTHLY INCOME / DOCUMENTS (Blue Tint with Vibrant Blue Number) */}
+        {/* Card 2: PURPLE (Documents Hub) */}
         <motion.div
           whileHover={{ y: -3 }}
           onClick={() => navigate('/documents')}
-          className="p-5 rounded-2xl bg-[#081528] border border-[#0f294a] hover:border-blue-500/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
+          className="p-5 rounded-2xl bg-[#180d29] border border-[#301654] hover:border-[#a855f7]/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Documents Hub</span>
-            <div className="w-9 h-9 rounded-xl bg-[#0c2242] border border-[#1d4474] text-[#3b82f6] flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#241040] border border-[#481f7d] text-[#a855f7] flex items-center justify-center group-hover:scale-105 transition-transform">
               <TrendingUp className="w-4.5 h-4.5" />
             </div>
           </div>
           <div>
-            <span className="text-2xl md:text-3xl font-extrabold text-[#3b82f6]">{data?.metrics.totalDocs || 0}</span>
-            <p className="text-xs text-slate-400 mt-1">This month</p>
+            <span className="text-2xl md:text-3xl font-extrabold text-[#a855f7]">{data?.metrics.totalDocs || 0}</span>
+            <p className="text-xs text-slate-400 mt-1">Parsed PDF & DOCX files</p>
           </div>
         </motion.div>
 
-        {/* Card 3: MONTHLY EXPENSES / ACTIVE PROJECTS (Red Tint with Vibrant Red Number) */}
+        {/* Card 3: RED (Active Projects) */}
         <motion.div
           whileHover={{ y: -3 }}
           onClick={() => navigate('/tasks')}
-          className="p-5 rounded-2xl bg-[#1a0a0c] border border-[#381518] hover:border-red-500/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
+          className="p-5 rounded-2xl bg-[#1a0a0c] border border-[#381518] hover:border-[#ef4444]/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Active Projects</span>
@@ -225,44 +225,50 @@ export const Dashboard: React.FC = () => {
           </div>
           <div>
             <span className="text-2xl md:text-3xl font-extrabold text-[#ef4444]">{data?.metrics.totalProjects || 0}</span>
-            <p className="text-xs text-slate-400 mt-1">This month</p>
+            <p className="text-xs text-slate-400 mt-1">Kanban workspaces</p>
           </div>
         </motion.div>
 
-        {/* Card 4: MONTHLY SAVINGS / TOTAL TASKS (Cyan/Sky Tint with Sky Blue Number) */}
+        {/* Card 4: YELLOW / AMBER (Total Tasks) */}
         <motion.div
           whileHover={{ y: -3 }}
           onClick={() => navigate('/tasks')}
-          className="p-5 rounded-2xl bg-[#081724] border border-[#0e2c45] hover:border-sky-500/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
+          className="p-5 rounded-2xl bg-[#1c1808] border border-[#3d330d] hover:border-[#eab308]/50 transition-all flex flex-col justify-between cursor-pointer group shadow-sm"
         >
           <div className="flex items-center justify-between mb-3">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Tasks</span>
-            <div className="w-9 h-9 rounded-xl bg-[#0c2438] border border-[#164163] text-[#38bdf8] flex items-center justify-center group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-[#2b240a] border border-[#5c4c12] text-[#eab308] flex items-center justify-center group-hover:scale-105 transition-transform">
               <CheckSquare className="w-4.5 h-4.5" />
             </div>
           </div>
           <div>
-            <span className="text-2xl md:text-3xl font-extrabold text-[#38bdf8]">{data?.metrics.totalTasks || 0}</span>
+            <span className="text-2xl md:text-3xl font-extrabold text-[#eab308]">{data?.metrics.totalTasks || 0}</span>
             <p className="text-xs text-slate-400 mt-1">Completed milestones</p>
           </div>
         </motion.div>
       </div>
 
-      {/* Analytics Chart Section (Matching Income vs Expenses + Spending by Category) */}
+      {/* Analytics Chart Section (Harmonized with Blue, Purple, Red, Yellow) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Card: Income vs Expenses Style Curve Chart */}
+        {/* Left Card: Telemetry Bars */}
         <div className="lg:col-span-2 p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] flex flex-col justify-between">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-base font-bold text-white font-heading">AI Invocations vs Execution</h3>
               <p className="text-xs text-slate-500 mt-0.5">Last 6 periods</p>
             </div>
-            <div className="flex items-center gap-3 text-xs">
+            <div className="flex flex-wrap items-center gap-3 text-xs">
               <span className="flex items-center gap-1.5 text-[#3b82f6] font-medium">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#3b82f6]" /> AI Usage
               </span>
+              <span className="flex items-center gap-1.5 text-[#a855f7] font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#a855f7]" /> Documents
+              </span>
               <span className="flex items-center gap-1.5 text-[#ef4444] font-medium">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]" /> Latency
+              </span>
+              <span className="flex items-center gap-1.5 text-[#eab308] font-medium">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#eab308]" /> Efficiency
               </span>
             </div>
           </div>
@@ -290,7 +296,7 @@ export const Dashboard: React.FC = () => {
                   />
                   <Bar dataKey="count" name="Calls" radius={[6, 6, 0, 0]}>
                     {chartData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#3b82f6' : '#ef4444'} />
+                      <Cell key={`cell-${index}`} fill={THEME_COLORS[index % THEME_COLORS.length]} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -299,14 +305,14 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Card: Spending by Category Style Donut / Activity */}
+        {/* Right Card: Spending by Category / Allocation */}
         <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] flex flex-col justify-between">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-base font-bold text-white font-heading">AI Allocation</h3>
               <p className="text-xs text-slate-500">This month</p>
             </div>
-            <span className="text-xs font-bold text-[#f59e0b] bg-[#f59e0b]/10 px-2.5 py-1 rounded-lg">
+            <span className="text-xs font-bold text-[#eab308] bg-[#eab308]/10 border border-[#eab308]/20 px-2.5 py-1 rounded-lg">
               100% Active
             </span>
           </div>
@@ -317,20 +323,26 @@ export const Dashboard: React.FC = () => {
                 No recent activity. Try launching the AI assistant.
               </div>
             ) : (
-              data.recentActivity.map((act) => (
-                <div key={act.id} className="flex gap-3 text-xs">
-                  <div className="relative flex flex-col items-center">
-                    <div className="w-2.5 h-2.5 bg-[#3b82f6] rounded-full z-10 shrink-0 shadow-sm shadow-blue-500/50" />
-                    <div className="w-[1px] flex-1 bg-[#222222] absolute top-2 bottom-[-16px]" />
+              data.recentActivity.map((act, idx) => {
+                const dotColor = THEME_COLORS[idx % THEME_COLORS.length];
+                return (
+                  <div key={act.id} className="flex gap-3 text-xs">
+                    <div className="relative flex flex-col items-center">
+                      <div
+                        className="w-2.5 h-2.5 rounded-full z-10 shrink-0 shadow-sm"
+                        style={{ backgroundColor: dotColor, boxShadow: `0 0 8px ${dotColor}80` }}
+                      />
+                      <div className="w-[1px] flex-1 bg-[#222222] absolute top-2 bottom-[-16px]" />
+                    </div>
+                    <div className="flex-1 pb-4">
+                      <p className="font-semibold text-white">{act.toolUsed}</p>
+                      <span className="text-[10px] text-slate-500">
+                        {new Date(act.createdAt).toLocaleTimeString()} • Generated
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex-1 pb-4">
-                    <p className="font-semibold text-white">{act.toolUsed}</p>
-                    <span className="text-[10px] text-slate-500">
-                      {new Date(act.createdAt).toLocaleTimeString()} • Generated
-                    </span>
-                  </div>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
