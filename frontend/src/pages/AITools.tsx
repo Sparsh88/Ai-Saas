@@ -177,8 +177,8 @@ export const AITools: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
       <div className="lg:col-span-1 space-y-4">        {/* Mobile Selector Dropdown */}
-        <div className="lg:hidden p-4 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] shadow-sm">
-          <label className="block text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">
+        <div className="lg:hidden p-4 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c]">
+          <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
             Select AI Tool
           </label>
           <select
@@ -189,7 +189,7 @@ export const AITools: React.FC = () => {
               setFormData({});
               setError(null);
             }}
-            className="w-full bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] text-slate-900 dark:text-white text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-blue-500/50"
+            className="w-full bg-[#111111] border border-[#222222] text-white text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-blue-500/50"
           >
             {tools.map((t) => (
               <option key={t.id} value={t.id}>
@@ -200,8 +200,8 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Desktop Selector Panel */}
-        <div className="hidden lg:block p-4 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] shadow-sm">
-          <h2 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+        <div className="hidden lg:block p-4 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] shadow-sm">
+          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
             <Grid className="w-4 h-4 text-[#3b82f6]" />
             <span>AI Tool Sets</span>
           </h2>
@@ -221,15 +221,15 @@ export const AITools: React.FC = () => {
                   className={`w-full flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all relative z-10 cursor-pointer ${
                     isSelected
                       ? 'bg-[#3b82f6] text-white shadow-md shadow-blue-500/25'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.04]'
+                      : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-500 dark:text-slate-400'}`} />
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-400'}`} />
                     <span className="truncate">{t.name}</span>
                   </div>
                   <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0 ${
-                    isSelected ? 'bg-white/20 text-white' : 'text-blue-600 dark:text-blue-400 bg-blue-500/10 border border-blue-500/20'
+                    isSelected ? 'bg-white/20 text-white' : 'text-blue-400 bg-blue-500/10 border border-blue-500/20'
                   }`}>
                     Free
                   </span>
@@ -244,22 +244,22 @@ export const AITools: React.FC = () => {
       <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
         {/* Input Panel */}
-        <div className="p-6 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] flex flex-col justify-between shadow-sm">
+        <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] flex flex-col justify-between shadow-sm">
           <form onSubmit={handleRunTool} className="space-y-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white font-heading">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-lg">
+                <h3 className="text-sm font-bold text-white font-heading">{currentTool.name}</h3>
+                <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-lg">
                   Unlimited Access
                 </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">{currentTool.description}</p>
+              <p className="text-xs text-slate-400 mb-6">{currentTool.description}</p>
 
               {/* Dynamic Fields */}
               <div className="space-y-4">
                 {currentTool.fields.map((f) => (
                   <div key={f.name}>
-                    <label className="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                       {f.label}
                     </label>
                     {f.type === 'textarea' ? (
@@ -269,14 +269,14 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     ) : f.type === 'select' ? (
                       <select
                         required
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       >
                         <option value="">Choose item...</option>
                         {f.options?.map((opt) => (
@@ -292,7 +292,7 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-slate-50 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       />
                     )}
                   </div>
@@ -301,7 +301,7 @@ export const AITools: React.FC = () => {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs">
+              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <span>{error}</span>
               </div>
@@ -310,7 +310,7 @@ export const AITools: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-md shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -328,10 +328,10 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Results Panel Terminal */}
-        <div className="p-6 rounded-2xl bg-white dark:bg-[#0d0d0d] border border-slate-200 dark:border-[#1c1c1c] flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-sm">
+        <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-sm">
           
-          <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1c1c1c] pb-3 mb-4">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+          <div className="flex items-center justify-between border-b border-[#1c1c1c] pb-3 mb-4">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
               <Brain className="w-4 h-4 text-[#3b82f6]" />
               <span>AI Output Stream</span>
             </span>
@@ -341,14 +341,14 @@ export const AITools: React.FC = () => {
               <div className="flex items-center gap-1">
                 <button
                   onClick={handleCopy}
-                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] hover:border-blue-500/40 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all text-xs cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[#111111] border border-[#222222] hover:border-blue-500/40 text-slate-400 hover:text-white transition-all text-xs cursor-pointer"
                   title="Copy to clipboard"
                 >
-                  {copied ? <CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copied ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="p-1.5 rounded-lg bg-slate-100 dark:bg-[#111111] border border-slate-200 dark:border-[#222222] hover:border-blue-500/40 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all text-xs cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[#111111] border border-[#222222] hover:border-blue-500/40 text-slate-400 hover:text-white transition-all text-xs cursor-pointer"
                   title="Download file"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -357,7 +357,7 @@ export const AITools: React.FC = () => {
             )}
           </div>
 
-          <div className="flex-1 overflow-y-auto text-xs text-slate-800 dark:text-slate-300 leading-relaxed font-mono whitespace-pre-wrap select-text pr-1 bg-slate-50 dark:bg-[#111111] p-4 rounded-xl border border-slate-200 dark:border-[#222222] max-h-[420px]">
+          <div className="flex-1 overflow-y-auto text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-wrap select-text pr-1 bg-[#111111] p-4 rounded-xl border border-[#222222] max-h-[420px]">
             {result ? (
               // If JSON, try to print formatted JSON
               (() => {

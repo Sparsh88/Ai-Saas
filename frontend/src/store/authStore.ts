@@ -11,10 +11,8 @@ interface AuthState {
   user: User | null;
   token: string | null;
   refreshToken: string | null;
-  theme: 'dark' | 'light';
   notificationsCount: number;
   setAuth: (user: User, token: string, refreshToken: string) => void;
-  toggleTheme: () => void;
   setNotificationsCount: (count: number) => void;
   logout: () => Promise<void>;
   initializeAuth: () => void;
@@ -24,7 +22,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   token: null,
   refreshToken: null,
-  theme: 'dark',
   notificationsCount: 0,
 
   setAuth: (user, token, refreshToken) => {
@@ -36,23 +33,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     set({ user, token, refreshToken });
-  },
-
-  toggleTheme: () => {
-    const currentTheme = get().theme;
-    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
-    const root = window.document.documentElement;
-    if (nextTheme === 'dark') {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
-    
-    localStorage.setItem('SF_THEME', nextTheme);
-    set({ theme: nextTheme });
   },
 
   setNotificationsCount: (count) => {
@@ -82,30 +62,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     const token = localStorage.getItem('SF_TOKEN');
     const refreshToken = localStorage.getItem('SF_REFRESH_TOKEN');
     const userStr = localStorage.getItem('SF_USER');
-    const themeStr = localStorage.getItem('SF_THEME') as 'dark' | 'light' | null;
 
-    // Theme initialization
-    const theme = themeStr || 'dark';
+    // Always enforce dark theme on root
     const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-    }
+    root.classList.add('dark');
+    root.classList.remove('light');
 
     if (token && refreshToken && userStr) {
       try {
         const user = JSON.parse(userStr);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        set({ user, token, refreshToken, theme });
+        set({ user, token, refreshToken });
       } catch (e) {
         localStorage.clear();
-        set({ theme });
+        set({ user: null, token: null, refreshToken: null });
       }
-    } else {
-      set({ theme });
     }
   },
 }));

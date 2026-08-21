@@ -23,7 +23,7 @@ export const Layout: React.FC = () => {
   }, [token, navigate]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-[#f8fafc] dark:bg-[#000000] text-slate-800 dark:text-slate-100 relative">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 relative">
       {/* Mobile Sidebar backdrop overlay */}
       {isMobileSidebarOpen && (
         <div
@@ -41,6 +41,8 @@ export const Layout: React.FC = () => {
         
         {/* Child Router View */}
         <main className="flex-1 overflow-y-auto flex flex-col justify-between p-4 md:p-6 relative">
+          {/* Subtle light leak for modern styling */}
+          <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
           <div className="flex-1">
             <Outlet />
           </div>
