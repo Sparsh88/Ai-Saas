@@ -8,8 +8,6 @@ import {
   Wand2,
   KanbanSquare,
   FileText,
-  CreditCard,
-  ShieldCheck,
   ChevronLeft,
   ChevronRight,
   LogOut,

@@ -247,7 +247,7 @@ export const StudyPlanner: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Map className="w-4 h-4" />}
-                  <span>Generate Roadmap (-3 credits)</span>
+                  <span>Generate Roadmap</span>
                 </button>
               </form>
             </div>
@@ -337,7 +337,7 @@ export const StudyPlanner: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
-                  <span>Create Study Calendar (-2 credits)</span>
+                  <span>Create Study Calendar</span>
                 </button>
               </form>
             </div>
@@ -421,7 +421,7 @@ export const StudyPlanner: React.FC = () => {
                   className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
-                  <span>Generate Interview Session (-2 credits)</span>
+                  <span>Generate Interview Session</span>
                 </button>
               </form>
             </div>
@@ -532,7 +532,7 @@ export const StudyPlanner: React.FC = () => {
                         className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                       >
                         {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
-                        <span>Submit Answer (-4 credits)</span>
+                        <span>Submit Answer</span>
                       </button>
                     ) : (
                       currentQuestionIndex < 2 ? (
