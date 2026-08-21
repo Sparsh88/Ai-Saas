@@ -19,19 +19,19 @@
 
 :root {
   /* Ultra-High Contrast Crisp Light Mode */
-  --bg-main: #f8fafc;
-  --bg-panel: #ffffff;
-  --bg-input: #f1f5f9;
-  --text-main: #0f172a;
-  --text-title: #020617;
-  --text-title-secondary: #0f172a;
-  --text-subtitle: #1e293b;
-  --text-subtitle-secondary: #334155;
-  --text-muted: #475569;
-  --text-placeholder: #64748b;
+  --bg-main: #f8fafc; /* slate-50 background */
+  --bg-panel: #ffffff; /* pure white sidebar & panels */
+  --bg-input: #f1f5f9; /* slate-100 inputs */
+  --text-main: #0f172a; /* slate-900 absolute dark body text */
+  --text-title: #020617; /* slate-950 absolute black titles */
+  --text-title-secondary: #0f172a; /* slate-900 section headers */
+  --text-subtitle: #1e293b; /* slate-800 clear secondary texts */
+  --text-subtitle-secondary: #334155; /* slate-700 tertiary texts */
+  --text-muted: #475569; /* slate-600 helper texts */
+  --text-placeholder: #64748b; /* slate-500 placeholder text */
   
-  --border-color: rgba(15, 23, 42, 0.12);
-  --card-bg-opacity: #ffffff;
+  --border-color: rgba(15, 23, 42, 0.16); /* high visibility crisp dividers */
+  --card-bg-opacity: #ffffff; /* solid clean cards */
   --card-bg-opacity-hover: #ffffff;
   --card-bg-opacity-subtle: #f1f5f9;
   --bg-panel-subtle: #f8fafc;
@@ -40,25 +40,25 @@
 }
 
 .dark {
-  /* Deep Midnight Obsidian Dark Mode */
-  --bg-main: #030712; /* Deepest Void Black */
-  --bg-panel: #080d1a; /* Rich Midnight Glass Panel */
-  --bg-input: #0e1628; /* Crisp Deep Input */
-  --text-main: #e2e8f0; /* Crisp Slate-200 */
-  --text-title: #ffffff; /* Pure White */
-  --text-title-secondary: #f8fafc; /* Bright Title */
-  --text-subtitle: #94a3b8; /* Slate-400 */
-  --text-subtitle-secondary: #64748b; /* Slate-500 */
-  --text-muted: #475569; /* Slate-600 */
-  --text-placeholder: #334155; /* Slate-700 */
+  /* Premium Slate-Free True Dark Mode (Deep Zinc) */
+  --bg-main: #09090b; /* zinc-950 */
+  --bg-panel: #111113; /* zinc-900 */
+  --bg-input: #1c1c20; /* zinc-800 */
+  --text-main: #d4d4d8; /* zinc-300 */
+  --text-title: #fafafa; /* zinc-50 */
+  --text-title-secondary: #f4f4f5; /* zinc-100 */
+  --text-subtitle: #a1a1aa; /* zinc-400 */
+  --text-subtitle-secondary: #71717a; /* zinc-500 */
+  --text-muted: #52525b; /* zinc-600 */
+  --text-placeholder: #3f3f46; /* zinc-700 */
   
-  --border-color: rgba(255, 255, 255, 0.08);
-  --card-bg-opacity: rgba(15, 23, 42, 0.65);
-  --card-bg-opacity-hover: rgba(15, 23, 42, 0.85);
-  --card-bg-opacity-subtle: rgba(255, 255, 255, 0.025);
-  --bg-panel-subtle: rgba(8, 13, 26, 0.75);
-  --glass-bg: rgba(8, 13, 26, 0.75);
-  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --border-color: rgba(255, 255, 255, 0.07);
+  --card-bg-opacity: rgba(255, 255, 255, 0.02);
+  --card-bg-opacity-hover: rgba(255, 255, 255, 0.04);
+  --card-bg-opacity-subtle: rgba(255, 255, 255, 0.015);
+  --bg-panel-subtle: rgba(0, 0, 0, 0.25);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --card-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
 }
 
 @layer base {
@@ -212,69 +212,5 @@
 
 /* Workspace Grid/Timeline Line style */
 .timeline-line {
-  background: linear-gradient(to bottom, #3b82f6 0%, #ec4899 50%, #10b981 100%);
-}
-
-/* Vibrant Colorful Card Glows for Dark Mode */
-.card-blue {
-  border-color: rgba(59, 130, 246, 0.25) !important;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-blue:hover {
-  border-color: rgba(59, 130, 246, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(59, 130, 246, 0.25) !important;
-}
-
-.card-pink {
-  border-color: rgba(236, 72, 153, 0.25) !important;
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-pink:hover {
-  border-color: rgba(236, 72, 153, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(236, 72, 153, 0.25) !important;
-}
-
-.card-purple {
-  border-color: rgba(168, 85, 247, 0.25) !important;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-purple:hover {
-  border-color: rgba(168, 85, 247, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(168, 85, 247, 0.25) !important;
-}
-
-.card-emerald {
-  border-color: rgba(16, 185, 129, 0.25) !important;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-emerald:hover {
-  border-color: rgba(16, 185, 129, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(16, 185, 129, 0.25) !important;
-}
-
-.card-rose {
-  border-color: rgba(244, 63, 94, 0.25) !important;
-  background: linear-gradient(135deg, rgba(244, 63, 94, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-rose:hover {
-  border-color: rgba(244, 63, 94, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(244, 63, 94, 0.25) !important;
-}
-
-.card-amber {
-  border-color: rgba(245, 158, 11, 0.25) !important;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-amber:hover {
-  border-color: rgba(245, 158, 11, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(245, 158, 11, 0.25) !important;
-}
-
-.card-cyan {
-  border-color: rgba(6, 182, 212, 0.25) !important;
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(15, 23, 42, 0.75) 100%) !important;
-}
-.card-cyan:hover {
-  border-color: rgba(6, 182, 212, 0.6) !important;
-  box-shadow: 0 8px 30px -4px rgba(6, 182, 212, 0.25) !important;
+  background: linear-gradient(to bottom, #6366f1 0%, #a855f7 50%, #ec4899 100%);
 }

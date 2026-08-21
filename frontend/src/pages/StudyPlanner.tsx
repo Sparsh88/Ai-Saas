@@ -185,12 +185,12 @@ export const StudyPlanner: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Selector Tabs with Vibrant Neon Badges */}
-      <div className="flex gap-3 border-b border-white/10 pb-3 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
+      {/* Selector Tabs */}
+      <div className="flex gap-2 border-b border-white/5 pb-2 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
         {[
-          { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map, color: 'text-blue-400', active: 'bg-blue-500/20 border-blue-500/40 text-blue-300 shadow-md shadow-blue-500/20' },
-          { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen, color: 'text-amber-400', active: 'bg-amber-500/20 border-amber-500/40 text-amber-300 shadow-md shadow-amber-500/20' },
-          { id: 'INTERVIEW', name: 'Mock Interview Prep', icon: UserCheck, color: 'text-pink-400', active: 'bg-pink-500/20 border-pink-500/40 text-pink-300 shadow-md shadow-pink-500/20' }
+          { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map },
+          { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen },
+          { id: 'INTERVIEW', name: 'Mock Interview Prep', icon: UserCheck }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -198,20 +198,20 @@ export const StudyPlanner: React.FC = () => {
               setActiveTab(tab.id as any);
               setError(null);
             }}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl border transition-all shrink-0 cursor-pointer ${
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all shrink-0 ${
               activeTab === tab.id
-                ? tab.active
-                : 'border-white/5 bg-white/5 text-slate-400 hover:text-white hover:bg-white/10'
+                ? 'bg-indigo-500/10 border border-indigo-500/20 text-indigo-400'
+                : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <tab.icon className={`w-4 h-4 ${tab.color}`} />
+            <tab.icon className="w-4.5 h-4.5" />
             <span>{tab.name}</span>
           </button>
         ))}
       </div>
 
       {error && (
-        <div className="flex items-center gap-2 p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs max-w-md">
+        <div className="flex items-center gap-2 p-3.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs max-w-md">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -223,15 +223,12 @@ export const StudyPlanner: React.FC = () => {
         {activeTab === 'ROADMAP' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Input Form */}
-            <div className="p-6 rounded-2xl glass-panel card-blue flex flex-col justify-between shadow-2xl">
+            <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40 flex flex-col justify-between">
               <form onSubmit={handleGenerateRoadmap} className="space-y-4">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-blue-400 shadow-md shadow-blue-400/50" />
-                  <span>Interactive Career Roadmap</span>
-                </h3>
-                <p className="text-xs text-slate-400 mb-6">Create customized skill paths based on your desired goals.</p>
+                <h3 className="text-sm font-bold text-slate-200">Interactive Career Roadmap</h3>
+                <p className="text-xs text-slate-500 mb-6">Create customized skill paths based on your desired goals.</p>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                     Desired Career Role / Goal
                   </label>
                   <input
@@ -240,14 +237,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Senior Full Stack React Developer"
                     value={careerGoal}
                     onChange={(e) => setCareerGoal(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-white/15 focus:border-blue-500 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs outline-none transition-all"
+                    className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl py-3 font-bold text-xs transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <Map className="w-4 h-4" />}
                   <span>Generate Roadmap</span>
@@ -316,15 +313,12 @@ export const StudyPlanner: React.FC = () => {
         {activeTab === 'PLANNER' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Input Form */}
-            <div className="p-6 rounded-2xl glass-panel card-amber flex flex-col justify-between shadow-2xl">
+            <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40 flex flex-col justify-between">
               <form onSubmit={handleGenerateStudyPlan} className="space-y-4">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-md shadow-amber-400/50" />
-                  <span>AI Curriculum Planner</span>
-                </h3>
-                <p className="text-xs text-slate-400 mb-6">Receive structured weekly study calendars for any subject.</p>
+                <h3 className="text-sm font-bold text-slate-200">AI Curriculum Planner</h3>
+                <p className="text-xs text-slate-500 mb-6">Receive structured weekly study calendars for any subject.</p>
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                     What topic or skill do you want to learn?
                   </label>
                   <input
@@ -333,14 +327,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Next.js App Router & GraphQL"
                     value={studyTopic}
                     onChange={(e) => setStudyTopic(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-white/15 focus:border-amber-500 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs outline-none transition-all"
+                    className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-600 hover:to-rose-600 text-white rounded-xl py-3 font-bold text-xs transition-all shadow-lg shadow-amber-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
                   <span>Create Study Calendar</span>
@@ -349,42 +343,35 @@ export const StudyPlanner: React.FC = () => {
             </div>
 
             {/* Weekly Curriculum view */}
-            <div className="lg:col-span-2 p-6 rounded-2xl glass-panel border border-white/10 bg-slate-900/70 min-h-[350px] shadow-2xl">
+            <div className="lg:col-span-2 p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/60 min-h-[350px]">
               {studyPlan ? (
                 <div className="space-y-6">
-                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                    <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-400" />
-                      <span>{studyPlan.title}</span>
-                    </h4>
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                    <h4 className="text-sm font-bold text-slate-200">{studyPlan.title}</h4>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {studyPlan.weeklySchedule.map((week: any, wIdx: number) => {
-                      const weekGlows = ['card-blue', 'card-pink', 'card-purple', 'card-emerald', 'card-amber'];
-                      const weekStyle = weekGlows[wIdx % weekGlows.length];
-                      return (
-                        <div key={wIdx} className={`p-4 rounded-xl border ${weekStyle} flex flex-col justify-between shadow-md`}>
-                          <div className="mb-3">
-                            <span className="text-[10px] font-bold text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded-full uppercase tracking-wider border border-amber-500/30">{week.week}</span>
-                            <h5 className="text-xs font-bold text-white mt-2">{week.goal}</h5>
-                          </div>
-                          <div className="space-y-2 border-t border-white/10 pt-2 text-[11px]">
-                            {week.days.map((d: any, dIdx: number) => (
-                              <div key={dIdx} className="flex gap-2 text-slate-300">
-                                <span className="font-bold text-amber-400 min-w-[50px] shrink-0">{d.day}:</span>
-                                <span>{d.task}</span>
-                              </div>
-                            ))}
-                          </div>
+                    {studyPlan.weeklySchedule.map((week: any, wIdx: number) => (
+                      <div key={wIdx} className="p-4 rounded-xl border border-white/5 bg-slate-950/40 flex flex-col justify-between">
+                        <div className="mb-3">
+                          <span className="text-[10px] font-bold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded uppercase tracking-wider">{week.week}</span>
+                          <h5 className="text-xs font-bold text-slate-300 mt-2">{week.goal}</h5>
                         </div>
-                      );
-                    })}
+                        <div className="space-y-2 border-t border-white/2 pt-2 text-[11px]">
+                          {week.days.map((d: any, dIdx: number) => (
+                            <div key={dIdx} className="flex gap-2 text-slate-400">
+                              <span className="font-semibold text-indigo-300 min-w-[50px] shrink-0">{d.day}:</span>
+                              <span>{d.task}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ) : (
-                <div className="h-full flex flex-col items-center justify-center text-slate-500 py-16 gap-3">
-                  <BookOpen className="w-8 h-8 text-slate-600" />
+                <div className="h-full flex flex-col items-center justify-center text-slate-650 py-16 gap-3">
+                  <BookOpen className="w-8 h-8 text-slate-700" />
                   <span>Your study curriculum cards will render here.</span>
                 </div>
               )}
@@ -396,16 +383,13 @@ export const StudyPlanner: React.FC = () => {
         {activeTab === 'INTERVIEW' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
             {/* Interview Settings */}
-            <div className="p-6 rounded-2xl glass-panel card-rose flex flex-col justify-between shadow-2xl">
+            <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40 flex flex-col justify-between">
               <form onSubmit={handleStartInterview} className="space-y-4">
-                <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-400 shadow-md shadow-rose-400/50" />
-                  <span>Interactive Mock Interview</span>
-                </h3>
-                <p className="text-xs text-slate-400 mb-6">Test yourself against simulated technical and behavioral prompts.</p>
+                <h3 className="text-sm font-bold text-slate-200">Interactive Mock Interview</h3>
+                <p className="text-xs text-slate-500 mb-6">Test yourself against simulated technical and behavioral prompts.</p>
                 
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                     Target Job Position / Role
                   </label>
                   <input
@@ -414,12 +398,12 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Junior React Developer"
                     value={interviewRole}
                     onChange={(e) => setInterviewRole(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-white/15 focus:border-rose-500 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs outline-none transition-all"
+                    className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                  <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">
                     Domain / Industry (Optional)
                   </label>
                   <input
@@ -427,14 +411,14 @@ export const StudyPlanner: React.FC = () => {
                     placeholder="e.g. Fintech, SaaS"
                     value={interviewIndustry}
                     onChange={(e) => setInterviewIndustry(e.target.value)}
-                    className="w-full bg-slate-950/80 border border-white/15 focus:border-rose-500 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs outline-none transition-all"
+                    className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-xl py-3 px-4 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white rounded-xl py-3 font-bold text-xs transition-all shadow-lg shadow-rose-500/25 disabled:opacity-50 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-650 hover:to-purple-750 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50"
                 >
                   {loading ? <Loader className="w-4 h-4 animate-spin" /> : <UserCheck className="w-4 h-4" />}
                   <span>Generate Interview Session</span>

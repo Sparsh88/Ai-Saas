@@ -187,14 +187,14 @@ export const TaskManager: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Columns Mapping */}
             {[
-              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-blue-500', cardStyle: 'card-blue', badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
-              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-amber-500', cardStyle: 'card-amber', badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
-              { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-emerald-500', cardStyle: 'card-emerald', badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' }
+              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-indigo-500' },
+              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-purple-500' },
+              { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-emerald-500' }
             ].map((col) => (
-              <div key={col.id} className="p-4 rounded-2xl border border-white/10 bg-slate-900/60 shadow-xl flex flex-col min-h-[450px]">
+              <div key={col.id} className="p-4 rounded-xl border border-white/5 bg-slate-900/20 flex flex-col min-h-[450px]">
                 <div className={`flex items-center justify-between border-t-2 ${col.glow} pt-3 pb-4 mb-2`}>
-                  <span className="text-xs font-bold text-white tracking-wide">{col.title}</span>
-                  <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full border ${col.badge}`}>
+                  <span className="text-xs font-bold text-slate-350">{col.title}</span>
+                  <span className="text-[10px] font-semibold text-slate-500 bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
                     {col.tasks.length}
                   </span>
                 </div>
@@ -210,39 +210,39 @@ export const TaskManager: React.FC = () => {
                         whileHover={{ y: -3 }}
                         transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                         key={task.id}
-                        className={`p-4 rounded-xl glass-card ${col.cardStyle} flex flex-col justify-between group cursor-pointer shadow-md`}
+                        className="p-4 rounded-xl glass-card border border-white/5 bg-slate-950/45 flex flex-col justify-between group cursor-pointer"
                       >
                       <div>
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="text-xs font-bold text-white group-hover:text-blue-300 transition-colors leading-snug">{task.title}</h4>
+                          <h4 className="text-xs font-bold text-slate-200 group-hover:text-indigo-400 transition-colors leading-snug">{task.title}</h4>
                           <button
                             onClick={() => deleteTask(task.id)}
-                            className="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+                            className="p-1 rounded text-slate-650 hover:text-rose-400 hover:bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-all"
                             title="Delete"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                         {task.description && (
-                          <p className="text-[11px] text-slate-300 mt-1 line-clamp-2">{task.description}</p>
+                          <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{task.description}</p>
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/10">
+                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/2">
                         {/* Due date */}
-                        <div className="flex items-center gap-1 text-[9px] text-slate-400">
-                          <Clock className="w-3 h-3 text-slate-400" />
+                        <div className="flex items-center gap-1 text-[9px] text-slate-550">
+                          <Clock className="w-3 h-3" />
                           <span>{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date'}</span>
                         </div>
 
                         {/* Priority Selector or Status Toggle */}
                         <div className="flex items-center gap-1.5">
-                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${
+                          <span className={`text-[9px] font-semibold px-2 py-0.5 rounded ${
                             task.priority === 'HIGH'
-                              ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm shadow-rose-500/20'
+                              ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                               : task.priority === 'MEDIUM'
-                              ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm shadow-amber-500/20'
-                              : 'bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-sm shadow-blue-500/20'
+                              ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                              : 'bg-indigo-500/10 text-indigo-450 border border-indigo-500/20'
                           }`}>
                             {task.priority}
                           </span>

@@ -34,12 +34,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
   };
 
   const navItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, color: 'text-blue-400', border: 'border-blue-500', glow: 'from-blue-500/25 via-blue-500/5 to-transparent' },
-    { name: 'AI Chat Hub', path: '/chat', icon: MessageSquare, color: 'text-pink-400', border: 'border-pink-500', glow: 'from-pink-500/25 via-pink-500/5 to-transparent' },
-    { name: 'AI Writing Tools', path: '/tools', icon: Wand2, color: 'text-purple-400', border: 'border-purple-500', glow: 'from-purple-500/25 via-purple-500/5 to-transparent' },
-    { name: 'Study & Careers', path: '/careers', icon: BookOpen, color: 'text-amber-400', border: 'border-amber-500', glow: 'from-amber-500/25 via-amber-500/5 to-transparent' },
-    { name: 'Tasks & Kanban', path: '/tasks', icon: KanbanSquare, color: 'text-emerald-400', border: 'border-emerald-500', glow: 'from-emerald-500/25 via-emerald-500/5 to-transparent' },
-    { name: 'Documents Hub', path: '/documents', icon: FileText, color: 'text-rose-400', border: 'border-rose-500', glow: 'from-rose-500/25 via-rose-500/5 to-transparent' },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'AI Chat Hub', path: '/chat', icon: MessageSquare },
+    { name: 'AI Writing Tools', path: '/tools', icon: Wand2 },
+    { name: 'Study & Careers', path: '/careers', icon: BookOpen },
+    { name: 'Tasks & Kanban', path: '/tasks', icon: KanbanSquare },
+    { name: 'Documents Hub', path: '/documents', icon: FileText },
   ];
 
   const handleNavClick = (path: string) => {
@@ -52,7 +52,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
       <motion.aside
         animate={{ width: isCollapsed ? '72px' : '260px' }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-        className="flex flex-col h-screen glass-panel border-r shrink-0 select-none relative shadow-2xl"
+        className="flex flex-col h-screen glass-panel border-r shrink-0 select-none relative"
       >
         {/* Brand Header */}
         <div className="flex items-center justify-between p-4 border-b border-white/5 dark:border-white/5 border-black/5">
@@ -65,31 +65,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 className="flex items-center gap-2 cursor-pointer font-bold font-heading text-base text-slate-100 tracking-tight hover:text-white transition-colors"
                 onClick={() => handleNavClick('/dashboard')}
               >
-                <div className="p-1.5 rounded-lg bg-gradient-to-tr from-blue-500 via-pink-500 to-amber-400 text-white shadow-md shadow-pink-500/20">
-                  <Sparkles className="w-4 h-4" />
-                </div>
-                <span className="bg-gradient-to-r from-blue-400 via-purple-300 to-pink-400 bg-clip-text text-transparent">SkillForge AI</span>
+                <Sparkles className="w-4 h-4 text-slate-300" />
+                <span>SkillForge AI</span>
               </motion.div>
             )}
           </AnimatePresence>
 
           {isCollapsed && (
-            <div className="mx-auto cursor-pointer p-1.5 rounded-lg bg-gradient-to-tr from-blue-500 via-pink-500 to-amber-400 text-white shadow-md shadow-pink-500/20" onClick={() => handleNavClick('/dashboard')}>
-              <Sparkles className="w-4 h-4" />
+            <div className="mx-auto cursor-pointer" onClick={() => handleNavClick('/dashboard')}>
+              <Sparkles className="w-5 h-5 text-slate-300" />
             </div>
           )}
 
           {/* Collapse button on desktop, Close button on mobile */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 rounded-md hover:bg-white/10 border border-white/10 transition-colors absolute -right-3 top-5 bg-slate-900 dark:bg-slate-900 light:bg-white light:border-black/5 text-slate-400 hover:text-blue-400 shadow-md hidden md:block cursor-pointer"
+            className="p-1 rounded-md hover:bg-white/5 border border-white/5 transition-colors absolute -right-3 top-5 bg-slate-900 dark:bg-slate-900 light:bg-white light:border-black/5 text-slate-400 hover:text-indigo-400 shadow-md hidden md:block cursor-pointer"
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
           <button
             onClick={onClose}
-            className="p-1 rounded-md hover:bg-white/10 border border-white/10 transition-colors text-slate-400 hover:text-blue-400 md:hidden cursor-pointer"
+            className="p-1 rounded-md hover:bg-white/5 border border-white/5 transition-colors text-slate-400 hover:text-indigo-400 md:hidden cursor-pointer"
             aria-label="Close Menu"
           >
             <X className="w-4 h-4" />
@@ -97,7 +95,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
         </div>
 
         {/* Navigation Links */}
-        <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -108,9 +106,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                   if (onClose) onClose();
                 }}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all group relative z-10 ${
+                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group relative z-10 ${
                     isActive
-                      ? 'text-white font-semibold shadow-inner'
+                      ? 'text-indigo-400'
                       : 'text-slate-400 hover:text-slate-100 hover:bg-white/5'
                   }`
                 }
@@ -118,11 +116,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen = false, onClose 
                 {isActive && (
                   <motion.div
                     layoutId="activeNavIndicator"
-                    className={`absolute inset-0 bg-gradient-to-r ${item.glow} border-l-2 ${item.border} rounded-xl -z-10`}
+                    className="absolute inset-0 bg-gradient-to-r from-indigo-500/12 to-purple-500/4 border-l-2 border-indigo-500 rounded-lg -z-10"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
-                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? item.color : 'text-slate-400 group-hover:' + item.color} transition-colors`} />
+                <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-indigo-400' : 'text-slate-400 group-hover:text-indigo-400 transition-colors'}`} />
                 <AnimatePresence mode="wait">
                   {!isCollapsed && (
                     <motion.span
