@@ -117,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   );
 
   return (
-    <header className="h-16 border-b border-white/5 px-4 md:px-6 flex items-center justify-between shrink-0 glass-panel relative z-20">
+    <header className="h-16 border-b border-[#1c1c1c] bg-[#000000] px-4 md:px-6 flex items-center justify-between shrink-0 relative z-20">
       {/* Page Title & Mobile Toggle */}
       <div className="flex items-center gap-3">
         <button
@@ -136,13 +136,13 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
       <div className="relative w-80 max-w-lg hidden md:block">
         <button
           onClick={() => setShowSearch(true)}
-          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#101623] border border-white/5 hover:border-blue-500/40 text-left text-xs text-slate-400 hover:text-slate-200 transition-all shadow-inner"
+          className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-[#111111] border border-[#222222] hover:border-blue-500/40 text-left text-xs text-slate-400 hover:text-slate-200 transition-all shadow-inner"
         >
           <div className="flex items-center gap-2.5">
-            <Search className="w-4 h-4 text-slate-400" />
+            <Search className="w-4 h-4 text-slate-500" />
             <span>Search workspace, tools...</span>
           </div>
-          <div className="flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-300">
+          <div className="flex items-center gap-1 bg-[#1a1a1a] px-1.5 py-0.5 rounded text-[10px] font-mono text-slate-400">
             <Command className="w-2.5 h-2.5" />
             <span>K</span>
           </div>
@@ -154,7 +154,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl bg-[#101623] border border-white/5 hover:border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          className="p-2 rounded-xl bg-[#111111] border border-[#222222] hover:border-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
           title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
           {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-400" />}
@@ -167,12 +167,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
               setShowNotifications(!showNotifications);
               fetchNotifications(true);
             }}
-            className="p-2 rounded-xl bg-[#101623] border border-white/5 hover:border-white/10 text-slate-400 hover:text-white transition-colors relative cursor-pointer"
+            className="p-2 rounded-xl bg-[#111111] border border-[#222222] hover:border-white/10 text-slate-400 hover:text-white transition-colors relative cursor-pointer"
             aria-label="Notifications"
           >
             <Bell className="w-4 h-4" />
             {unreadCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-500 ring-2 ring-[#080b11]" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#3b82f6] ring-2 ring-[#000000]" />
             )}
           </button>
 
@@ -184,7 +184,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
                 transition={{ duration: 0.15 }}
-                className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto rounded-2xl bg-[#101623] shadow-2xl p-4 border border-white/10 z-50 divide-y divide-white/5"
+                className="absolute right-0 mt-2 w-80 max-h-96 overflow-y-auto rounded-2xl bg-[#0d0d0d] shadow-2xl p-4 border border-[#222222] z-50 divide-y divide-[#1a1a1a]"
               >
                 <div className="flex items-center justify-between pb-3">
                   <h3 className="text-xs font-bold font-heading text-white uppercase tracking-wider">
@@ -235,7 +235,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
           <motion.div
             whileHover={{ scale: 1.05 }}
             onClick={() => navigate('/dashboard')}
-            className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center font-bold text-white shadow-md shadow-blue-600/30 text-xs cursor-pointer"
+            className="w-9 h-9 rounded-xl bg-[#3b82f6] flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/25 text-xs cursor-pointer"
             title={user.name}
           >
             {user.name.charAt(0).toUpperCase()}

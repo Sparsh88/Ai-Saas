@@ -40,11 +40,11 @@
 }
 
 .dark {
-  /* Exact Pure Jet Black Dark Mode matching Reference UI */
-  --bg-main: #050505;
-  --bg-panel: #0a0a0a;
-  --bg-card: #121212;
-  --bg-input: #0f0f0f;
+  /* Exact Pure Jet Black Theme Matching Reference Screenshot with Blue Primary */
+  --bg-main: #000000;
+  --bg-panel: #000000;
+  --bg-card: #0d0d0d;
+  --bg-input: #121212;
   --text-main: #d1d5db;
   --text-title: #ffffff;
   --text-title-secondary: #f3f4f6;
@@ -53,13 +53,13 @@
   --text-muted: #4b5563;
   --text-placeholder: #374151;
   
-  --border-color: rgba(255, 255, 255, 0.08);
-  --card-bg-opacity: #121212;
-  --card-bg-opacity-hover: #171717;
-  --card-bg-opacity-subtle: #0d0d0d;
-  --bg-panel-subtle: #0a0a0a;
-  --glass-bg: #0a0a0a;
-  --card-shadow: 0 10px 30px -10px rgba(37, 99, 235, 0.15);
+  --border-color: #1c1c1c;
+  --card-bg-opacity: #0d0d0d;
+  --card-bg-opacity-hover: #141414;
+  --card-bg-opacity-subtle: #080808;
+  --bg-panel-subtle: #000000;
+  --glass-bg: #000000;
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 @layer base {

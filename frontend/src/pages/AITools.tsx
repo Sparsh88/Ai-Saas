@@ -177,7 +177,7 @@ export const AITools: React.FC = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch">
       <div className="lg:col-span-1 space-y-4">        {/* Mobile Selector Dropdown */}
-        <div className="lg:hidden p-4 rounded-2xl bg-[#101623] border border-white/5">
+        <div className="lg:hidden p-4 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c]">
           <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
             Select AI Tool
           </label>
@@ -189,7 +189,7 @@ export const AITools: React.FC = () => {
               setFormData({});
               setError(null);
             }}
-            className="w-full bg-[#090d16] border border-white/10 text-white text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-blue-500/50"
+            className="w-full bg-[#111111] border border-[#222222] text-white text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-blue-500/50"
           >
             {tools.map((t) => (
               <option key={t.id} value={t.id}>
@@ -200,9 +200,9 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Desktop Selector Panel */}
-        <div className="hidden lg:block p-4 rounded-2xl bg-[#101623] border border-white/5 shadow-sm">
+        <div className="hidden lg:block p-4 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] shadow-sm">
           <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-            <Grid className="w-4 h-4 text-blue-400" />
+            <Grid className="w-4 h-4 text-[#3b82f6]" />
             <span>AI Tool Sets</span>
           </h2>
           <div className="space-y-1.5 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
@@ -218,9 +218,9 @@ export const AITools: React.FC = () => {
                     setFormData({});
                     setError(null);
                   }}
-                  className={`w-full flex items-center justify-between text-left px-3 py-2.5 rounded-xl text-xs font-medium transition-all relative z-10 cursor-pointer ${
+                  className={`w-full flex items-center justify-between text-left px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all relative z-10 cursor-pointer ${
                     isSelected
-                      ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-600/25'
+                      ? 'bg-[#3b82f6] text-white shadow-md shadow-blue-500/25'
                       : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
@@ -244,7 +244,7 @@ export const AITools: React.FC = () => {
       <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         
         {/* Input Panel */}
-        <div className="p-6 rounded-2xl bg-[#101623] border border-white/5 flex flex-col justify-between shadow-sm">
+        <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] flex flex-col justify-between shadow-sm">
           <form onSubmit={handleRunTool} className="space-y-4 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-1">
@@ -269,14 +269,14 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                       />
                     ) : f.type === 'select' ? (
                       <select
                         required
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       >
                         <option value="">Choose item...</option>
                         {f.options?.map((opt) => (
@@ -292,7 +292,7 @@ export const AITools: React.FC = () => {
                         placeholder={f.placeholder}
                         value={formData[f.name] || ''}
                         onChange={(e) => handleInputChange(f.name, e.target.value)}
-                        className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
+                        className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-600 text-xs outline-none transition-all"
                       />
                     )}
                   </div>
@@ -310,7 +310,7 @@ export const AITools: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 bg-blue-600 hover:bg-blue-500 text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-600/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
+              className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -328,11 +328,11 @@ export const AITools: React.FC = () => {
         </div>
 
         {/* Results Panel Terminal */}
-        <div className="p-6 rounded-2xl bg-[#101623] border border-white/5 flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-sm">
+        <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] flex flex-col justify-between relative overflow-hidden min-h-[350px] shadow-sm">
           
-          <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+          <div className="flex items-center justify-between border-b border-[#1c1c1c] pb-3 mb-4">
             <span className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-              <Brain className="w-4 h-4 text-blue-400" />
+              <Brain className="w-4 h-4 text-[#3b82f6]" />
               <span>AI Output Stream</span>
             </span>
 
@@ -341,14 +341,14 @@ export const AITools: React.FC = () => {
               <div className="flex items-center gap-1">
                 <button
                   onClick={handleCopy}
-                  className="p-1.5 rounded bg-white/5 border border-white/5 hover:border-white/10 text-slate-400 hover:text-indigo-400 transition-all text-xs"
+                  className="p-1.5 rounded-lg bg-[#111111] border border-[#222222] hover:border-blue-500/40 text-slate-400 hover:text-white transition-all text-xs cursor-pointer"
                   title="Copy to clipboard"
                 >
                   {copied ? <CheckCircle className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="p-1.5 rounded bg-white/5 border border-white/5 hover:border-white/10 text-slate-400 hover:text-indigo-400 transition-all text-xs"
+                  className="p-1.5 rounded-lg bg-[#111111] border border-[#222222] hover:border-blue-500/40 text-slate-400 hover:text-white transition-all text-xs cursor-pointer"
                   title="Download file"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -357,7 +357,7 @@ export const AITools: React.FC = () => {
             )}
           </div>
 
-          <div className="flex-1 overflow-y-auto text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-wrap select-text pr-1 bg-slate-950/45 p-4 rounded-xl border border-white/2 max-h-[420px]">
+          <div className="flex-1 overflow-y-auto text-xs text-slate-300 leading-relaxed font-mono whitespace-pre-wrap select-text pr-1 bg-[#111111] p-4 rounded-xl border border-[#222222] max-h-[420px]">
             {result ? (
               // If JSON, try to print formatted JSON
               (() => {

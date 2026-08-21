@@ -42,12 +42,12 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#080b11] flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Subtle Ambient Glow */}
+    <div className="min-h-screen bg-[#000000] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Glow */}
       <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.25, 0.15] }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.22, 0.12] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[140px] pointer-events-none"
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#3b82f6]/20 rounded-full blur-[140px] pointer-events-none"
       />
 
       {/* Brand */}
@@ -58,7 +58,7 @@ export const Login: React.FC = () => {
         className="flex items-center gap-3 mb-8 select-none cursor-pointer"
         onClick={() => navigate('/')}
       >
-        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-600/30">
+        <div className="w-10 h-10 rounded-xl bg-[#3b82f6] flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
           <Sparkles className="w-5 h-5 fill-current" />
         </div>
         <div className="flex flex-col">
@@ -74,7 +74,7 @@ export const Login: React.FC = () => {
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md p-8 rounded-2xl bg-[#101623] shadow-2xl relative border border-white/5"
+        className="w-full max-w-md p-8 rounded-2xl bg-[#0d0d0d] shadow-2xl relative border border-[#1c1c1c]"
       >
         <h2 className="text-xl font-bold font-heading text-white mb-1">Welcome back</h2>
         <p className="text-slate-400 text-xs mb-6">Log in to your dashboard to access AI workspaces.</p>
@@ -98,7 +98,7 @@ export const Login: React.FC = () => {
                 placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ export const Login: React.FC = () => {
               </label>
               <Link
                 to="/forgot-password"
-                className="text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                className="text-xs font-medium text-[#3b82f6] hover:text-blue-300 transition-colors"
               >
                 Forgot?
               </Link>
@@ -122,7 +122,7 @@ export const Login: React.FC = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#090d16] border border-white/5 focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+                className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 pl-10 pr-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
               />
             </div>
           </div>
@@ -132,7 +132,7 @@ export const Login: React.FC = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 mt-6 bg-blue-600 hover:bg-blue-500 text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-lg shadow-blue-600/25 disabled:opacity-50 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 mt-6 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl py-3 font-semibold text-xs md:text-sm transition-all shadow-lg shadow-blue-500/25 disabled:opacity-50 cursor-pointer"
           >
             {loading ? <Loader className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />}
             <span>Log In</span>
@@ -143,7 +143,7 @@ export const Login: React.FC = () => {
           Don't have an account?{' '}
           <Link
             to="/register"
-            className="font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+            className="font-semibold text-[#3b82f6] hover:text-blue-300 transition-colors"
           >
             Sign Up
           </Link>

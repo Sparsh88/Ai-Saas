@@ -187,11 +187,11 @@ export const TaskManager: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Columns Mapping */}
             {[
-              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-blue-500' },
+              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-[#3b82f6]' },
               { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-sky-500' },
               { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-emerald-500' }
             ].map((col) => (
-              <div key={col.id} className="p-4 rounded-2xl border border-white/5 bg-[#101623] flex flex-col min-h-[450px] shadow-sm">
+              <div key={col.id} className="p-4 rounded-2xl border border-[#1c1c1c] bg-[#0d0d0d] flex flex-col min-h-[450px] shadow-sm">
                 <div className={`flex items-center justify-between border-t-2 ${col.glow} pt-3 pb-4 mb-2`}>
                   <span className="text-xs font-bold text-white font-heading">{col.title}</span>
                   <span className="text-[10px] font-semibold text-slate-400 bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
@@ -210,11 +210,11 @@ export const TaskManager: React.FC = () => {
                         whileHover={{ y: -3 }}
                         transition={{ type: 'spring', stiffness: 450, damping: 30 }}
                         key={task.id}
-                        className="p-4 rounded-xl border border-white/5 bg-[#090d16] flex flex-col justify-between group cursor-pointer hover:border-blue-500/30 transition-all"
+                        className="p-4 rounded-xl border border-[#222222] bg-[#111111] flex flex-col justify-between group cursor-pointer hover:border-blue-500/40 transition-all"
                       >
                       <div>
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors leading-snug">{task.title}</h4>
+                          <h4 className="text-xs font-bold text-white group-hover:text-[#3b82f6] transition-colors leading-snug">{task.title}</h4>
                           <button
                             onClick={() => deleteTask(task.id)}
                             className="p-1 rounded text-slate-600 hover:text-rose-400 hover:bg-rose-500/5 opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
@@ -228,7 +228,7 @@ export const TaskManager: React.FC = () => {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-white/5">
+                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-[#1c1c1c]">
                         {/* Due date */}
                         <div className="flex items-center gap-1 text-[9px] text-slate-400">
                           <Clock className="w-3 h-3" />
@@ -254,7 +254,7 @@ export const TaskManager: React.FC = () => {
                               const nextIdx = (stages.indexOf(task.status) + 1) % stages.length;
                               updateTaskStatus(task.id, stages[nextIdx]);
                             }}
-                            className="p-1 rounded bg-white/5 border border-white/5 text-[9px] font-bold text-slate-400 hover:text-indigo-400 transition-colors"
+                            className="p-1 rounded bg-white/5 border border-white/5 text-[9px] font-bold text-slate-400 hover:text-[#3b82f6] transition-colors"
                           >
                             <ChevronRight className="w-3 h-3" />
                           </button>
@@ -265,7 +265,7 @@ export const TaskManager: React.FC = () => {
                   </AnimatePresence>
 
                   {col.tasks.length === 0 && (
-                    <div className="py-12 text-center text-slate-650 text-xs font-sans">
+                    <div className="py-12 text-center text-slate-600 text-xs font-sans">
                       No cards here.
                     </div>
                   )}
@@ -275,9 +275,9 @@ export const TaskManager: React.FC = () => {
           </div>
         ) : (
           /* Calendar View */
-          <div className="p-6 rounded-xl glass-panel border border-white/5 bg-slate-900/40">
-            <h3 className="text-sm font-heading font-bold text-slate-200 mb-4 flex items-center gap-1.5">
-              <CalendarIcon className="w-4.5 h-4.5 text-indigo-400" />
+          <div className="p-6 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] shadow-sm">
+            <h3 className="text-sm font-heading font-bold text-white mb-4 flex items-center gap-1.5">
+              <CalendarIcon className="w-4.5 h-4.5 text-[#3b82f6]" />
               <span>Deadlines Calendar</span>
             </h3>
             
@@ -291,26 +291,26 @@ export const TaskManager: React.FC = () => {
                   .filter((t) => t.dueDate)
                   .sort((a, b) => new Date(a.dueDate!).getTime() - new Date(b.dueDate!).getTime())
                   .map((task) => (
-                    <div key={task.id} className="p-4 rounded-xl border border-white/5 bg-slate-950/40 flex items-center justify-between text-xs">
+                    <div key={task.id} className="p-4 rounded-xl border border-[#222222] bg-[#111111] flex items-center justify-between text-xs">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 rounded bg-indigo-500/10 text-indigo-400">
+                        <div className="p-2 rounded-xl bg-blue-500/10 text-[#3b82f6]">
                           <CalendarIcon className="w-4 h-4" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-slate-250">{task.title}</h4>
-                          <span className="text-[10px] text-slate-500 uppercase font-semibold">Project: {activeProject.name}</span>
+                          <h4 className="font-bold text-white">{task.title}</h4>
+                          <span className="text-[10px] text-slate-400 uppercase font-semibold">Project: {activeProject.name}</span>
                         </div>
                       </div>
 
                       <div className="flex items-center gap-4">
                         <div className="text-right">
-                          <p className="font-semibold text-slate-300">{new Date(task.dueDate!).toLocaleDateString()}</p>
+                          <p className="font-semibold text-white">{new Date(task.dueDate!).toLocaleDateString()}</p>
                           <span className="text-[10px] text-slate-500">Scheduled Date</span>
                         </div>
                         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
                           task.status === 'DONE'
                             ? 'bg-emerald-500/10 text-emerald-400'
-                            : 'bg-amber-500/10 text-amber-450'
+                            : 'bg-amber-500/10 text-amber-400'
                         }`}>
                           {task.status}
                         </span>
@@ -323,51 +323,51 @@ export const TaskManager: React.FC = () => {
         )
       ) : (
         <div className="py-16 text-center text-slate-500 text-sm flex flex-col items-center gap-2">
-          <FolderOpen className="w-8 h-8 text-slate-700" />
+          <FolderOpen className="w-8 h-8 text-slate-600" />
           <span>You don't have any active projects yet. Click the folder icon above to add one.</span>
         </div>
       )}
 
       {/* Add Project Modal */}
       {showAddProject && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-filter backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="w-full max-w-md bg-slate-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden p-6 animate-in fade-in zoom-in-95 duration-150">
-            <h3 className="text-sm font-bold text-slate-200 mb-4">Create Workspace Project</h3>
+        <div className="fixed inset-0 bg-[#000000]/80 backdrop-filter backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="w-full max-w-md bg-[#0d0d0d] border border-[#222222] rounded-2xl shadow-2xl overflow-hidden p-6 animate-in fade-in zoom-in-95 duration-150">
+            <h3 className="text-sm font-bold text-white mb-4">Create Workspace Project</h3>
             <form onSubmit={handleAddProject} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Project Name</label>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Project Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Job Hunt 2026"
                   value={newProjName}
                   onChange={(e) => setNewProjName(e.target.value)}
-                  className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 px-3 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all"
+                  className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Description (Optional)</label>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Description (Optional)</label>
                 <textarea
                   rows={3}
                   placeholder="Summarize goals or topics..."
                   value={newProjDesc}
                   onChange={(e) => setNewProjDesc(e.target.value)}
-                  className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 px-3 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all resize-none"
+                  className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                 />
               </div>
 
-              <div className="flex gap-2 justify-end border-t border-white/5 pt-4 mt-6">
+              <div className="flex gap-2 justify-end border-t border-[#1c1c1c] pt-4 mt-6">
                 <button
                   type="button"
                   onClick={() => setShowAddProject(false)}
-                  className="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:bg-white/5"
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-white/5 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-indigo-650 hover:bg-indigo-750 text-white rounded-lg px-4 py-2 text-xs font-semibold"
+                  className="bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-blue-500/25 cursor-pointer"
                 >
                   Create Project
                 </button>
@@ -379,40 +379,40 @@ export const TaskManager: React.FC = () => {
 
       {/* Add Task Modal */}
       {showAddTask && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-filter backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="w-full max-w-md bg-slate-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden p-6 animate-in fade-in zoom-in-95 duration-150">
-            <h3 className="text-sm font-bold text-slate-200 mb-4">Add Task Card</h3>
+        <div className="fixed inset-0 bg-[#000000]/80 backdrop-filter backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="w-full max-w-md bg-[#0d0d0d] border border-[#222222] rounded-2xl shadow-2xl overflow-hidden p-6 animate-in fade-in zoom-in-95 duration-150">
+            <h3 className="text-sm font-bold text-white mb-4">Add Task Card</h3>
             <form onSubmit={handleAddTask} className="space-y-4">
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Task Title</label>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Task Title</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g., Polish resume section"
                   value={taskTitle}
                   onChange={(e) => setTaskTitle(e.target.value)}
-                  className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 px-3 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all"
+                  className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Description (Optional)</label>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Description (Optional)</label>
                 <textarea
                   rows={2}
                   placeholder="Task details..."
                   value={taskDesc}
                   onChange={(e) => setTaskDesc(e.target.value)}
-                  className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 px-3 text-slate-100 placeholder-slate-650 text-xs outline-none transition-all resize-none"
+                  className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white placeholder-slate-600 text-xs outline-none transition-all resize-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Priority</label>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Priority</label>
                   <select
                     value={taskPriority}
                     onChange={(e: any) => setTaskPriority(e.target.value)}
-                    className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-lg py-2.5 px-3 text-slate-100 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2.5 px-3 text-white text-xs outline-none transition-all"
                   >
                     <option value="LOW">LOW</option>
                     <option value="MEDIUM">MEDIUM</option>
@@ -421,27 +421,27 @@ export const TaskManager: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Due Date</label>
+                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Due Date</label>
                   <input
                     type="date"
                     value={taskDueDate}
                     onChange={(e) => setTaskDueDate(e.target.value)}
-                    className="w-full bg-slate-950 border border-white/5 focus:border-indigo-500/50 rounded-lg py-2 px-3 text-slate-100 text-xs outline-none transition-all"
+                    className="w-full bg-[#111111] border border-[#222222] focus:border-blue-500/50 rounded-xl py-2 px-3 text-white text-xs outline-none transition-all"
                   />
                 </div>
               </div>
 
-              <div className="flex gap-2 justify-end border-t border-white/5 pt-4 mt-6">
+              <div className="flex gap-2 justify-end border-t border-[#1c1c1c] pt-4 mt-6">
                 <button
                   type="button"
                   onClick={() => setShowAddTask(false)}
-                  className="px-4 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:bg-white/5"
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:bg-white/5 cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-indigo-650 hover:bg-indigo-750 text-white rounded-lg px-4 py-2 text-xs font-semibold"
+                  className="bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl px-4 py-2 text-xs font-semibold shadow-md shadow-blue-500/25 cursor-pointer"
                 >
                   Add Task
                 </button>
