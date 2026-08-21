@@ -11,7 +11,7 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma db push",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node src/config/seed.ts"
+    "seed": "ts-node src/config/seedUserData.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
