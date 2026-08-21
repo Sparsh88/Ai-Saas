@@ -190,24 +190,37 @@ export const Documents: React.FC = () => {
                 <span>No documents match your query.</span>
               </div>
             ) : (
-              filteredDocs.map((doc) => (
-                <div
-                  key={doc.id}
-                  className="p-4 rounded-xl border border-[#222222] bg-[#111111] flex items-center justify-between group hover:border-blue-500/40 transition-all text-xs"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-blue-500/10 text-[#3b82f6]">
-                      <FileText className="w-4.5 h-4.5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-white pr-4 line-clamp-1">{doc.name}</h4>
-                      <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
-                        <span className="uppercase">{doc.fileType.split('/')[1] || doc.fileType}</span>
-                        <span>•</span>
-                        <span>{new Date(doc.createdAt).toLocaleDateString()}</span>
+              filteredDocs.map((doc) => {
+                const isPdf = doc.fileType.toLowerCase().includes('pdf');
+                const isDocx = doc.fileType.toLowerCase().includes('doc');
+                const isTxt = doc.fileType.toLowerCase().includes('txt');
+                
+                const iconStyle = isPdf
+                  ? 'bg-rose-500/10 border border-rose-500/20 text-[#ef4444]'
+                  : isDocx
+                  ? 'bg-blue-500/10 border border-blue-500/20 text-[#3b82f6]'
+                  : isTxt
+                  ? 'bg-amber-500/10 border border-amber-500/20 text-[#eab308]'
+                  : 'bg-purple-500/10 border border-purple-500/20 text-[#a855f7]';
+
+                return (
+                  <div
+                    key={doc.id}
+                    className="p-4 rounded-xl border border-[#222222] bg-[#111111] flex items-center justify-between group hover:border-blue-500/40 transition-all text-xs"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`p-2 rounded-xl ${iconStyle}`}>
+                        <FileText className="w-4.5 h-4.5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white pr-4 line-clamp-1">{doc.name}</h4>
+                        <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                          <span className="uppercase font-semibold">{doc.fileType.split('/')[1] || doc.fileType}</span>
+                          <span>•</span>
+                          <span>{new Date(doc.createdAt).toLocaleDateString()}</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
                   <div className="flex items-center gap-1.5 shrink-0 opacity-80 group-hover:opacity-100 transition-opacity">
                     <button
@@ -237,8 +250,9 @@ export const Documents: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              ))
-            )}
+              );
+            })
+          )}
           </div>
         </div>
       </div>

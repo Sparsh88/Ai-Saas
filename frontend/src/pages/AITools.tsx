@@ -202,13 +202,21 @@ export const AITools: React.FC = () => {
         {/* Desktop Selector Panel */}
         <div className="hidden lg:block p-4 rounded-2xl bg-[#0d0d0d] border border-[#1c1c1c] shadow-sm">
           <h2 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-            <Grid className="w-4 h-4 text-[#3b82f6]" />
+            <Grid className="w-4 h-4 text-[#a855f7]" />
             <span>AI Tool Sets</span>
           </h2>
           <div className="space-y-1.5 max-h-[calc(100vh-16rem)] overflow-y-auto pr-1">
-            {tools.map((t) => {
+            {tools.map((t, idx) => {
               const Icon = t.icon;
               const isSelected = t.id === selectedToolId;
+              const tagColors = [
+                'text-blue-400 bg-blue-500/10 border-blue-500/20',
+                'text-purple-400 bg-purple-500/10 border-purple-500/20',
+                'text-amber-400 bg-amber-500/10 border-amber-500/20',
+                'text-rose-400 bg-rose-500/10 border-rose-500/20'
+              ];
+              const tagColor = tagColors[idx % tagColors.length];
+
               return (
                 <button
                   key={t.id}
@@ -228,8 +236,8 @@ export const AITools: React.FC = () => {
                     <Icon className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-slate-400'}`} />
                     <span className="truncate">{t.name}</span>
                   </div>
-                  <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded shrink-0 ${
-                    isSelected ? 'bg-white/20 text-white' : 'text-blue-400 bg-blue-500/10 border border-blue-500/20'
+                  <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded border shrink-0 ${
+                    isSelected ? 'bg-white/20 text-white border-transparent' : tagColor
                   }`}>
                     Free
                   </span>
@@ -249,7 +257,7 @@ export const AITools: React.FC = () => {
             <div>
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-sm font-bold text-white font-heading">{currentTool.name}</h3>
-                <span className="text-[10px] font-semibold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-lg">
+                <span className="text-[10px] font-semibold text-[#a855f7] bg-purple-500/10 border border-purple-500/20 px-2 py-0.5 rounded-lg">
                   Unlimited Access
                 </span>
               </div>

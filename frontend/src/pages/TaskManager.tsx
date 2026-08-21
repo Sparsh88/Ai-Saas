@@ -187,14 +187,14 @@ export const TaskManager: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Columns Mapping */}
             {[
-              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-[#3b82f6]' },
-              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-sky-500' },
-              { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-emerald-500' }
+              { id: 'TODO', title: 'To Do', tasks: todoTasks, glow: 'border-t-[#3b82f6]', badge: 'text-blue-400 bg-blue-500/10 border-blue-500/20' },
+              { id: 'IN_PROGRESS', title: 'In Progress', tasks: inProgressTasks, glow: 'border-t-[#a855f7]', badge: 'text-purple-400 bg-purple-500/10 border-purple-500/20' },
+              { id: 'DONE', title: 'Done', tasks: doneTasks, glow: 'border-t-[#eab308]', badge: 'text-amber-400 bg-amber-500/10 border-amber-500/20' }
             ].map((col) => (
               <div key={col.id} className="p-4 rounded-2xl border border-[#1c1c1c] bg-[#0d0d0d] flex flex-col min-h-[450px] shadow-sm">
                 <div className={`flex items-center justify-between border-t-2 ${col.glow} pt-3 pb-4 mb-2`}>
                   <span className="text-xs font-bold text-white font-heading">{col.title}</span>
-                  <span className="text-[10px] font-semibold text-slate-400 bg-white/5 border border-white/5 px-2 py-0.5 rounded-full">
+                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${col.badge}`}>
                     {col.tasks.length}
                   </span>
                 </div>
@@ -231,7 +231,7 @@ export const TaskManager: React.FC = () => {
                       <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-[#1c1c1c]">
                         {/* Due date */}
                         <div className="flex items-center gap-1 text-[9px] text-slate-400">
-                          <Clock className="w-3 h-3" />
+                          <Clock className="w-3 h-3 text-[#a855f7]" />
                           <span>{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date'}</span>
                         </div>
 

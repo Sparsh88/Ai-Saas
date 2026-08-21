@@ -112,7 +112,7 @@ export const AIChat: React.FC = () => {
       {/* Header Panel */}
       <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[#1c1c1c] flex flex-col sm:flex-row gap-3 sm:items-center justify-between bg-[#000000]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-blue-500/10 border border-blue-500/20 text-[#3b82f6] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 text-[#a855f7] flex items-center justify-center">
             <BrainCircuit className="w-4.5 h-4.5" />
           </div>
           <div>
@@ -124,7 +124,7 @@ export const AIChat: React.FC = () => {
         {/* PDF selector attachment */}
         <div className="flex items-center gap-2">
           <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-            <FileText className="w-3.5 h-3.5" />
+            <FileText className="w-3.5 h-3.5 text-[#3b82f6]" />
             <span>Chat context:</span>
           </span>
           <select
@@ -155,7 +155,7 @@ export const AIChat: React.FC = () => {
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs shrink-0 shadow-md ${
               msg.role === 'user'
                 ? 'bg-[#3b82f6] text-white shadow-blue-500/30'
-                : 'bg-[#111111] text-[#3b82f6] border border-[#222222]'
+                : 'bg-[#180d29] text-[#a855f7] border border-[#301654]'
             }`}>
               {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
@@ -176,11 +176,11 @@ export const AIChat: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex gap-3 max-w-[85%]"
           >
-            <div className="w-8 h-8 rounded-xl bg-[#111111] border border-[#222222] flex items-center justify-center text-[#3b82f6] shrink-0 shadow-inner">
+            <div className="w-8 h-8 rounded-xl bg-[#180d29] border border-[#301654] flex items-center justify-center text-[#a855f7] shrink-0 shadow-inner">
               <Bot className="w-4 h-4 animate-bounce" />
             </div>
             <div className="p-4 rounded-2xl bg-[#111111] border border-[#222222] rounded-tl-none flex items-center gap-2">
-              <Loader className="w-4 h-4 text-[#3b82f6] animate-spin" />
+              <Loader className="w-4 h-4 text-[#a855f7] animate-spin" />
               <span className="text-xs text-slate-400 font-mono">SkillForge AI is generating response...</span>
             </div>
           </motion.div>
@@ -200,21 +200,29 @@ export const AIChat: React.FC = () => {
       {messages.length === 1 && !loading && (
         <div className="px-6 py-2.5 border-t border-[#1c1c1c] bg-[#000000]/50">
           <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 flex items-center gap-1">
-            <BookMarked className="w-3 h-3 text-slate-500" />
-            <span>Suggested Prompts</span>
+            <BookMarked className="w-3 h-3 text-[#eab308]" />
+            <span className="text-slate-400">Suggested Prompts</span>
           </p>
           <div className="flex flex-wrap gap-2">
-            {templates.map((t, i) => (
-              <motion.button
-                key={i}
-                whileHover={{ scale: 1.02, borderColor: 'rgba(59, 130, 246, 0.4)' }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => selectPromptTemplate(t.prompt)}
-                className="text-[11px] font-medium text-slate-300 hover:text-blue-400 border border-[#222222] bg-[#111111] rounded-xl py-1.5 px-3 transition-colors cursor-pointer"
-              >
-                {t.text}
-              </motion.button>
-            ))}
+            {templates.map((t, i) => {
+              const chipStyles = [
+                'hover:border-blue-500/40 hover:text-blue-400',
+                'hover:border-purple-500/40 hover:text-purple-400',
+                'hover:border-yellow-500/40 hover:text-yellow-400',
+                'hover:border-red-500/40 hover:text-red-400'
+              ];
+              return (
+                <motion.button
+                  key={i}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => selectPromptTemplate(t.prompt)}
+                  className={`text-[11px] font-medium text-slate-300 border border-[#222222] bg-[#111111] rounded-xl py-1.5 px-3 transition-all cursor-pointer ${chipStyles[i % chipStyles.length]}`}
+                >
+                  {t.text}
+                </motion.button>
+              );
+            })}
           </div>
         </div>
       )}

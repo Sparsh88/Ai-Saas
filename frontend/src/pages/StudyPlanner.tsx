@@ -186,11 +186,11 @@ export const StudyPlanner: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Selector Tabs */}
-      <div className="flex gap-2 border-b border-white/5 pb-2 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
+      <div className="flex gap-2 border-b border-[#1c1c1c] pb-2 overflow-x-auto whitespace-nowrap scrollbar-none -mx-1 px-1">
         {[
-          { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map },
-          { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen },
-          { id: 'INTERVIEW', name: 'Mock Interview Prep', icon: UserCheck }
+          { id: 'ROADMAP', name: 'AI Career Roadmaps', icon: Map, activeBg: 'bg-[#3b82f6] text-white shadow-md shadow-blue-500/25' },
+          { id: 'PLANNER', name: 'AI Study Planners', icon: BookOpen, activeBg: 'bg-[#a855f7] text-white shadow-md shadow-purple-500/25' },
+          { id: 'INTERVIEW', name: 'Mock Interview Prep', icon: UserCheck, activeBg: 'bg-[#eab308] text-black font-bold shadow-md shadow-yellow-500/25' }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -200,7 +200,7 @@ export const StudyPlanner: React.FC = () => {
             }}
             className={`flex items-center gap-2 px-4 py-2.5 text-xs md:text-sm font-semibold rounded-xl transition-all shrink-0 cursor-pointer ${
               activeTab === tab.id
-                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25'
+                ? tab.activeBg
                 : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
