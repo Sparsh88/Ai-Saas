@@ -23,11 +23,11 @@ export const Layout: React.FC = () => {
   }, [token, navigate]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-950 text-slate-100 relative">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 dark:bg-[#000000] text-slate-900 dark:text-slate-100 relative">
       {/* Mobile Sidebar backdrop overlay */}
       {isMobileSidebarOpen && (
         <div
-          className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-20 md:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-slate-950/60 dark:bg-black/80 backdrop-blur-sm z-20 md:hidden transition-opacity duration-300"
           onClick={() => setIsMobileSidebarOpen(false)}
         />
       )}
@@ -36,13 +36,13 @@ export const Layout: React.FC = () => {
       <Sidebar isMobileOpen={isMobileSidebarOpen} onClose={() => setIsMobileSidebarOpen(false)} />
 
       {/* Main Workspace Area */}
-      <div className="flex flex-col flex-1 h-full min-w-0 overflow-hidden relative">
+      <div className="flex flex-col flex-1 h-full min-w-0 overflow-hidden relative bg-slate-50 dark:bg-[#000000]">
         <Header onMenuToggle={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)} />
         
         {/* Child Router View */}
-        <main className="flex-1 overflow-y-auto flex flex-col justify-between p-4 md:p-6 relative">
+        <main className="flex-1 overflow-y-auto flex flex-col justify-between p-4 md:p-6 relative bg-slate-50 dark:bg-[#000000]">
           {/* Subtle light leak for modern styling */}
-          <div className="absolute top-0 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-[100px] pointer-events-none" />
           <div className="flex-1">
             <Outlet />
           </div>
