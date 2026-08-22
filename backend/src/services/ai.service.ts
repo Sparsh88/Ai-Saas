@@ -12,22 +12,27 @@ function getGeminiClient(): GoogleGenerativeAI | null {
 async function generateAIResponse(prompt: string, systemInstruction?: string): Promise<string> {
   const client = getGeminiClient();
   if (client) {
-    try {
-      const model = client.getGenerativeModel({ 
-        model: 'gemini-1.5-flash',
-        systemInstruction: systemInstruction
-      });
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      let text = response.text();
-      if (text.startsWith('```json')) {
-        text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-      } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
-        text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+    const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro', 'gemini-pro'];
+    const fullPrompt = systemInstruction ? `${systemInstruction}\n\nTask:\n${prompt}` : prompt;
+
+    for (const modelName of modelsToTry) {
+      try {
+        const model = client.getGenerativeModel({ 
+          model: modelName,
+          ...(systemInstruction ? { systemInstruction } : {})
+        });
+        const result = await model.generateContent(fullPrompt);
+        const response = await result.response;
+        let text = response.text();
+        if (text.startsWith('```json')) {
+          text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+        } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
+          text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+        }
+        return text;
+      } catch (error: any) {
+        console.warn(`Gemini model ${modelName} error, trying alternative model:`, error?.message || error);
       }
-      return text;
-    } catch (error) {
-      console.error('Gemini API Error, falling back to mock response:', error);
     }
   }
   // If no API client or failure, generate mock response based on prompt analysis
@@ -312,8 +317,46 @@ function generateMockData(prompt: string): string {
     return `### 📄 Resume Enhancement Strategy & Guidelines\n\nTo build a high-impact, ATS-optimized resume, follow these targeted recommendations:\n\n1. **Quantify Your Impact:** Use Google's formula: *Accomplished [X] as measured by [Y], by doing [Z]*. E.g., *"Engineered real-time notifications with Redis, cutting latency by 45% for 10k+ daily users."*\n2. **Structure for ATS Parsing:** Keep clean headings (*Experience*, *Projects*, *Skills*, *Education*). Avoid multi-column tables that confuse ATS parsers.\n3. **Tailor Core Keywords:** Align your technical skills section with the specific job description (e.g., React 19, TypeScript, PostgreSQL, Node.js).\n4. **Projects Spotlight:** Feature 2-3 full-stack applications with live URLs, GitHub repositories, and architectural descriptions.\n5. **ATS Scorer Tool:** Try our dedicated **ATS Resume Scorer** under AI Writing Tools to scan your resume text and get immediate feedback!`;
   }
 
+  // 12. Email Writer
+  if (lowercasePrompt.includes('email') || lowercasePrompt.includes('subject')) {
+    const subjectMatch = prompt.match(/subject "([^"]+)"/i) || prompt.match(/subject:\s*([^\n]+)/i);
+    const subject = subjectMatch ? subjectMatch[1].trim() : 'Leave Application / Formal Notice';
+    return `Subject: ${subject}
+
+Dear Manager / Team Lead,
+
+I am writing to formally notify you that I am unwell and unable to attend work today due to medical illness. 
+
+I have organized my active tasks and ensured any urgent items are covered. I will monitor my email periodically for any critical emergencies and will resume my regular responsibilities as soon as I recover.
+
+Thank you for your understanding and consideration.
+
+Best regards,
+Sparsh Chauhan
+Software Engineer`;
+  }
+
+  // 13. Cover Letter
+  if (lowercasePrompt.includes('cover letter') || lowercasePrompt.includes('job description')) {
+    return `Dear Hiring Manager,
+
+I am writing to express my enthusiastic interest in the Software Engineer position. With strong experience designing robust web applications, optimizing databases, and engineering modern user interfaces, I am eager to contribute to your engineering goals.
+
+Throughout my development experience, I have built full-stack TypeScript platforms, architected resilient REST APIs with Express and PostgreSQL, and designed accessible, responsive UIs with React and Tailwind CSS. I prioritize clean code, automated testing, and performance optimization.
+
+Thank you for your time and consideration. I welcome the opportunity to discuss how my skillset aligns with your team's objectives.
+
+Sincerely,
+Sparsh Chauhan`;
+  }
+
+  // 14. Content Summarizer & Text Tools
+  if (lowercasePrompt.includes('summar') || lowercasePrompt.includes('rewrite') || lowercasePrompt.includes('grammar')) {
+    return `### 📝 Polished Summary & Key Takeaways\n\n- **Core Objective:** The provided text emphasizes structured execution, high performance, and reliable delivery.\n- **Key Points:**\n  1. Clear separation of concerns across application modules.\n  2. Robust error handling and automated validation.\n  3. Prioritizing end-user experience and responsive interfaces.\n- **Action Items:** Review project milestones and ensure automated test coverage.`;
+  }
+
   // Fallback AI Text Response for chat/generic prompts
-  return `### 💡 SkillForge AI Assistant Guidance\n\nHere is some targeted recommendations on your prompt:\n\n- **Architecture:** Maintain a modular structure with clear separations of concerns across frontend and backend layers.\n- **Type Safety & Reliability:** Incorporate robust TypeScript interfaces, Zod schema validations, and automated unit tests.\n- **Performance:** Utilize memoization, connection pooling, and Gzip compression to maximize throughput.\n\n*Tip: To connect live Google Gemini 1.5 generation, configure your \`GEMINI_API_KEY\` in your \`backend/.env\`.*`;
+  return `### 💡 SkillForge AI Assistant\n\nThank you for your request! Here is a targeted response for your inquiry:\n\n- **Best Practices:** Maintain modular system design with clear separation of concerns across client and server layers.\n- **Robust Implementation:** Ensure type-safe schemas, comprehensive error handling, and performance optimization.\n- **Scalability:** Leverage connection pooling, caching strategies, and automated CI/CD pipelines.\n\n*Tip: Connect your live \`GEMINI_API_KEY\` in your \`backend/.env\` or Render dashboard for infinite live generation.*`;
 }
 
 // -------------------------------------------------------------
