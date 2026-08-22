@@ -7,8 +7,8 @@ import { Role } from '@prisma/client';
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'skillforge_super_secret_access_token_12345!';
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'skillforge_super_secret_refresh_token_67890!';
-const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '15m';
-const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '7d';
+const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '30d';
+const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '90d';
 
 // Helper to generate tokens
 const generateTokens = (userId: string, email: string, role: Role) => {
@@ -43,9 +43,9 @@ export const register = async (req: Request, res: Response) => {
     // Generate access & refresh tokens for instant direct login
     const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
 
-    // Save refresh token to DB
+    // Save refresh token to DB (90 days)
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    expiresAt.setDate(expiresAt.getDate() + 90);
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
@@ -153,9 +153,9 @@ export const login = async (req: Request, res: Response) => {
 
     const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
 
-    // Save refresh token to DB
+    // Save refresh token to DB (90 days)
     const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    expiresAt.setDate(expiresAt.getDate() + 90);
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,

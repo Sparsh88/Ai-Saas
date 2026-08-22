@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   logout: async () => {
-    const rToken = get().refreshToken;
+    const rToken = get().refreshToken || localStorage.getItem('SF_REFRESH_TOKEN');
     try {
       if (rToken) {
         await axios.post('/api/auth/logout', { refreshToken: rToken });
@@ -74,9 +74,96 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         set({ user, token, refreshToken });
       } catch (e) {
-        localStorage.clear();
+        localStorage.removeItem('SF_TOKEN');
+        localStorage.removeItem('SF_REFRESH_TOKEN');
+        localStorage.removeItem('SF_USER');
         set({ user: null, token: null, refreshToken: null });
       }
     }
   },
 }));
+
+// Global Axios Request Interceptor: Attach token if available
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('SF_TOKEN');
+  if (token && !config.headers.Authorization) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Global Axios Response Interceptor: Seamless background token refresh on 401
+let isRefreshing = false;
+let failedQueue: Array<{ resolve: (token: string) => void; reject: (err: any) => void }> = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else if (token) {
+      prom.resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes('/api/auth/login') &&
+      !originalRequest.url?.includes('/api/auth/register') &&
+      !originalRequest.url?.includes('/api/auth/refresh')
+    ) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return axios(originalRequest);
+          })
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      const storedRefreshToken = localStorage.getItem('SF_REFRESH_TOKEN');
+      if (!storedRefreshToken) {
+        isRefreshing = false;
+        useAuthStore.getState().logout();
+        return Promise.reject(error);
+      }
+
+      try {
+        const { data } = await axios.post('/api/auth/refresh', {
+          refreshToken: storedRefreshToken,
+        });
+
+        const newAccessToken = data.accessToken;
+        localStorage.setItem('SF_TOKEN', newAccessToken);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+        useAuthStore.setState({ token: newAccessToken });
+        processQueue(null, newAccessToken);
+
+        return axios(originalRequest);
+      } catch (refreshError) {
+        processQueue(refreshError, null);
+        useAuthStore.getState().logout();
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
