@@ -298,18 +298,18 @@ function generateMockData(prompt: string): string {
   // 10. Code helper tools (Generate, Explain, Bug Fix, SQL, Regex)
   if (lowercasePrompt.includes('code') || lowercasePrompt.includes('bug') || lowercasePrompt.includes('sql') || lowercasePrompt.includes('regex')) {
     if (lowercasePrompt.includes('explain')) {
-      return `### Code Explanation\nThis block of code is a function that merges overlapping intervals. Here is how it works step-by-step:\n\n1. **Sort by start time:** It first sorts the array of intervals in ascending order based on their start coordinates.\n2. **Initialize merge list:** It keeps an array \`merged\` containing the first interval as a baseline.\n3. **Loop & Compare:** For each subsequent interval, it checks if its start time is less than or equal to the end time of the last interval in the \`merged\` list.\n4. **Combine:** If they overlap, it updates the end time of the last interval. If not, it pushes the new interval as a separate entry.`;
+      return `### 💡 Code Explanation\n\nThis function executes a step-by-step operation with optimal efficiency:\n\n1. **Input Validation:** Confirms array boundaries and guards against null/empty edge cases.\n2. **State & Pointer Tracking:** Iterates through items maintaining an active state cursor.\n3. **Transformation:** Applies required transformations without mutating original memory references.\n4. **Complexity:** Executes in **O(N)** time and **O(1)** auxiliary space.`;
     }
     if (lowercasePrompt.includes('fix') || lowercasePrompt.includes('bug')) {
-      return `### Bug Fix Suggestion\n\n**Issue:** The index loop goes out of bounds, and comparing \`arr[i]\` doesn't handle empty lists.\n\n**Corrected Code:**\n\`\`\`typescript\nfunction processItems(arr: string[]) {\n  if (!arr.length) return;\n  for (let i = 0; i < arr.length; i++) {\n    console.log(arr[i].trim());\n  }\n}\n\`\`\``;
+      return `### 🛠️ Bug Fix Analysis & Correction\n\n**Identified Issue:** Potential undefined index access and unhandled edge case on empty array inputs.\n\n**Corrected Code:**\n\`\`\`typescript\nexport function processDataSafe<T>(items: T[]): T[] {\n  if (!Array.isArray(items) || items.length === 0) {\n    return [];\n  }\n  return items.filter((item): item is NonNullable<T> => item != null);\n}\n\`\`\`\n\n**Benefits:** Guarantees type safety and prevents runtime null-pointer exceptions.`;
     }
     if (lowercasePrompt.includes('sql')) {
-      return `SELECT u.id, u.name, SUM(p.amount) as total_spent \nFROM "User" u \nJOIN "Payment" p ON u.id = p.userId \nWHERE p.status = 'SUCCESS' \nGROUP BY u.id, u.name \nHAVING SUM(p.amount) > 1000 \nORDER BY total_spent DESC;`;
+      return `### 🗄️ Production SQL Query\n\n\`\`\`sql\n-- Aggregated user metrics and revenue calculation\nSELECT \n    u.id AS user_id,\n    u.name AS user_name,\n    COUNT(p.id) AS total_orders,\n    COALESCE(SUM(p.amount), 0) AS total_spend\nFROM \n    "User" u\nLEFT JOIN \n    "Payment" p ON u.id = p.userId AND p.status = 'SUCCESS'\nGROUP BY \n    u.id, u.name\nORDER BY \n    total_spend DESC;\n\`\`\``;
     }
     if (lowercasePrompt.includes('regex')) {
-      return `/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/`;
+      return `### 🔍 Regular Expression (Regex)\n\n\`\`\`regex\n^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n\`\`\`\n\n**Pattern Breakdown:**\n- \`^[a-zA-Z0-9._%+-]+\`: Matches username prefix.\n- \`@\`: Requires standard literal '@' symbol.\n- \`[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\`: Matches domain name and minimum 2-letter TLD.`;
     }
-    return `\`\`\`typescript\n// Generated Coding Assistant Block\nexport function debounce<T extends (...args: any[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {\n  let timeout: NodeJS.Timeout;\n  return (...args: Parameters<T>) => {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func(...args), wait);\n  };\n}\n\`\`\``;
+    return `### 💻 Generated Code Block\n\n\`\`\`typescript\n/**\n * Debounce helper to limit execution frequency\n */\nexport function debounce<T extends (...args: any[]) => void>(\n  func: T, \n  waitMs: number = 300\n): (...args: Parameters<T>) => void {\n  let timeoutId: NodeJS.Timeout | null = null;\n  return (...args: Parameters<T>) => {\n    if (timeoutId) clearTimeout(timeoutId);\n    timeoutId = setTimeout(() => func(...args), waitMs);\n  };\n}\n\`\`\``;
   }
 
   // 11. Resume / Career Advice
@@ -350,13 +350,23 @@ Sincerely,
 Sparsh Chauhan`;
   }
 
-  // 14. Content Summarizer & Text Tools
-  if (lowercasePrompt.includes('summar') || lowercasePrompt.includes('rewrite') || lowercasePrompt.includes('grammar')) {
-    return `### 📝 Polished Summary & Key Takeaways\n\n- **Core Objective:** The provided text emphasizes structured execution, high performance, and reliable delivery.\n- **Key Points:**\n  1. Clear separation of concerns across application modules.\n  2. Robust error handling and automated validation.\n  3. Prioritizing end-user experience and responsive interfaces.\n- **Action Items:** Review project milestones and ensure automated test coverage.`;
+  // 14. LinkedIn Optimizer
+  if (lowercasePrompt.includes('linkedin')) {
+    return `### 🚀 Optimized LinkedIn Profile Section\n\n**Headline:**\nSenior Full-Stack Engineer | React, TypeScript & Node.js | Scalable Cloud Architectures & AI Solutions\n\n**About Summary:**\nPassionate Software Engineer with a proven track record of designing high-performance full-stack web applications and scalable distributed systems. Specialized in TypeScript, React, Node.js, and PostgreSQL with a strong focus on system reliability, type safety, and clean architecture.\n\n**Core Competencies:**\n• Frontend: React 19, TypeScript, Tailwind CSS, Zustand, Next.js\n• Backend: Node.js, Express, REST APIs, Microservices, Prisma ORM\n• Database & Cloud: PostgreSQL, Docker, CI/CD, Google Gemini AI`;
+  }
+
+  // 15. Grammar Checker
+  if (lowercasePrompt.includes('grammar') || lowercasePrompt.includes('grammatical')) {
+    return `### ✨ Grammar & Tone Polished Output\n\n**Original Text Analyzed:** Corrected typos, capitalized pronouns, and improved sentence flow.\n\n**Polished Version:**\n> "I am writing to request leave today as I am feeling unwell and unable to attend work as scheduled."\n\n**Key Improvements:**\n- Fixed capitalization of the pronoun "I".\n- Replaced informal abbreviations with clear professional vocabulary.\n- Streamlined sentence cadence for enhanced clarity.`;
+  }
+
+  // 16. Content Summarizer & Text Tools
+  if (lowercasePrompt.includes('summar') || lowercasePrompt.includes('rewrite')) {
+    return `### 📝 Polished Summary & Key Takeaways\n\n- **Core Objective:** Structured execution, high performance, and reliable delivery.\n- **Key Highlights:**\n  1. Modular separation of concerns across client and server layers.\n  2. Robust error handling and automated type-safe validations.\n  3. Prioritizing responsive user experience and latency reduction.\n- **Next Actions:** Deploy verified changes and monitor runtime logs.`;
   }
 
   // Fallback AI Text Response for chat/generic prompts
-  return `### 💡 SkillForge AI Assistant\n\nThank you for your request! Here is a targeted response for your inquiry:\n\n- **Best Practices:** Maintain modular system design with clear separation of concerns across client and server layers.\n- **Robust Implementation:** Ensure type-safe schemas, comprehensive error handling, and performance optimization.\n- **Scalability:** Leverage connection pooling, caching strategies, and automated CI/CD pipelines.\n\n*Tip: Connect your live \`GEMINI_API_KEY\` in your \`backend/.env\` or Render dashboard for infinite live generation.*`;
+  return `### 💡 SkillForge AI Assistant\n\nThank you for your request! Here is a targeted response for your inquiry:\n\n- **Architecture:** Maintain modular system design with clear separation of concerns across client and server layers.\n- **Robust Implementation:** Ensure type-safe schemas, comprehensive error handling, and performance optimization.\n- **Scalability:** Leverage connection pooling, caching strategies, and automated CI/CD pipelines.\n\n*Tip: Connect your live \`GEMINI_API_KEY\` in your \`backend/.env\` or Render dashboard for infinite live generation.*`;
 }
 
 // -------------------------------------------------------------
@@ -366,20 +376,41 @@ Sparsh Chauhan`;
 export const getAIChatResponse = async (messages: { role: string; content: string }[], systemInstruction?: string): Promise<string> => {
   const client = getGeminiClient();
   if (client && messages.length > 0) {
-    try {
-      const model = client.getGenerativeModel({ model: 'gemini-1.5-flash', systemInstruction });
-      const lastMessage = messages[messages.length - 1].content;
-      const history = messages.slice(0, -1).map((msg) => ({
-        role: msg.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: msg.content }],
-      }));
+    const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro', 'gemini-pro'];
+    const lastMessage = messages[messages.length - 1].content;
+    const history = messages.slice(0, -1).map((msg) => ({
+      role: msg.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: msg.content }],
+    }));
 
-      const chat = model.startChat({ history });
-      const result = await chat.sendMessage(lastMessage);
-      const response = await result.response;
-      return response.text();
-    } catch (error) {
-      console.error('Gemini Chat API Error:', error);
+    for (const modelName of modelsToTry) {
+      try {
+        const model = client.getGenerativeModel({ 
+          model: modelName,
+          ...(systemInstruction ? { systemInstruction } : {})
+        });
+
+        const chat = model.startChat({ history });
+        const result = await chat.sendMessage(lastMessage);
+        const response = await result.response;
+        return response.text();
+      } catch (error: any) {
+        console.warn(`Gemini Chat (${modelName}) error:`, error?.message || error);
+      }
+    }
+
+    // Direct fallback if chat history format failed
+    for (const modelName of modelsToTry) {
+      try {
+        const model = client.getGenerativeModel({ model: modelName });
+        const conversationText = messages.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join('\n');
+        const prompt = systemInstruction ? `${systemInstruction}\n\n${conversationText}\nASSISTANT:` : `${conversationText}\nASSISTANT:`;
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        return response.text();
+      } catch (e) {
+        // continue
+      }
     }
   }
 
