@@ -45,33 +45,106 @@ function generateMockData(prompt: string): string {
 
   // 2. Career Roadmap
   if (lowercasePrompt.includes('roadmap') || lowercasePrompt.includes('career path')) {
+    const roleMatch = prompt.match(/become a:\s*"([^"]+)"/i) || prompt.match(/role:\s*"([^"]+)"/i);
+    const requestedRole = roleMatch ? roleMatch[1].trim() : 'AI & Full Stack Engineer';
+    const lowerRole = requestedRole.toLowerCase();
+
+    // AI & Machine Learning Path
+    if (lowerRole.includes('ai') || lowerRole.includes('ml') || lowerRole.includes('machine learning') || lowerRole.includes('data science') || lowerRole.includes('deep learning')) {
+      return JSON.stringify({
+        role: requestedRole,
+        description: `Comprehensive AI & Machine Learning career roadmap covering Python foundations, mathematical modeling, neural networks, PyTorch/TensorFlow, and production LLM engineering.`,
+        milestones: [
+          {
+            phase: 'Phase 1: Mathematics & Python Foundations',
+            duration: '4-6 Weeks',
+            topics: ['Linear Algebra & Matrix Calculus', 'NumPy & Pandas data pipelines', 'Probability & Inferential Statistics', 'Data Visualization (Matplotlib, Seaborn)'],
+            projects: ['Build an exploratory data analysis dashboard on real-world Kaggle datasets']
+          },
+          {
+            phase: 'Phase 2: Core Machine Learning Algorithms',
+            duration: '6-8 Weeks',
+            topics: ['Supervised Learning (Regression, Random Forest, XGBoost)', 'Unsupervised Learning (K-Means, PCA, Clustering)', 'Scikit-Learn pipeline optimization', 'Model validation & cross-entropy metrics'],
+            projects: ['Build a predictive housing price regression & customer churn classification model']
+          },
+          {
+            phase: 'Phase 3: Deep Learning & Neural Architectures',
+            duration: '8-10 Weeks',
+            topics: ['Neural networks from scratch with backprop', 'PyTorch / TensorFlow deep learning workflows', 'Convolutional Networks (CNNs) & Computer Vision', 'Transformers & Self-Attention mechanisms'],
+            projects: ['Train an image classifier and a real-time sentiment analysis Transformer from scratch']
+          },
+          {
+            phase: 'Phase 4: LLMs, RAG & MLOps Deployment',
+            duration: '6-8 Weeks',
+            topics: ['LangChain / LlamaIndex workflows', 'Vector Databases (Pinecone, ChromaDB)', 'Fine-tuning & LoRA quantization', 'Docker containerized FastAPI model serving'],
+            projects: ['Deploy an enterprise Document RAG Assistant with Gemini 1.5 and FastAPI on cloud']
+          }
+        ]
+      }, null, 2);
+    }
+
+    // Cloud & DevOps Path
+    if (lowerRole.includes('devops') || lowerRole.includes('cloud') || lowerRole.includes('aws') || lowerRole.includes('kubernetes')) {
+      return JSON.stringify({
+        role: requestedRole,
+        description: `Cloud & DevOps Engineering roadmap covering infrastructure as code, container orchestration, CI/CD pipelines, and cloud security.`,
+        milestones: [
+          {
+            phase: 'Phase 1: Linux & Networking Foundations',
+            duration: '4 Weeks',
+            topics: ['Linux system administration', 'Bash scripting & automation', 'TCP/IP, DNS, SSL/TLS', 'Git advanced branch workflows'],
+            projects: ['Automate multi-server provisioning and backup via Bash scripts']
+          },
+          {
+            phase: 'Phase 2: Containers & Orchestration',
+            duration: '6 Weeks',
+            topics: ['Docker multi-stage builds', 'Docker Compose setups', 'Kubernetes clusters & pods', 'Helm chart package management'],
+            projects: ['Containerize a microservices SaaS and orchestrate with Kubernetes']
+          },
+          {
+            phase: 'Phase 3: Infrastructure as Code & CI/CD',
+            duration: '6-8 Weeks',
+            topics: ['Terraform provider modules', 'GitHub Actions / GitLab CI pipelines', 'Ansible configuration management', 'Zero-downtime blue/green deployments'],
+            projects: ['Provision AWS VPC, EKS cluster, and RDS database completely through Terraform']
+          },
+          {
+            phase: 'Phase 4: Observability & DevSecOps',
+            duration: '4-6 Weeks',
+            topics: ['Prometheus & Grafana monitoring', 'ELK / Loki centralized logging', 'Vulnerability scanning with Trivy', 'Secrets management via Vault'],
+            projects: ['Build a production telemetry dashboard with automated alerting triggers']
+          }
+        ]
+      }, null, 2);
+    }
+
+    // Dynamic Generic Role Roadmap
     return JSON.stringify({
-      role: 'Full Stack Engineer',
-      description: 'A developer capable of building both interactive interfaces (frontend) and scalable server architectures (backend).',
+      role: requestedRole,
+      description: `Structured career roadmap for ${requestedRole}, taking you from foundational principles to advanced production-level mastery.`,
       milestones: [
         {
-          phase: 'Phase 1: Advanced JavaScript & TypeScript',
+          phase: `Phase 1: ${requestedRole} Core Fundamentals`,
           duration: '4-6 Weeks',
-          topics: ['Asynchronous patterns', 'Generics & type assertions', 'Event Loop mechanics', 'NPM modules structure'],
-          projects: ['Build a lightweight HTTP router library from scratch']
+          topics: ['Core syntax & fundamental paradigms', 'Essential toolchains & environments', 'Standard industry design patterns', 'Version control & collaboration'],
+          projects: [`Develop a functional foundational starter project for ${requestedRole}`]
         },
         {
-          phase: 'Phase 2: Backend Foundations (Node & Express)',
+          phase: `Phase 2: Intermediate Architecture & Applied Workflows`,
           duration: '6-8 Weeks',
-          topics: ['RESTful Routing', 'Prisma ORM & SQL constraints', 'Session & Token-based Auth', 'Middleware pipeline'],
-          projects: ['Construct an e-commerce API server with credit card simulation']
+          topics: ['Data flow & state management', 'API integrations & networking', 'Testing & validation methodologies', 'Performance optimization'],
+          projects: [`Construct a full-featured application demonstrating key ${requestedRole} workflows`]
         },
         {
-          phase: 'Phase 3: Frontend Mastery (React & State)',
+          phase: `Phase 3: Advanced Systems & Scaling`,
           duration: '8-10 Weeks',
-          topics: ['Custom hooks creation', 'Optimistic UI updates', 'State engines (Zustand, Redux Toolkit)', 'Tailwind system design'],
-          projects: ['Build a real-time collaborative whiteboarding web app']
+          topics: ['Production architecture design', 'Security & authorization best practices', 'Asynchronous processing & caching', 'Database indexing & query tuning'],
+          projects: [`Build a scalable, resilient real-world system tailored for ${requestedRole}`]
         },
         {
-          phase: 'Phase 4: Devops & Cloud Infrastructure',
+          phase: `Phase 4: Cloud Deployment & Capstone Portfolio`,
           duration: '4 Weeks',
-          topics: ['Docker containers', 'GitHub Actions CI/CD workflows', 'PostgreSQL replication', 'Serverless deployment'],
-          projects: ['Deploy custom React-Express app to VPS instance with SSL certificates auto-renewing']
+          topics: ['CI/CD pipeline automation', 'Cloud hosting & containerization', 'Monitoring & log aggregation', 'Portfolio polishing & interview prep'],
+          projects: [`Deploy your capstone project live with custom domain, SSL, and automated CI/CD`]
         }
       ]
     }, null, 2);
@@ -79,12 +152,39 @@ function generateMockData(prompt: string): string {
 
   // 3. Mock Interview Practice Questions
   if (lowercasePrompt.includes('interview') && lowercasePrompt.includes('question')) {
+    const roleMatch = prompt.match(/for a "([^"]+)" position/i);
+    const requestedRole = roleMatch ? roleMatch[1].trim() : 'Software Engineer';
+    const lowerRole = requestedRole.toLowerCase();
+
+    if (lowerRole.includes('ai') || lowerRole.includes('ml') || lowerRole.includes('machine learning') || lowerRole.includes('data')) {
+      return JSON.stringify([
+        {
+          id: 'q1',
+          type: 'TECHNICAL',
+          question: 'Explain the bias-variance tradeoff in Machine Learning and how regularization techniques (L1/L2) mitigate overfitting.',
+          optimalKeywords: ['Overfitting', 'Underfitting', 'L1 Lasso', 'L2 Ridge', 'Generalization Error']
+        },
+        {
+          id: 'q2',
+          type: 'BEHAVIORAL',
+          question: 'Describe a project where your machine learning model performed poorly in production compared to validation. How did you diagnose and resolve data drift?',
+          optimalKeywords: ['Concept Drift', 'Feature Store', 'Monitoring', 'Retraining Pipeline']
+        },
+        {
+          id: 'q3',
+          type: 'CODING',
+          question: 'Implement a vectorized function to compute Cosine Similarity between a query embedding and a matrix of document embeddings in NumPy/Python.',
+          optimalKeywords: ['Dot Product', 'Norms', 'Vectorization', 'O(N) Complexity']
+        }
+      ], null, 2);
+    }
+
     return JSON.stringify([
       {
         id: 'q1',
         type: 'TECHNICAL',
-        question: 'Explain the difference between SQL JOIN operations (INNER, LEFT, RIGHT, FULL) and how index structures optimize queries.',
-        optimalKeywords: ['B-Tree', 'Hash Index', 'Cartesian Product', 'Index Scan']
+        question: `Explain core architectural principles and state management patterns you would use when building scalable systems for a ${requestedRole}.`,
+        optimalKeywords: ['System Design', 'Scalability', 'State Management', 'Asynchronous Flow']
       },
       {
         id: 'q2',
@@ -104,10 +204,10 @@ function generateMockData(prompt: string): string {
   // 4. Mock Interview Answer Evaluation
   if (lowercasePrompt.includes('evaluate') || lowercasePrompt.includes('answer')) {
     return JSON.stringify({
-      score: 82,
-      feedback: 'Great start. You explained the concepts of INNER and LEFT JOIN correctly. To score higher, make sure to describe how index scans avoid full table scans, mentioning the B-Tree structure used by PostgreSQL by default.',
-      missingPoints: ['Mention of primary vs secondary indexes', 'Time complexity changes from O(N) to O(log N)'],
-      improvedAnswer: 'An INNER JOIN matches records present in both tables, whereas a LEFT JOIN yields all left rows and matched right rows. Database indexes optimize this by keeping data sorted in a B-Tree structure, transforming sequential scans to index scans, reducing retrieval from O(N) to O(log N).'
+      score: 85,
+      feedback: 'Solid response with clear articulation of core principles. To score higher, make sure to detail specific metric achievements and trade-offs.',
+      missingPoints: ['Mention of performance benchmarks', 'Time/space complexity analysis'],
+      improvedAnswer: 'A comprehensive answer highlights both theoretical foundations and real-world trade-offs, citing specific design patterns and metrics.'
     }, null, 2);
   }
 
@@ -125,15 +225,13 @@ function generateMockData(prompt: string): string {
   // 6. Mind Map Generator
   if (lowercasePrompt.includes('mind map') || lowercasePrompt.includes('mindmap')) {
     return JSON.stringify({
-      topic: 'React State Management',
+      topic: 'Software Architecture & Cloud Systems',
       nodes: [
-        { id: '1', label: 'React State Management', type: 'root' },
-        { id: '2', label: 'Component State (useState, useReducer)', parentId: '1' },
-        { id: '3', label: 'Context API (Global Prop Drilling Solution)', parentId: '1' },
-        { id: '4', label: 'External Libraries', parentId: '1' },
-        { id: '5', label: 'Zustand (Minimalist Flux)', parentId: '4' },
-        { id: '6', label: 'Redux Toolkit (Enterprise Standard)', parentId: '4' },
-        { id: '7', label: 'Jotai / Recoil (Atomic State)', parentId: '4' }
+        { id: '1', label: 'Architecture Systems', type: 'root' },
+        { id: '2', label: 'Frontend Layer (React, State, UI/UX)', parentId: '1' },
+        { id: '3', label: 'Backend Layer (Express, API Gateway, Auth)', parentId: '1' },
+        { id: '4', label: 'Data & Database (PostgreSQL, Prisma, Cache)', parentId: '1' },
+        { id: '5', label: 'Cloud & AI (Gemini, Docker, CI/CD)', parentId: '1' }
       ]
     }, null, 2);
   }
@@ -149,25 +247,28 @@ function generateMockData(prompt: string): string {
 
   // 8. Study Planner
   if (lowercasePrompt.includes('study plan') || lowercasePrompt.includes('calendar')) {
+    const topicMatch = prompt.match(/learning:\s*"([^"]+)"/i);
+    const requestedTopic = topicMatch ? topicMatch[1].trim() : 'Software Engineering';
+
     return JSON.stringify({
-      title: 'Full-Stack JavaScript Mastery',
+      title: `${requestedTopic} Mastery Curriculum`,
       weeklySchedule: [
         {
           week: 'Week 1',
-          goal: 'Understand Advanced JavaScript Concepts',
+          goal: `Understand Core Principles of ${requestedTopic}`,
           days: [
-            { day: 'Monday', task: 'Review Prototypal Inheritance & Closures' },
-            { day: 'Wednesday', task: 'Practice async/await and Promise.all API calls' },
-            { day: 'Friday', task: 'Build a small event emitter utility' }
+            { day: 'Monday', task: `Study fundamentals and architecture of ${requestedTopic}` },
+            { day: 'Wednesday', task: 'Practice hands-on coding exercises and modules' },
+            { day: 'Friday', task: 'Build a functional starter project' }
           ]
         },
         {
           week: 'Week 2',
-          goal: 'Database Modeling & ORMs',
+          goal: `Advanced Implementation & Real-World Projects for ${requestedTopic}`,
           days: [
-            { day: 'Monday', task: 'Learn PostgreSQL normalization & relations' },
-            { day: 'Wednesday', task: 'Configure Prisma models and associations' },
-            { day: 'Friday', task: 'Write custom seeding scripts for relational tables' }
+            { day: 'Monday', task: 'Deep dive into performance optimization and best practices' },
+            { day: 'Wednesday', task: 'Implement error handling, security, and edge-cases' },
+            { day: 'Friday', task: 'Deploy capstone application live to cloud' }
           ]
         }
       ]
