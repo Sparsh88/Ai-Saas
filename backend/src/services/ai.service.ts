@@ -1,25 +1,31 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const apiKey = process.env.GEMINI_API_KEY;
-let genAI: GoogleGenerativeAI | null = null;
-
-if (apiKey) {
-  genAI = new GoogleGenerativeAI(apiKey);
-} else {
-  console.warn('WARNING: GEMINI_API_KEY is not defined in environment. Running AI Service in Mock/Demo mode.');
+function getGeminiClient(): GoogleGenerativeAI | null {
+  const key = process.env.GEMINI_API_KEY;
+  if (key && key.trim()) {
+    return new GoogleGenerativeAI(key.trim());
+  }
+  return null;
 }
 
 // Helper to run prompt or fallback to mock
 async function generateAIResponse(prompt: string, systemInstruction?: string): Promise<string> {
-  if (genAI) {
+  const client = getGeminiClient();
+  if (client) {
     try {
-      const model = genAI.getGenerativeModel({ 
+      const model = client.getGenerativeModel({ 
         model: 'gemini-1.5-flash',
         systemInstruction: systemInstruction
       });
       const result = await model.generateContent(prompt);
       const response = await result.response;
-      return response.text();
+      let text = response.text();
+      if (text.startsWith('```json')) {
+        text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
+        text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      return text;
     } catch (error) {
       console.error('Gemini API Error, falling back to mock response:', error);
     }
@@ -315,10 +321,10 @@ function generateMockData(prompt: string): string {
 // -------------------------------------------------------------
 
 export const getAIChatResponse = async (messages: { role: string; content: string }[], systemInstruction?: string): Promise<string> => {
-  // Format history for Gemini chat structure
-  if (genAI && messages.length > 0) {
+  const client = getGeminiClient();
+  if (client && messages.length > 0) {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash', systemInstruction });
+      const model = client.getGenerativeModel({ model: 'gemini-1.5-flash', systemInstruction });
       const lastMessage = messages[messages.length - 1].content;
       const history = messages.slice(0, -1).map((msg) => ({
         role: msg.role === 'assistant' ? 'model' : 'user',
@@ -334,9 +340,9 @@ export const getAIChatResponse = async (messages: { role: string; content: strin
     }
   }
 
-  // Fallback to simulator
-  const lastMsg = messages[messages.length - 1]?.content || '';
-  return generateMockData(lastMsg);
+  // Fallback smart text response
+  const lastPrompt = messages[messages.length - 1]?.content || '';
+  return generateMockData(lastPrompt);
 };
 
 export const getAIChatWithDocResponse = async (documentText: string, messages: { role: string; content: string }[]): Promise<string> => {
