@@ -124,13 +124,13 @@ export const AIChat: React.FC = () => {
         {/* PDF selector attachment */}
         <div className="flex items-center gap-2">
           <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-            <FileText className="w-3.5 h-3.5 text-[#3b82f6]" />
+            <FileText className="w-3.5 h-3.5 text-[#a855f7]" />
             <span>Chat context:</span>
           </span>
           <select
             value={selectedDocId}
             onChange={(e) => setSelectedDocId(e.target.value)}
-            className="text-xs bg-[#111111] border border-[#222222] text-slate-300 rounded-xl px-2.5 py-1.5 outline-none max-w-[180px] focus:border-blue-500/50"
+            className="text-xs bg-[#111111] border border-[#222222] text-slate-300 rounded-xl px-2.5 py-1.5 outline-none max-w-[180px] focus:border-purple-500/50"
           >
             <option value="">General (No Context)</option>
             {documents.map((doc) => (
@@ -154,7 +154,7 @@ export const AIChat: React.FC = () => {
           >
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs shrink-0 shadow-md ${
               msg.role === 'user'
-                ? 'bg-[#3b82f6] text-white shadow-blue-500/30'
+                ? 'bg-[#a855f7] text-white shadow-purple-500/30'
                 : 'bg-[#180d29] text-[#a855f7] border border-[#301654]'
             }`}>
               {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
@@ -162,7 +162,7 @@ export const AIChat: React.FC = () => {
 
             <div className={`p-4 rounded-2xl text-xs md:text-sm leading-relaxed ${
               msg.role === 'user'
-                ? 'bg-[#3b82f6] text-white font-medium rounded-tr-none shadow-md shadow-blue-500/20'
+                ? 'bg-[#a855f7] text-white font-medium rounded-tr-none shadow-md shadow-purple-500/20'
                 : 'bg-[#111111] text-slate-200 rounded-tl-none border border-[#222222]'
             }`}>
               <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -206,7 +206,7 @@ export const AIChat: React.FC = () => {
           <div className="flex flex-wrap gap-2">
             {templates.map((t, i) => {
               const chipStyles = [
-                'hover:border-blue-500/40 hover:text-blue-400',
+                'hover:border-purple-500/40 hover:text-purple-400',
                 'hover:border-purple-500/40 hover:text-purple-400',
                 'hover:border-yellow-500/40 hover:text-yellow-400',
                 'hover:border-red-500/40 hover:text-red-400'
@@ -234,12 +234,12 @@ export const AIChat: React.FC = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={selectedDocId ? "Ask a question about this file..." : "Type your message or prompt here..."}
-          className="flex-1 bg-[#111111] hover:bg-[#141414] focus:bg-[#141414] border border-[#222222] focus:border-blue-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
+          className="flex-1 bg-[#111111] hover:bg-[#141414] focus:bg-[#141414] border border-[#222222] focus:border-purple-500/50 rounded-xl py-3 px-4 text-white placeholder-slate-500 text-xs md:text-sm outline-none transition-all"
         />
         <button
           type="submit"
           disabled={!input.trim() || loading}
-          className="p-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white rounded-xl shadow-lg shadow-blue-500/25 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
+          className="p-3 bg-[#a855f7] hover:bg-[#9333ea] text-white rounded-xl shadow-lg shadow-purple-500/25 transition-all active:scale-95 disabled:opacity-50 disabled:scale-100 cursor-pointer"
         >
           <Send className="w-4 h-4" />
         </button>

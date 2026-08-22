@@ -200,8 +200,13 @@ function generateMockData(prompt: string): string {
     return `\`\`\`typescript\n// Generated Coding Assistant Block\nexport function debounce<T extends (...args: any[]) => void>(func: T, wait: number): (...args: Parameters<T>) => void {\n  let timeout: NodeJS.Timeout;\n  return (...args: Parameters<T>) => {\n    clearTimeout(timeout);\n    timeout = setTimeout(() => func(...args), wait);\n  };\n}\n\`\`\``;
   }
 
+  // 11. Resume / Career Advice
+  if (lowercasePrompt.includes('resume') || lowercasePrompt.includes('cv')) {
+    return `### 📄 Resume Enhancement Strategy & Guidelines\n\nTo build a high-impact, ATS-optimized resume, follow these targeted recommendations:\n\n1. **Quantify Your Impact:** Use Google's formula: *Accomplished [X] as measured by [Y], by doing [Z]*. E.g., *"Engineered real-time notifications with Redis, cutting latency by 45% for 10k+ daily users."*\n2. **Structure for ATS Parsing:** Keep clean headings (*Experience*, *Projects*, *Skills*, *Education*). Avoid multi-column tables that confuse ATS parsers.\n3. **Tailor Core Keywords:** Align your technical skills section with the specific job description (e.g., React 19, TypeScript, PostgreSQL, Node.js).\n4. **Projects Spotlight:** Feature 2-3 full-stack applications with live URLs, GitHub repositories, and architectural descriptions.\n5. **ATS Scorer Tool:** Try our dedicated **ATS Resume Scorer** under AI Writing Tools to scan your resume text and get immediate feedback!`;
+  }
+
   // Fallback AI Text Response for chat/generic prompts
-  return `This is a high-quality response simulated by SkillForge AI Workspace. To enable live dynamic responses from Gemini 1.5, add a valid \`GEMINI_API_KEY\` to your \`backend/.env\` configuration file.\n\nHere is some detailed guidance on your prompt:\n- Maintain a modular architecture in your application.\n- Incorporate proper type validations via TypeScript interfaces and zod schemas.\n- Integrate credits tracker logging to monitor credit transactions.`;
+  return `### 💡 SkillForge AI Assistant Guidance\n\nHere is some targeted recommendations on your prompt:\n\n- **Architecture:** Maintain a modular structure with clear separations of concerns across frontend and backend layers.\n- **Type Safety & Reliability:** Incorporate robust TypeScript interfaces, Zod schema validations, and automated unit tests.\n- **Performance:** Utilize memoization, connection pooling, and Gzip compression to maximize throughput.\n\n*Tip: To connect live Google Gemini 1.5 generation, configure your \`GEMINI_API_KEY\` in your \`backend/.env\`.*`;
 }
 
 // -------------------------------------------------------------
