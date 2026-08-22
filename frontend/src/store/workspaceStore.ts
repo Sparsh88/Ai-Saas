@@ -147,11 +147,30 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
   },
 
   updateTaskStatus: async (taskId, newStatus) => {
+    const currentProjects = get().projects;
+    const active = get().activeProject;
+
+    // 1. Optimistic instant local update
+    const optimisticallyUpdatedProjects = currentProjects.map((p) => ({
+      ...p,
+      tasks: p.tasks.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)),
+    }));
+
+    set({
+      projects: optimisticallyUpdatedProjects,
+      ...(active && {
+        activeProject: {
+          ...active,
+          tasks: active.tasks.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)),
+        },
+      }),
+    });
+
     try {
       const response = await axios.put(`/api/workspace/tasks/${taskId}`, { status: newStatus });
       const updatedTask = response.data;
 
-      // Update locally
+      // 2. Server confirmation update
       const updatedProjects = get().projects.map((p) => {
         if (p.id === updatedTask.projectId) {
           return {
@@ -164,26 +183,46 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
 
       set({ projects: updatedProjects });
 
-      const active = get().activeProject;
-      if (active && active.id === updatedTask.projectId) {
+      const currentActive = get().activeProject;
+      if (currentActive && currentActive.id === updatedTask.projectId) {
         set({
           activeProject: {
-            ...active,
-            tasks: active.tasks.map((t) => (t.id === taskId ? updatedTask : t)),
+            ...currentActive,
+            tasks: currentActive.tasks.map((t) => (t.id === taskId ? updatedTask : t)),
           },
         });
       }
     } catch (err) {
       console.error('Update status task error:', err);
+      // Revert if request failed
+      set({ projects: currentProjects, activeProject: active });
     }
   },
 
   updateTaskDetails: async (taskId, taskData) => {
+    const currentProjects = get().projects;
+    const active = get().activeProject;
+
+    // 1. Optimistic instant local update
+    const optimisticallyUpdatedProjects = currentProjects.map((p) => ({
+      ...p,
+      tasks: p.tasks.map((t) => (t.id === taskId ? { ...t, ...taskData } : t)),
+    }));
+
+    set({
+      projects: optimisticallyUpdatedProjects,
+      ...(active && {
+        activeProject: {
+          ...active,
+          tasks: active.tasks.map((t) => (t.id === taskId ? { ...t, ...taskData } : t)),
+        },
+      }),
+    });
+
     try {
       const response = await axios.put(`/api/workspace/tasks/${taskId}`, taskData);
       const updatedTask = response.data;
 
-      // Update locally
       const updatedProjects = get().projects.map((p) => {
         if (p.id === updatedTask.projectId) {
           return {
@@ -196,17 +235,18 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
 
       set({ projects: updatedProjects });
 
-      const active = get().activeProject;
-      if (active && active.id === updatedTask.projectId) {
+      const currentActive = get().activeProject;
+      if (currentActive && currentActive.id === updatedTask.projectId) {
         set({
           activeProject: {
-            ...active,
-            tasks: active.tasks.map((t) => (t.id === taskId ? updatedTask : t)),
+            ...currentActive,
+            tasks: currentActive.tasks.map((t) => (t.id === taskId ? updatedTask : t)),
           },
         });
       }
     } catch (err) {
       console.error('Update task details error:', err);
+      set({ projects: currentProjects, activeProject: active });
     }
   },
 

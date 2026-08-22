@@ -177,17 +177,18 @@ export const updateTask = async (req: AuthenticatedRequest, res: Response) => {
     const updated = await prisma.task.update({
       where: { id },
       data: {
-        title,
-        description,
-        status,
-        priority,
-        dueDate: dueDate ? new Date(dueDate) : null,
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(status !== undefined && { status }),
+        ...(priority !== undefined && { priority }),
+        ...(dueDate !== undefined && { dueDate: dueDate ? new Date(dueDate) : null }),
       },
     });
 
     invalidateDashboardCache(userId);
     return res.status(200).json(updated);
   } catch (error) {
+    console.error('Update task error:', error);
     return res.status(500).json({ error: 'Failed to update task' });
   }
 };

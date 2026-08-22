@@ -14,7 +14,7 @@ import {
 } from '../controllers/workspace.controller';
 import { authenticateJWT } from '../middleware/auth';
 import { validate } from '../middleware/validator';
-import { projectSchema, taskSchema } from '../utils/schemas';
+import { projectSchema, taskSchema, updateTaskSchema } from '../utils/schemas';
 
 const router = Router();
 
@@ -34,7 +34,7 @@ router.delete('/projects/:id', deleteProject);
 // Tasks CRUD
 router.get('/projects/:projectId/tasks', getTasks);
 router.post('/projects/:projectId/tasks', validate(taskSchema), createTask);
-router.put('/tasks/:id', validate(taskSchema), updateTask);
+router.put('/tasks/:id', validate(updateTaskSchema), updateTask);
 router.delete('/tasks/:id', deleteTask);
 
 export default router;
