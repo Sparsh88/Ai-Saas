@@ -228,15 +228,15 @@ export const TaskManager: React.FC = () => {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between mt-4 pt-3.5 border-t border-[#1c1c1c]">
-                        {/* Due date */}
-                        <div className="flex items-center gap-1 text-[9px] text-slate-400">
-                          <Clock className="w-3 h-3 text-[#a855f7]" />
-                          <span>{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date'}</span>
-                        </div>
+                      <div className="flex flex-col gap-2.5 mt-4 pt-3.5 border-t border-[#1c1c1c]">
+                        <div className="flex items-center justify-between">
+                          {/* Due date */}
+                          <div className="flex items-center gap-1 text-[9px] text-slate-400">
+                            <Clock className="w-3 h-3 text-[#a855f7]" />
+                            <span>{task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No date'}</span>
+                          </div>
 
-                        {/* Priority Selector or Status Toggle */}
-                        <div className="flex items-center gap-1.5">
+                          {/* Priority Selector */}
                           <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-lg ${
                             task.priority === 'HIGH'
                               ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
@@ -246,18 +246,57 @@ export const TaskManager: React.FC = () => {
                           }`}>
                             {task.priority}
                           </span>
-                          
-                          {/* Quick stage cycle clicker */}
-                          <button
-                            onClick={() => {
-                              const stages: Array<'TODO' | 'IN_PROGRESS' | 'DONE'> = ['TODO', 'IN_PROGRESS', 'DONE'];
-                              const nextIdx = (stages.indexOf(task.status) + 1) % stages.length;
-                              updateTaskStatus(task.id, stages[nextIdx]);
-                            }}
-                            className="p-1 rounded bg-white/5 border border-white/5 text-[9px] font-bold text-slate-400 hover:text-[#3b82f6] transition-colors"
-                          >
-                            <ChevronRight className="w-3 h-3" />
-                          </button>
+                        </div>
+
+                        {/* Status Move Action Buttons */}
+                        <div className="flex items-center gap-1.5 pt-1">
+                          {task.status === 'TODO' && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateTaskStatus(task.id, 'IN_PROGRESS');
+                              }}
+                              className="w-full flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-semibold transition-all cursor-pointer"
+                            >
+                              <span>Move to In Progress</span>
+                              <ChevronRight className="w-3 h-3" />
+                            </button>
+                          )}
+
+                          {task.status === 'IN_PROGRESS' && (
+                            <div className="flex items-center gap-1.5 w-full">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateTaskStatus(task.id, 'TODO');
+                                }}
+                                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 text-[10px] font-semibold transition-all cursor-pointer"
+                              >
+                                <span>← To Do</span>
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  updateTaskStatus(task.id, 'DONE');
+                                }}
+                                className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[10px] font-semibold transition-all cursor-pointer"
+                              >
+                                <span>Complete ✓</span>
+                              </button>
+                            </div>
+                          )}
+
+                          {task.status === 'DONE' && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                updateTaskStatus(task.id, 'IN_PROGRESS');
+                              }}
+                              className="w-full flex items-center justify-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 text-[10px] font-semibold transition-all cursor-pointer"
+                            >
+                              <span>↺ Reopen to In Progress</span>
+                            </button>
+                          )}
                         </div>
                       </div>
                     </motion.div>
