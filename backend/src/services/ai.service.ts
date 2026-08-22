@@ -8,30 +8,95 @@ function getGeminiClient(): GoogleGenerativeAI | null {
   return null;
 }
 
+// Direct REST call supporting both v1 and v1beta API versions across Gemini model families
+async function callGeminiRest(apiKey: string, prompt: string, systemInstruction?: string): Promise<string | null> {
+  const endpoints = [
+    'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent',
+  ];
+
+  const body: any = {
+    contents: [
+      {
+        parts: [{ text: prompt }]
+      }
+    ]
+  };
+
+  if (systemInstruction) {
+    body.systemInstruction = {
+      parts: [{ text: systemInstruction }]
+    };
+  }
+
+  for (const endpoint of endpoints) {
+    try {
+      const res = await fetch(`${endpoint}?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      if (res.ok) {
+        const data: any = await res.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) {
+          let cleaned = text.trim();
+          if (cleaned.startsWith('```json')) {
+            cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+          } else if (cleaned.startsWith('```') && systemInstruction?.includes('JSON')) {
+            cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+          }
+          return cleaned;
+        }
+      } else {
+        const errText = await res.text();
+        console.warn(`Gemini REST endpoint ${endpoint} returned status ${res.status}:`, errText);
+      }
+    } catch (e: any) {
+      console.warn(`Gemini REST endpoint error on ${endpoint}:`, e?.message || e);
+    }
+  }
+
+  return null;
+}
+
 // Helper to run prompt or fallback to mock
 async function generateAIResponse(prompt: string, systemInstruction?: string): Promise<string> {
-  const client = getGeminiClient();
-  if (client) {
-    const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro', 'gemini-pro'];
-    const fullPrompt = systemInstruction ? `${systemInstruction}\n\nTask:\n${prompt}` : prompt;
+  const key = process.env.GEMINI_API_KEY?.trim();
+  if (key) {
+    // 1. Direct high-speed REST calls with v1 & v1beta fallbacks
+    const restResult = await callGeminiRest(key, prompt, systemInstruction);
+    if (restResult) return restResult;
 
-    for (const modelName of modelsToTry) {
-      try {
-        const model = client.getGenerativeModel({ 
-          model: modelName,
-          ...(systemInstruction ? { systemInstruction } : {})
-        });
-        const result = await model.generateContent(fullPrompt);
-        const response = await result.response;
-        let text = response.text();
-        if (text.startsWith('```json')) {
-          text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-        } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
-          text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+    // 2. SDK calls with explicit apiVersion specification
+    const client = getGeminiClient();
+    if (client) {
+      const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash-exp'];
+      const apiVersions: Array<'v1' | 'v1beta'> = ['v1', 'v1beta'];
+      const fullPrompt = systemInstruction ? `${systemInstruction}\n\nTask:\n${prompt}` : prompt;
+
+      for (const apiVersion of apiVersions) {
+        for (const modelName of modelsToTry) {
+          try {
+            const model = client.getGenerativeModel({ model: modelName }, { apiVersion });
+            const result = await model.generateContent(fullPrompt);
+            const response = await result.response;
+            let text = response.text();
+            if (text.startsWith('```json')) {
+              text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+            } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
+              text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
+            }
+            return text;
+          } catch (error: any) {
+            console.warn(`Gemini (${modelName}, ${apiVersion}) error:`, error?.message || error);
+          }
         }
-        return text;
-      } catch (error: any) {
-        console.warn(`Gemini model ${modelName} error, trying alternative model:`, error?.message || error);
       }
     }
   }
@@ -374,44 +439,15 @@ Sparsh Chauhan`;
 // -------------------------------------------------------------
 
 export const getAIChatResponse = async (messages: { role: string; content: string }[], systemInstruction?: string): Promise<string> => {
-  const client = getGeminiClient();
-  if (client && messages.length > 0) {
-    const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-flash-latest', 'gemini-1.5-pro', 'gemini-pro'];
-    const lastMessage = messages[messages.length - 1].content;
-    const history = messages.slice(0, -1).map((msg) => ({
-      role: msg.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: msg.content }],
-    }));
+  const key = process.env.GEMINI_API_KEY?.trim();
+  if (key && messages.length > 0) {
+    const conversationHistory = messages.map((m) => `${m.role === 'assistant' ? 'ASSISTANT' : 'USER'}: ${m.content}`).join('\n');
+    const prompt = systemInstruction
+      ? `${systemInstruction}\n\n=== CONVERSATION ===\n${conversationHistory}\nASSISTANT:`
+      : `${conversationHistory}\nASSISTANT:`;
 
-    for (const modelName of modelsToTry) {
-      try {
-        const model = client.getGenerativeModel({ 
-          model: modelName,
-          ...(systemInstruction ? { systemInstruction } : {})
-        });
-
-        const chat = model.startChat({ history });
-        const result = await chat.sendMessage(lastMessage);
-        const response = await result.response;
-        return response.text();
-      } catch (error: any) {
-        console.warn(`Gemini Chat (${modelName}) error:`, error?.message || error);
-      }
-    }
-
-    // Direct fallback if chat history format failed
-    for (const modelName of modelsToTry) {
-      try {
-        const model = client.getGenerativeModel({ model: modelName });
-        const conversationText = messages.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join('\n');
-        const prompt = systemInstruction ? `${systemInstruction}\n\n${conversationText}\nASSISTANT:` : `${conversationText}\nASSISTANT:`;
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        return response.text();
-      } catch (e) {
-        // continue
-      }
-    }
+    const restResult = await callGeminiRest(key, prompt, systemInstruction);
+    if (restResult) return restResult;
   }
 
   // Fallback smart text response
