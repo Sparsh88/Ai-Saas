@@ -8,15 +8,15 @@ function getGeminiClient(): GoogleGenerativeAI | null {
   return null;
 }
 
-// Direct REST call supporting both v1 and v1beta API versions across Gemini model families
+// Direct REST call supporting active Gemini model families (3.6-flash, 3.7-flash, 3.5-flash, flash-latest)
 async function callGeminiRest(apiKey: string, prompt: string, systemInstruction?: string): Promise<string | null> {
   const endpoints = [
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent',
     'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
-    'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent',
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent',
   ];
 
   const body: any = {
@@ -69,33 +69,30 @@ async function callGeminiRest(apiKey: string, prompt: string, systemInstruction?
 async function generateAIResponse(prompt: string, systemInstruction?: string): Promise<string> {
   const key = process.env.GEMINI_API_KEY?.trim();
   if (key) {
-    // 1. Direct high-speed REST calls with v1 & v1beta fallbacks
+    // 1. Direct high-speed REST calls with active models
     const restResult = await callGeminiRest(key, prompt, systemInstruction);
     if (restResult) return restResult;
 
-    // 2. SDK calls with explicit apiVersion specification
+    // 2. SDK calls with active models
     const client = getGeminiClient();
     if (client) {
-      const modelsToTry = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash-exp'];
-      const apiVersions: Array<'v1' | 'v1beta'> = ['v1', 'v1beta'];
+      const modelsToTry = ['gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-3.5-flash', 'gemini-flash-latest'];
       const fullPrompt = systemInstruction ? `${systemInstruction}\n\nTask:\n${prompt}` : prompt;
 
-      for (const apiVersion of apiVersions) {
-        for (const modelName of modelsToTry) {
-          try {
-            const model = client.getGenerativeModel({ model: modelName }, { apiVersion });
-            const result = await model.generateContent(fullPrompt);
-            const response = await result.response;
-            let text = response.text();
-            if (text.startsWith('```json')) {
-              text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-            } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
-              text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
-            }
-            return text;
-          } catch (error: any) {
-            console.warn(`Gemini (${modelName}, ${apiVersion}) error:`, error?.message || error);
+      for (const modelName of modelsToTry) {
+        try {
+          const model = client.getGenerativeModel({ model: modelName });
+          const result = await model.generateContent(fullPrompt);
+          const response = await result.response;
+          let text = response.text();
+          if (text.startsWith('```json')) {
+            text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+          } else if (text.startsWith('```') && systemInstruction?.includes('JSON')) {
+            text = text.replace(/^```\s*/, '').replace(/\s*```$/, '');
           }
+          return text;
+        } catch (error: any) {
+          console.warn(`Gemini (${modelName}) error:`, error?.message || error);
         }
       }
     }
