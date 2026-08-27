@@ -18,8 +18,8 @@ export const Footer: React.FC = () => {
     },
     {
       name: 'LinkedIn',
-      handle: 'sparshchauhan08',
-      url: 'https://linkedin.com/in/sparshchauhan08',
+      handle: 'sparsh88',
+      url: 'https://www.linkedin.com/in/sparsh88',
       badgeColor: 'hover:border-blue-500/50 hover:bg-blue-500/10 text-blue-400 group-hover:text-blue-300',
       glowColor: 'group-hover:shadow-[0_0_15px_rgba(59,130,246,0.35)]',
       icon: (
