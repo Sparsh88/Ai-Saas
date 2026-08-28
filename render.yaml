@@ -18,9 +18,9 @@ services:
       - key: JWT_REFRESH_SECRET
         generateValue: true
       - key: JWT_ACCESS_EXPIRY
-        value: 365d
+        value: 36500d
       - key: JWT_REFRESH_EXPIRY
-        value: 1095d
+        value: 36500d
       - key: GEMINI_API_KEY
         sync: false
       - key: CLOUDINARY_CLOUD_NAME

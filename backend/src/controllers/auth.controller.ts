@@ -7,13 +7,13 @@ import { Role } from '@prisma/client';
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'skillforge_super_secret_access_token_12345!';
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'skillforge_super_secret_refresh_token_67890!';
-const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '365d';
-const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '1095d';
+const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '36500d'; // 100 Years Lifetime Expiry
+const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '36500d'; // 100 Years Lifetime Expiry
 
-// Helper to compute refresh token expiration date (3 years / 1095 days sliding window)
+// Helper to compute refresh token expiration date (100 years lifetime window)
 const getRefreshTokenExpiryDate = (): Date => {
   const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 1095); // 3 Full Years
+  expiresAt.setFullYear(expiresAt.getFullYear() + 100); // 100 Full Years Lifetime
   return expiresAt;
 };
 
@@ -204,12 +204,12 @@ export const refresh = async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Refresh token expired or invalid. Please log in again.' });
     }
 
-    // Verify JWT signature if possible
+    // Verify JWT signature (ignore expiration so refresh tokens never expire)
     try {
-      jwt.verify(refreshToken, REFRESH_SECRET);
+      jwt.verify(refreshToken, REFRESH_SECRET, { ignoreExpiration: true });
     } catch (jwtErr) {
       await prisma.refreshToken.delete({ where: { id: savedToken.id } }).catch(() => {});
-      return res.status(401).json({ error: 'Refresh token signature expired. Please log in again.' });
+      return res.status(401).json({ error: 'Refresh token signature invalid. Please log in again.' });
     }
 
     // Generate renewed access & rotated refresh tokens (Sliding Session Window)

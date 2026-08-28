@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import path from 'path';
 import zlib from 'zlib';
-import { connectDB } from './config/db';
+import { connectDB, prisma } from './config/db';
 
 // Route imports
 import authRoutes from './routes/auth.routes';
@@ -120,13 +120,25 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
-// Health check endpoints (Unauthenticated & excluded from strict rate limits)
-app.get('/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'ok', message: 'API is running', timestamp: new Date().toISOString() });
+// Health check endpoints with DB keep-alive (Unauthenticated & keeps database + server active)
+app.get('/health', async (req: Request, res: Response) => {
+  let dbStatus = 'ok';
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+  } catch (dbErr) {
+    dbStatus = 'connecting';
+  }
+  res.status(200).json({ status: 'ok', database: dbStatus, message: 'API is running', timestamp: new Date().toISOString() });
 });
 
-app.get('/api/health', (req: Request, res: Response) => {
-  res.status(200).json({ status: 'ok', message: 'API is running', timestamp: new Date().toISOString() });
+app.get('/api/health', async (req: Request, res: Response) => {
+  let dbStatus = 'ok';
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+  } catch (dbErr) {
+    dbStatus = 'connecting';
+  }
+  res.status(200).json({ status: 'ok', database: dbStatus, message: 'API is running', timestamp: new Date().toISOString() });
 });
 
 app.get('/', (req: Request, res: Response) => {

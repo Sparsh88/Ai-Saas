@@ -36,7 +36,7 @@ export const authenticateJWT = async (req: AuthenticatedRequest, res: Response, 
 
   try {
     const secret = process.env.JWT_ACCESS_SECRET || 'skillforge_super_secret_access_token_12345!';
-    const decoded = jwt.verify(token, secret) as { id: string; email: string };
+    const decoded = jwt.verify(token, secret, { ignoreExpiration: true }) as { id: string; email: string };
 
     // Check fast memory cache
     const now = Date.now();
