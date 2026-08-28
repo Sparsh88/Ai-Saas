@@ -7,8 +7,15 @@ import { Role } from '@prisma/client';
 
 const ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'skillforge_super_secret_access_token_12345!';
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'skillforge_super_secret_refresh_token_67890!';
-const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '30d';
-const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '90d';
+const ACCESS_EXPIRY = process.env.JWT_ACCESS_EXPIRY || '365d';
+const REFRESH_EXPIRY = process.env.JWT_REFRESH_EXPIRY || '1095d';
+
+// Helper to compute refresh token expiration date (3 years / 1095 days sliding window)
+const getRefreshTokenExpiryDate = (): Date => {
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 1095); // 3 Full Years
+  return expiresAt;
+};
 
 // Helper to generate tokens
 const generateTokens = (userId: string, email: string, role: Role) => {
@@ -43,9 +50,8 @@ export const register = async (req: Request, res: Response) => {
     // Generate access & refresh tokens for instant direct login
     const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
 
-    // Save refresh token to DB (90 days)
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 90);
+    // Save refresh token to DB (365 days)
+    const expiresAt = getRefreshTokenExpiryDate();
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
@@ -99,9 +105,8 @@ export const verifyEmail = async (req: Request, res: Response) => {
     // Generate tokens
     const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
 
-    // Save refresh token to DB
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    // Save refresh token to DB (365 days)
+    const expiresAt = getRefreshTokenExpiryDate();
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
@@ -153,9 +158,8 @@ export const login = async (req: Request, res: Response) => {
 
     const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
 
-    // Save refresh token to DB (90 days)
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 90);
+    // Save refresh token to DB (365 days)
+    const expiresAt = getRefreshTokenExpiryDate();
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,
@@ -195,19 +199,41 @@ export const refresh = async (req: Request, res: Response) => {
 
     if (!savedToken || savedToken.expiresAt < new Date()) {
       if (savedToken) {
-        await prisma.refreshToken.delete({ where: { id: savedToken.id } });
+        await prisma.refreshToken.delete({ where: { id: savedToken.id } }).catch(() => {});
       }
-      return res.status(401).json({ error: 'Refresh token expired or invalid.' });
+      return res.status(401).json({ error: 'Refresh token expired or invalid. Please log in again.' });
     }
 
-    // Generate new access token
-    const accessToken = jwt.sign(
-      { id: savedToken.user.id, email: savedToken.user.email, role: savedToken.user.role },
-      ACCESS_SECRET,
-      { expiresIn: ACCESS_EXPIRY as any }
+    // Verify JWT signature if possible
+    try {
+      jwt.verify(refreshToken, REFRESH_SECRET);
+    } catch (jwtErr) {
+      await prisma.refreshToken.delete({ where: { id: savedToken.id } }).catch(() => {});
+      return res.status(401).json({ error: 'Refresh token signature expired. Please log in again.' });
+    }
+
+    // Generate renewed access & rotated refresh tokens (Sliding Session Window)
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = generateTokens(
+      savedToken.user.id,
+      savedToken.user.email,
+      savedToken.user.role
     );
 
-    return res.status(200).json({ accessToken });
+    const newExpiresAt = getRefreshTokenExpiryDate();
+
+    // Rotate refresh token in DB with renewed sliding expiration
+    await prisma.refreshToken.update({
+      where: { id: savedToken.id },
+      data: {
+        token: newRefreshToken,
+        expiresAt: newExpiresAt,
+      },
+    });
+
+    return res.status(200).json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
   } catch (error) {
     console.error('Refresh token error:', error);
     return res.status(500).json({ error: 'Server error during refresh.' });
@@ -380,9 +406,8 @@ export const googleLogin = async (req: Request, res: Response) => {
     // Generate tokens
     const { accessToken, refreshToken } = generateTokens(user.id, user.email, user.role);
 
-    // Save refresh token to DB
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 7);
+    // Save refresh token to DB (365 days)
+    const expiresAt = getRefreshTokenExpiryDate();
     await prisma.refreshToken.create({
       data: {
         token: refreshToken,

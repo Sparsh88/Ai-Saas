@@ -147,11 +147,17 @@ axios.interceptors.response.use(
         });
 
         const newAccessToken = data.accessToken;
+        const newRefreshToken = data.refreshToken || storedRefreshToken;
+
         localStorage.setItem('SF_TOKEN', newAccessToken);
+        if (data.refreshToken) {
+          localStorage.setItem('SF_REFRESH_TOKEN', newRefreshToken);
+        }
+        
         axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-        useAuthStore.setState({ token: newAccessToken });
+        useAuthStore.setState({ token: newAccessToken, refreshToken: newRefreshToken });
         processQueue(null, newAccessToken);
 
         return axios(originalRequest);
