@@ -57,6 +57,9 @@ async function callGeminiRest(apiKey: string, prompt: string, systemInstruction?
       } else {
         const errText = await res.text();
         console.warn(`Gemini REST endpoint ${endpoint} returned status ${res.status}:`, errText);
+        if (res.status === 401 || res.status === 403) {
+          break; // Don't retry other endpoints if API key is invalid or forbidden
+        }
       }
     } catch (e: any) {
       console.warn(`Gemini REST endpoint error on ${endpoint}:`, e?.message || e);
@@ -447,7 +450,9 @@ Sparsh Chauhan`;
 export const getAIChatResponse = async (messages: { role: string; content: string }[], systemInstruction?: string): Promise<string> => {
   const key = process.env.GEMINI_API_KEY?.trim();
   if (key && messages.length > 0) {
-    const conversationHistory = messages.map((m) => `${m.role === 'assistant' ? 'ASSISTANT' : 'USER'}: ${m.content}`).join('\n');
+    // Keep last 8 messages to prevent bloat and maintain fast inference times
+    const recentMessages = messages.slice(-8);
+    const conversationHistory = recentMessages.map((m) => `${m.role === 'assistant' ? 'ASSISTANT' : 'USER'}: ${m.content}`).join('\n');
     const prompt = systemInstruction
       ? `${systemInstruction}\n\n=== CONVERSATION ===\n${conversationHistory}\nASSISTANT:`
       : `${conversationHistory}\nASSISTANT:`;
@@ -462,7 +467,8 @@ export const getAIChatResponse = async (messages: { role: string; content: strin
 };
 
 export const getAIChatWithDocResponse = async (documentText: string, messages: { role: string; content: string }[]): Promise<string> => {
-  const contextInstruction = `You are a helpful reading assistant. Below is the text content of a document uploaded by the user. Use this text as context to answer their questions. Keep answers accurate and cite parts of the document when possible.\n\n=== DOCUMENT CONTENT ===\n${documentText.substring(0, 30000)}\n=== END OF DOCUMENT ===`;
+  const truncatedText = documentText.length > 15000 ? documentText.substring(0, 15000) + '\n...[truncated for speed]' : documentText;
+  const contextInstruction = `You are a helpful reading assistant. Below is the text content of a document uploaded by the user. Use this text as context to answer their questions. Keep answers accurate and concise.\n\n=== DOCUMENT CONTENT ===\n${truncatedText}\n=== END OF DOCUMENT ===`;
   
   return getAIChatResponse(messages, contextInstruction);
 };
