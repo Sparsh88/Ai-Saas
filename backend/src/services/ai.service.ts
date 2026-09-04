@@ -8,12 +8,15 @@ function getGeminiClient(): GoogleGenerativeAI | null {
   return null;
 }
 
-// Direct REST call supporting active Gemini model families (3.6-flash, 3.7-flash, 3.5-flash, flash-latest)
+// Direct REST call supporting active Gemini model families
 async function callGeminiRest(apiKey: string, prompt: string, systemInstruction?: string): Promise<string | null> {
   const endpoints = [
     'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent',
     'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent',
     'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
     'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent',
   ];
 
@@ -74,7 +77,15 @@ async function generateAIResponse(prompt: string, systemInstruction?: string): P
     // 2. SDK calls with active models
     const client = getGeminiClient();
     if (client) {
-      const modelsToTry = ['gemini-3.5-flash', 'gemini-3.6-flash', 'gemini-3.7-flash', 'gemini-flash-latest'];
+      const modelsToTry = [
+        'gemini-3.5-flash',
+        'gemini-3.6-flash',
+        'gemini-3.7-flash',
+        'gemini-2.0-flash',
+        'gemini-1.5-flash',
+        'gemini-2.5-flash',
+        'gemini-flash-latest'
+      ];
       const fullPrompt = systemInstruction ? `${systemInstruction}\n\nTask:\n${prompt}` : prompt;
 
       for (const modelName of modelsToTry) {
